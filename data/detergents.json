@@ -1,0 +1,64 @@
+{
+    "title" : "Detergetent data",
+    "date" : "last modificiation date 2017-07-27",
+    "author" : "G.Launay & V.Chaptal",
+    "data" : {
+        "maltoside" : [
+            { "name" : "OM", "vol" : 391.1, "color" : [0,1,0]}, 
+            { "name" : "NM", "vol" : 408.9, "color" : [0,1,0]},
+            { "name" : "DM", "vol" : 424.1, "color" : [0,1,0]},
+            { "name" : "UDM", "vol" : 437, "color" : [0,1,0]},
+            { "name" : "DDM", "vol" : 453, "color" : [0,1,0]},
+            { "name" : "TriDM", "vol" : 465.9, "color" : [0,1,0]},
+            { "name" : "TDM", "vol" : 483.6, "color" : [0,1,0]}
+        ],
+        "neopentyl-glycol" : [
+            { "name" : "LMNG", "vol" : 885.7, "color" : [1,0.6,0.6]},
+            { "name" : "DGNG", "vol" : 568.7, "color" : [1,0.6,0.6]},
+            { "name" : "OGNG", "vol" : 504.9, "color" : [1,0.6,0.6]}
+        ],
+        "cholesterol derivative" : [
+            { "name" : "Cholate", "vol" : 367.5, "color" : [255,0,255]}
+        ],
+        "glucoside" : [
+            { "name" : "OG", "vol" : 267.5, "color" : [1,1,0]}
+        ],
+        "fos-choline" : [
+        	{ "name" : "FC8", "vol" : 280.4, "color" : [0.25,1,0.75]},
+        	{ "name" : "FC9", "vol" : 293.7, "color" : [0.25,1,0.75]},
+        	{ "name" : "FC10", "vol" : 308.9, "color" : [0.25,1,0.75]},
+        	{ "name" : "FC11", "vol" : 323.9, "color" : [0.25,1,0.75]},
+            { "name" : "FC12", "vol" : 344, "color" : [0.25,1,0.75]},
+            { "name" : "FC13", "vol" : 354.9, "color" : [0.25,1,0.75]},
+            { "name" : "FC14", "vol" : 385.9, "color" : [0.25,1,0.75]},
+            { "name" : "FC15", "vol" : 385.4, "color" : [0.25,1,0.75]},
+            { "name" : "FC16", "vol" : 400.5, "color" : [0.25,1,0.75]}
+        ],
+        "amine oxide" : [
+        	{ "name" : "DDAO", "vol" : 215.1, "color" : [0,0,1]},
+        	{ "name" : "UDAO", "vol" : 230.1, "color" : [0,0,1]},
+        	{ "name" : "LDAO", "vol" : 245.6, "color" : [0,0,1]},
+        	{ "name" : "TDAO", "vol" : 275.8, "color" : [0,0,1]},
+        	{ "name" : "LAPAO", "vol" :306.8, "color" : [0,0,1]}
+        ],
+        "lipids" : [
+        	{ "name" : "DMPG", "vol" : 641.6, "color" : [0.4,0,0]},
+        	{ "name" : "DMPC", "vol" : 661.8, "color" : [0.4,0,0]},
+        	{ "name" : "POPE", "vol" : 706.3, "color" : [0.4,0,0]},
+        	{ "name" : "DPPC", "vol" : 722.9, "color" : [0.4,0,0]},
+        	{ "name" : "POPC", "vol" : 750.4, "color" : [0.4,0,0]},
+        	{ "name" : "DOPC", "vol" : 779.8, "color" : [0.4,0,0]}
+        ],
+        "thio glucoside and maltoside" : [
+        	{ "name" : "HTG", "vol" : 264.9, "color" : [1,0.5,0.5]},
+        	{ "name" : "OTG", "vol" : 280.6, "color" : [1,0.5,0.5]},
+        	{ "name" : "NTG", "vol" : 294.8, "color" : [1,0.5,0.5]},
+        	{ "name" : "DTG", "vol" : 311.7, "color" : [1,0.5,0.5]},
+        	{ "name" : "OTM", "vol" : 403.7, "color" : [1,0.5,0.5]},
+        	{ "name" : "NTM", "vol" : 421.4, "color" : [1,0.5,0.5]},
+        	{ "name" : "DTM", "vol" : 430.1, "color" : [1,0.5,0.5]},
+        	{ "name" : "UTM", "vol" : 450.8, "color" : [1,0.5,0.5]},
+        	{ "name" : "LTM", "vol" : 467.2, "color" : [1,0.5,0.5]}
+        ]
+    }
+}
