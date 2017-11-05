@@ -34,7 +34,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+app.use('/script', express.static(__dirname + '/script'));
+app.use('/data', express.static(__dirname + '/data'));
 
 //Partie BD
 
@@ -62,3 +63,4 @@ var readJson=function(path) {
 	console.log(dict.data);
 }
 readJson(__dirname+"/../det.json")
+
