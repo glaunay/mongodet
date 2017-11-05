@@ -36,16 +36,19 @@ app.use(function(err, req, res, next) {
 });
 app.use('/script', express.static(__dirname + '/script'));
 app.use('/data', express.static(__dirname + '/data'));
+app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
+app.use('/getHeader',function (req, res, next) {
+  res.send("<h1>Detergent Database CRUD Interface</h1>")
+  next();
+});
 
 //Partie BD
-
+/*
 var MongoClient = require('mongodb').MongoClient;
-
 MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
   if (err) {
     throw err;
   }
- 
   db.collection('det').find().toArray(function(err, result) {
     if (err) {
       throw err;
@@ -53,14 +56,15 @@ MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
     //console.log(result);
   });
 });
+*/
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
-
+/*
 var readJson=function(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	console.log(dict.data);
 }
 readJson(__dirname+"/../det.json")
-
+*/

@@ -1,0 +1,16 @@
+{	"title" : "Detergetent data",
+    "date" : "last modificiation date 2017-07-27",
+    "author" : "G.Launay & V.Chaptal",
+	"data":
+	[{ "category" : "maltoside", "name" : "OM", "vol" : 391.1, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "NM", "vol" : 408.9, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "DM", "vol" : 424.1, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "UDM", "vol" : 437, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "DDM", "vol" : 453, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "TriDM", "vol" : 465.9, "color" : [0,1,0]},
+	{ "category" : "maltoside", "name" : "TDM", "vol" : 483.6, "color" : [0,1,0]},
+	{ "category" : "neopentyl-glycol", "name" : "LMNG", "vol" : 885.7, "color" : [1,0.6,0.6]},
+	{ "category" : "neopentyl-glycol", "name" : "DGNG", "vol" : 568.7, "color" : [1,0.6,0.6]},
+	{ "category" : "neopentyl-glycol", "name" : "OGNG", "vol" : 504.9, "color" : [1,0.6,0.6]},
+	{ "category" : "cholesterol derivative", "name" : "Cholate", "vol" : 367.5, "color" : [255,0,255]}]
+}

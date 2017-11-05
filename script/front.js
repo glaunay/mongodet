@@ -1,11 +1,19 @@
 $(document).ready(function() {
-	console.log("I'm ready!");
 	// Set the header of page with title
-	$("header").html("<h1>Detergent Database CRUD Interface </h1>")
-	$("#table").html("<table id='example' class='display' cellspacing='0' width='100%''>"
+	var getHead = new XMLHttpRequest();
+	getHead.onreadystatechange=function() {
+	if (this.readyState == 4 && this.status == 200) {
+		$("header").html(this.responseText);
+		}
+	};
+	getHead.open("GET", "/getHeader", true);
+	getHead.send();
+	
+	$("#table").html("<table id='detable' class='display' cellspacing='0' width='100%''>"
 		+"<thead> <tr> <th>Category</th> <th>Name</th> <th>Volum</th>"
 		+"<th>Color</th> </tr> </thead> <tfoot> <tr> <th>Category</th>"
 		+"<th>Name</th> <th>Volum</th> <th>Color</th> </tr> </tfoot> </table>")
+
 	document.getElementById("text").innerHTML = "Ici y aura du texte explicatif";
 	/*
 	document.getElementById("table").innerHTML = "<table id='example' class='display' cellspacing='0' width='100%'> <thead> <tr>"
@@ -25,10 +33,16 @@ $(document).ready(function() {
 		+"<td>61</td> <td>2012/12/02</td> <td>$372,000</td> </tr> </tbody> </table>";
 	*/
 
-	$('#example').DataTable( {
+	$('#detable').DataTable( {
 		"processing": true,
-		"serverSide": true,
-		"ajax": "script/getDb.js"
+		"serverSide": false,
+		"ajax": "data/det.json",
+		"columns": [
+			{ "data": "category" },
+			{ "data": "name" },
+			{ "data": "vol" },
+			{ "data": "color" }
+		]
 	} );
 	$("#btn1").click(function(){
 		$("#text").append(" <b>Appended text</b>.");
@@ -36,17 +50,7 @@ $(document).ready(function() {
 	$("#btn2").click(function(){
 		$("#text").empty();
 	});
+	
 
-	// Get json data from server using AJAX request
-	console.log("loaddoc");
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange=function() {
-	if (this.readyState == 4 && this.status == 200) {
-		//document.getElementById("demo").innerHTML = this.responseText;
-		console.log(this.responseText);
-		}
-	};
-	xhttp.open("GET", "/data/detergents.json", true);
-	xhttp.send();
 
 } );
