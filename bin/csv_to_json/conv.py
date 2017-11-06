@@ -5,8 +5,8 @@ import csv
 import json
 import datetime
 
-file_test = open("../data/data.csv", "r")
-#print(file_test.read())
+file_test = open("./test/data.csv", "r")
+
 
 
 ######  Clean the file (put it in a function)  ###### 
@@ -18,20 +18,21 @@ for row in test:
 	if row[2] != '':                                      # a detergent must have a common name
 		if row[3] !='':                               # a detergent must have a volume
 			if row[4] != '':                      # a detergent must have a color
-				#print(row)
 				if row[1]!='':
 					categorie=row[1]      # if the detergent have a category, add it to the list
 					res.append(row)
 				else:
 					row[1]=categorie      # else, it's category is the same as the previous row
 					res.append(row)
-
+			else:
+				print("Warning: "+row[2]+" has no color (could not be added)")
+		else:
+			print("Warning: "+row[2]+" has no volume (could not be added)")
 res=res[1:]
 to_erase=[]
 for i in range(len(res)):
 	try:
 		float(res[i][3])
-		print(float(res[i][3]))
 	except:
 		to_erase.append(i)
 for i in to_erase:
@@ -41,37 +42,47 @@ for i in to_erase:
 ######  Write JSON in a file  ######
 
 ######  Write the header  ######
-print(res)
 categorie = "a"
-file_res=open("../data/res.json","w")
+file_res=open("./res.json","w")
 file_res.write("{\n    \"title\" : \"Detergent from converter\",\n    \"date\" : \"last modification date "+str(datetime.datetime.now())+"\",\n    \"author\" : \"CSV_TO_JSON_CONVERTER\",\n    \"data\" : {\n        ")
 columns = ["name","vol","color","complete name","Molecular formula","MM","?","CMC (mM)","Aggregation number","Ref","PDB file","detergent image","?","SMILES"]
 
+
 ######  Write the rest of the file  #####
 
-file_res=open("../data/res.json","a")
-categorie = res[1][1]            #### initialize to the first category 
-file_res.write("\""+res[1][1]+"\" : [\n            ")
-for i in range(len(res)-1):
-	if categorie == res[i+1][1]:
-		file_res.write("{ ") 
-		for j in range(len(columns)):
-			if j < len(columns)-1:
-				if j == 1 or j == 2:
-					file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
-				else:
-					file_res.write("\""+columns[j]+"\" : \""+ res[i][j+2]+"\",")
-			else:
+file_res=open("./res.json","a")
+categorie = res[0][1]            #### initialize to the first category 
+file_res.write("\""+res[0][1]+"\" : [\n            ")
+for i in range(len(res)):
+	file_res.write("{ ") 
+	for j in range(len(columns)):
+		if j < len(columns)-1:
+			if j == 1 or j == 2:
+				file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
+			elif j==5 or j==7 or j==8:
 				try:
-					if categorie != res[i+2][1]:
-						file_res.write("\""+columns[j]+"\" : \""+res[i][j+2]+"\"}\n            ")
-					elif categorie == res[i+2][1]:
-						file_res.write("\""+columns[j]+"\" : \""+res[i][j+2]+"\"},\n            ")
+					float(res[i][j+2])
+					file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
 				except:
+					print("Warning: "+res[i][j+2]+" is not a number for the column "+columns[j]+" of the detergent "+res[i][2]+"(replaced by null)")
+					file_res.write("\""+columns[j]+"\" : null,")
+			else:
+				if res[i][j+2]=="":
+					file_res.write("\""+columns[j]+"\" : null,")
+					print("Warning: "+columns[j]+" is empty for detergent "+res[i][2])
+				else:
+					file_res.write("\""+columns[j]+"\" : \""+ res[i][j+2]+"\",")###
+		else:
+			try:
+				if categorie != res[i+1][1]:
 					file_res.write("\""+columns[j]+"\" : \""+res[i][j+2]+"\"}\n            ")
-	else:
-		file_res.write("],\n        \""+res[i+1][1]+"\" : [\n            ")
-		categorie = res[i+1][1]
+					categorie = res[i+1][1]
+					file_res.write("],\n        \""+res[i+1][1]+"\" : [\n            ")
+					#problème avec la première ligne de la catégorie suivante!!!!
+				elif categorie == res[i+1][1]:
+					file_res.write("\""+columns[j]+"\" : \""+res[i][j+2]+"\"},\n            ")
+			except:
+				file_res.write("\""+columns[j]+"\" : \""+res[i][j+2]+"\"}\n            ")
 file_res.write("]}}")		
 
 
