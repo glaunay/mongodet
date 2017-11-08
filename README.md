@@ -1,5 +1,5 @@
 # mongodet
-*Light NoSQL database with userfriendly web interface*
+*Light NoSQL database with userfriendly web interface - *
 *Projet S3 M2BI UCBL*
 
 
@@ -28,9 +28,7 @@ Download install file for your OS from mongoDB official [website](https://www.mo
 
 ### Import data into mongoDB
 
-```
-mongoimport --db <collection_name> --file <json_file>
-```
+*Comming soon* :hamburger:
 
 ### Install dependencies of npm
 
@@ -52,4 +50,4 @@ Then you will see as response:
 mongodet server listening on port 3000!
 ```
 
-Now you can access web inteface by entering [localhost:3000](localhost:3000) on your favorite web browser and enjoy!
+Now you can access web inteface by entering `localhost:3000` on your favorite web browser and enjoy!
