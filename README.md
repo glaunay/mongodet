@@ -44,7 +44,7 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 ## Run the project
 
-Locating at root of this project, run the following command line:
+Locating at root of this project, run the following command line in Node.js:
 
 ```
 node app.js
@@ -58,6 +58,16 @@ mongodet server listening on port 3000!
 
 Now you can access the web inteface by entering `localhost:3000` on your favorite web browser and enjoy!
 
+## Insert data with a Json file
+
+The function 'inserJson' of the 'script.js', locating a root of this project,  will allow you to fill the base run the following command line in Node.js:
+
+```
+node script.js
+```
+You can now see in the console of Node.js the result of the insertion.
+
 ## Contacts
 
 If you are experiencing issues with the project, you can contact us: [S. Delolme-Sabatier](mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr), [C. Gaud](mailto:caroline.gaud@etu.univ-lyon1.fr), [S. Hu](mailto:shangnong.hu@etu.univ-lyon1.fr).
+	
