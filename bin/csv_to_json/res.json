@@ -1,6 +1,6 @@
 {
     "title" : "Detergent from converter",
-    "date" : "last modification date 2017-11-06 12:36:35.769165",
+    "date" : "last modification date 2017-11-09 14:32:54.789132",
     "author" : "CSV_TO_JSON_CONVERTER",
     "data" : {
         "maltosides" : [
@@ -69,6 +69,5 @@
             { "name" : "NTG","vol" : 294.8,"color" : [1,0.5,0.5],"complete name" : "n-Nonyl-β-D-Thioglucopyranoside","Molecular formula" : "C15H30O5S","MM" : 322.4,"?" : null,"CMC (mM)" : 2.9,"Aggregation number" : null,"Ref" : "Anatrace","PDB file" : "NTG.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O"},
             { "name" : "NTM","vol" : 421.4,"color" : [1,0.5,0.5],"complete name" : "n-Nonyl-β-D-Thiomaltopyranoside","Molecular formula" : "C21H40O10S","MM" : 484.6,"?" : null,"CMC (mM)" : 3.2,"Aggregation number" : null,"Ref" : "Anatrace ","PDB file" : "NTM.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O"},
             { "name" : "OTG","vol" : 280.6,"color" : [1,0.5,0.5],"complete name" : "n-Octyl-β-D-Thioglucopyranoside","Molecular formula" : "C14H28O5S","MM" : 308.4,"?" : null,"CMC (mM)" : 9,"Aggregation number" : null,"Ref" : "Saito, S. and Tsuchiya, T. (1984) Biochem. J. 222, 829-832","PDB file" : "OTG.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCSC1C(C(C(C(O1)CO)O)O)O"},
-            { "name" : "OTM","vol" : 403.7,"color" : [1,0.5,0.5],"complete name" : "n-Octyl-β-D-Thiomaltopyranoside","Molecular formula" : "C20H38O10S","MM" : 470.6,"?" : null,"CMC (mM)" : 8.5,"Aggregation number" : null,"Ref" : "Anatrace ","PDB file" : "OTM.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O"},
-            { "name" : "Oleate","vol" : 297.5,"color" : [0.2,0.2,0.4],"complete name" : "Oleate","Molecular formula" : "C18H33O2-","MM" : 281.46,"?" : null,"CMC (mM)" : null,"Aggregation number" : null,"Ref" : null,"PDB file" : "oleate.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCC=CCCCCCCCC(=O)[O-]"}
+            { "name" : "OTM","vol" : 403.7,"color" : [1,0.5,0.5],"complete name" : "n-Octyl-β-D-Thiomaltopyranoside","Molecular formula" : "C20H38O10S","MM" : 470.6,"?" : null,"CMC (mM)" : 8.5,"Aggregation number" : null,"Ref" : "Anatrace ","PDB file" : "OTM.pdb","detergent image" : null,"?" : null,"SMILES" : "CCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O"}
             ]}}
