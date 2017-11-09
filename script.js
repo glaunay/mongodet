@@ -8,11 +8,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var app = express();
 
+var app = express();
 var fs = require('fs');
 
 module.exports = app;
+
 
 
 app.get('/', (req, res) => {
@@ -54,68 +55,46 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	}
  
 
-	//Function to insert JSON file in database 
-	var readJson = function(path) {
-		var dict = jsonfile.readFileSync(path,'utf8');
+	//Function to check conditions
+	var checkConditions = function(detergent){
+		var check = true;
+		if(typeof(detergent.category) != 'string' || detergent.category == 'null'){
+			check = 'The detergent category must be filled with string type';
+			return check;
+		}
+		if (typeof(detergent.name) != 'string' || detergent.name == 'null'){
+			check = 'The detergent name must be filled with string type';
+			return check;
+		}
+		if (typeof(detergent.vol) != 'number' || detergent.vol == 'null'){
+			check = 'The detergent volume must be filled with number type';
+			return check;
+		}
+		if (typeof(detergent.color) != 'object' || detergent.color.length != 3 || detergent.color[0] < 0 || detergent.color[1] < 0 || detergent.color[2] < 0 
+		|| detergent.color[0] > 1 || detergent.color[1] > 1 || detergent.color[2] > 1){
+			check = 'The detergent color must be a list of 3 values between 0 and 1';
+			return check;
+		}
 		
-		for(var i=0; i<dict.data.length; i++){
-		var tempo = [];
-			
-			if((typeof(dict.data[i].category) == 'string') & (dict.data[i].category != 'null') &
-			(typeof(dict.data[i].name) == 'string') & (dict.data[i].name != 'null') &
-			(typeof(dict.data[i].vol) == 'number') & (dict.data[i].vol != 'null') &
-			(typeof(dict.data[i].color) == 'object') & (dict.data[i].color.length == 3) //verif conditions
-			){
-				if( (dict.data[i].color[0] >= 0) & (dict.data[i].color[0] <= 255) & 
-				(dict.data[i].color[1] >= 0) & (dict.data[i].color[1] <= 255) &
-				(dict.data[i].color[2] >= 0) & (dict.data[i].color[2] <= 255)
-				){
-				
-					db.collection('det').find({'name':'TDM'}).toArray(function(err, result) {
-						if (err) {
-						  throw err;
-						}	
-						console.log(result);
-					});
-					
-				
-					/*
-					var obj = dict.data[i];
-					//console.log(Object.entries(obj)[0]); //['category':'x'] for all detergents
-					//console.log(Object.entries(obj)[1][1]); //[x][y], y=0 key and y=1 value
-					
-					for(var j=0; j<Object.entries(obj).length; j++){
-						if(j != Object.entries(obj).length - 1){
-							tempo = tempo + Object.entries(obj)[j][0] + ' : ' + Object.entries(obj)[j][1] + ', ';
-						}
-						else{
-							tempo = tempo + Object.entries(obj)[j][0] + ' : ' + Object.entries(obj)[j][1];
-						}
-						//console.log('Key:', Object.entries(obj)[j][0]);
-						//console.log('Value:', Object.entries(obj)[j][1]);
-					}
-					*/
-					
-					/*for(var j=0; j<Object.entries(obj).length; j++){
-						tempo.push(Object.entries(obj)[j][0]); //[x][y], y=0 key and y=1 value
-						tempo.push(Object.entries(obj)[j][1]);
-						//console.log('Key:', Object.entries(obj)[j][0]);
-						//console.log('Value:', Object.entries(obj)[j][1]);
-					} */
-					
-					//console.log(tempo);
-					
-					
-					//console.log(dict.data[i]);
-					//db.collection('det').insert({tempo});
-				
-				}
-				
-			}				
-		}	
-		
+	return check;
 	}
-	readJson(__dirname+"/det.json")
+	
+	
+	
+
+	//Fuction to check unique name of detergent
+	 function queryCollection(detergent){
+		var rest = [];
+    	db.collection('det').find({'name' : detergent.name}).toArray(function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                rest.push(result);
+            }
+			return rest;
+			console.log('rest', rest);
+        });		
+    }
 	
 	
 	
@@ -134,17 +113,43 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		}
 		dict.data = write; //replace "data" values
 		
-		/*jsonfile.writeFile("./test.json", dict, function(err) { //to write in a file
-		if(err) {
-			return console.log(err);
-		}
-		console.log("The file was saved!");
-		}); */
-		
 		return dict;
 	}
 	//Json_old_to_new(__dirname+"/detergents.json")
+	
+	
 
+	//Function to insert JSON file in database 
+	var insertJson = function(path) {
+		//var dict = jsonfile.readFileSync(path,'utf8');
+		var dict = Json_old_to_new(path);
+				
+		for(var i=0; i<dict.data.length; i++){
+			var detergent = dict.data[i];
+			
+			if(checkConditions(detergent) == true){ //if conditions are check
+				/*rest = [];
+				queryCollection(dict.data[i], function(){ //Doesn't work for the moment
+					//console.log(detergent);
+					if (rest == ''){ //if detergent name doesn't exist
+						db.collection('det').insert(detergent);
+					}
+					else{
+						console.log('The detergent name must be unique !');
+					}				
+				});*/
+				
+				db.collection('det').insert(detergent);
+				
+			}
+			else{
+				console.log(checkConditions(detergent));
+			}
+		}	
+	}
+	insertJson(__dirname+"/detergents.json"); 
+	
+	
 	
 	
 	//Function to modify new JSON file in the old format 
@@ -186,5 +191,5 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
 })
+  console.log('Example app listening on port 3000!')
