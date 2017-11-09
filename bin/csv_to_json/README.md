@@ -6,9 +6,10 @@ This file will explain you how to use the CSVtoFile conveter made during the pro
 Installation and use of the converter
 -------------------------------------
 
-To use this converter, python3 must be installed on your computer. You can dowload it here at https://www.python.org/downloads/
+To use this converter, python3 must be installed on your computer. You can download it here at https://www.python.org/downloads/
 You also need two python packages, csv and datetime if they are not installed enter
 > pip3 install csv
+
 > pip3 install datetime
 
 When everything is ok do 
