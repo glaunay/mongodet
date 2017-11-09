@@ -140,10 +140,11 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 				});*/
 				
 				db.collection('det').insert(detergent);
+				console.log(detergent.name, ' : the detergent has been added to the database')
 				
 			}
 			else{
-				console.log(checkConditions(detergent));
+				console.log(detergent.name, ' : ', checkConditions(detergent));
 			}
 		}	
 	}
@@ -189,7 +190,3 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	
 });
 
-
-app.listen(3000, function () {
-})
-  console.log('Example app listening on port 3000!')
