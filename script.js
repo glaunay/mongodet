@@ -147,7 +147,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 			}
 		}	
 	}
-	insertJson(__dirname+"/detergents.json"); 
+	insertJson(__dirname+"/data/detergents.json"); 
 	
 	
 	
