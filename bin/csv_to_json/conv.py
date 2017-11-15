@@ -4,7 +4,7 @@
 import csv
 import datetime
 
-file_test = open("./test/data_maj.csv", "r")
+file_test = open("./test/data_2.csv", "r")
 col=""
 #################################
 ######  Usefull functions  ######
@@ -77,7 +77,7 @@ def write_header(f):
 
 #tester les colonnes vides !!!!!!!!!!!!!!
 
-columns = ["name","vol","color","complete name","Molecular formula","MM","?","CMC (mM)","Aggregation number","Ref","PDB file","detergent image","?","SMILES"]
+columns = ["name","vol","color","complete name","Molecular formula","MM","CMC (mM)","Aggregation number","Ref","PDB file","detergent image","SMILES"]
 
 ######  Write the rest of the file  #####
 
@@ -92,13 +92,13 @@ def write_res(f):
 			if j < len(columns)-1:
 				if j == 1:
 					file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
-				elif j ==2:
+				elif j == 2:
 					try:
 						res[i][j+2]=normalize_colors(res[i][j+2])
 						file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
 					except:
 						file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
-				elif j==5 or j==7 or j==8:
+				elif j==5 or j==6 or j==7 :
 					try:
 						float(res[i][j+2])
 						file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
