@@ -133,6 +133,14 @@ var Json_new_to_old = function(path) {
 
 
 
+//Function for a test
+ var test = function test(){
+ 	var list = [{ "_id" : "OM", "vol" : 391.1, "color" : [0,255,0]}, { "_id" : "NM", "vol" : 408.9, "color" : [0,255,0]}];
+ 	console.log(list);
+ 	return list;
+ }
+
+
 
 //MONGODB
 
@@ -144,7 +152,8 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	throw err;
 	}
 
-	insertData(__dirname+"/data/detergents.json", db); 
+	//insertData(__dirname+"/data/detergents.json", db); 
+	test();
 
 });
 
