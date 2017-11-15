@@ -114,19 +114,31 @@ var Json_new_to_old = function(path) {
 //Function to insert JSON file in database 
 	var insertData = function(path, db) {
 		var dict = Json_old_to_new(path);
+		var list = [];
+		var list2 = []
+
 		for(var i=0; i<dict.data.length; i++){
 			var detergent = dict.data[i];
 			var check = checkConditions(detergent);
+
 			if(check == true){ //if conditions are check
-				db.collection('det').insert(detergent, function(err,docsInserted){
-    				console.log(docsInserted);
+				db.collection('det').insert(detergent, function(err,result){
+					if(err){
+						if (err.code == 11000) {
+    					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
+    					list.push(nameDet);
+    					console.log(nameDet, ': The detergent name must be unique');
+    					}
+					}
 				});
-				//console.log(detergent._id, ' : The detergent has been added to the database');
 			}
+
 			else{
-				//console.log(detergent._id, ' : ', checkConditions(detergent));
+				list.push(detergent._id);
+				console.log(detergent._id, ' : ', checkConditions(detergent));
 			}
-		}	
+		}
+		console.log('Insertion of detergents is finish !')
 	}
 
 
@@ -150,8 +162,8 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	throw err;
 	}
 
-	//insertData(__dirname+"/data/detergents.json", db); 
-	test();
+	insertData(__dirname+"/data/detergents.json", db); 
+	//test();
 
 });
 
