@@ -5,43 +5,14 @@ var express = require('express');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+//var logger = require('morgan');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var app = express();
 var fs = require('fs');
 
 module.exports = app;
-
-
-
-app.get('/', (req, res) => {
-  db.collection('detergents_modif').find().toArray((err, result) => {
-    if (err) return console.log(err)
-    res.render('index.ejs', {detergents_modif: result})
-  })
-})
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-
 
 
 
@@ -70,9 +41,16 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 			check = 'The detergent volume must be filled with number type';
 			return check;
 		}
-		if (typeof(detergent.color) != 'object' || detergent.color.length != 3 || detergent.color[0] < 0 || detergent.color[1] < 0 || detergent.color[2] < 0 
+		if (typeof(detergent.color) != 'object' || detergent.color.length != 3) {
+			check = 'The detergent color must be a list of 3 values';
+			return check;
+		}
+		if (detergent.color[0] < 0 || detergent.color[1] < 0 || detergent.color[2] < 0  //A VERIFIER 
 		|| detergent.color[0] > 1 || detergent.color[1] > 1 || detergent.color[2] > 1){
-			check = 'The detergent color must be a list of 3 values between 0 and 1';
+			//detergent.color[0] = detergent.color[0] / 255;
+			//detergent.color[1] = detergent.color[1] / 255;
+			//detergent.color[2] = detergent.color[2] / 255;
+			check = 'La couleur a été normalisée';
 			return check;
 		}
 		
@@ -83,17 +61,44 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	
 
 	//Fuction to check unique name of detergent
-	 function queryCollection(detergent){
-		var rest = [];
-    	db.collection('det').find({'name' : detergent.name}).toArray(function(err, result) {
+	var queryCollection = function(detergent){
+		//var rest = [];
+		console.log('name : ', detergent.name);
+    	var result = db.collection('det').find({'name' : detergent.name});
+		//console.log('result : ', result);
+		console.log('type : ', typeof result);
+		result.toArray(function(err, res) {
+			console.log('typeof : ', typeof res);
+			console.log('length res : ', res.length);
             if (err) {
                 console.log(err);
             } else {
-                rest.push(result);
+                //rest.push(res);
+				console.log('res : ', res);
+				
+				if(res.length != 0){
+					console.log('true');
+				return true; //Exist
+			}
+			else{
+				console.log('false');
+				return false;
+			}
             }
-			return rest;
-			console.log('rest', rest);
-        });		
+			//console.log('rest', rest);
+			
+			
+        });	
+		
+		/*
+		console.log('length :', result.length);
+		console.log('typeof : ', typeof result);
+		
+
+		for(let i = 0; i<result.length; i++){
+			console.log('value : ', result[i]);
+		};
+		*/
     }
 	
 	
@@ -123,15 +128,18 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	var insertJson = function(path) {
 		//var dict = jsonfile.readFileSync(path,'utf8');
 		var dict = Json_old_to_new(path);
-				
+		console.log(dict.data.length);
+		console.log('dict : ', dict);
 		for(var i=0; i<dict.data.length; i++){
 			var detergent = dict.data[i];
-			
+			console.log('detergent :' , detergent);
+			console.log('toto', queryCollection(detergent));
 			if(checkConditions(detergent) == true){ //if conditions are check
-				/*rest = [];
-				queryCollection(dict.data[i], function(){ //Doesn't work for the moment
+				//rest = [];
+				/*queryCollection(dict.data[i], function(){ //Doesn't work for the moment
 					//console.log(detergent);
 					if (rest == ''){ //if detergent name doesn't exist
+						console.log('vide');
 						db.collection('det').insert(detergent);
 					}
 					else{
@@ -139,7 +147,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 					}				
 				});*/
 				
-				db.collection('det').insert(detergent);
+				//db.collection('det').insert(detergent);
 				console.log(detergent.name, ' : the detergent has been added to the database')
 				
 			}
@@ -148,7 +156,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 			}
 		}	
 	}
-	insertJson(__dirname+"/data/detergents.json"); 
+	insertJson(__dirname+"/data/detergents_test.json"); 
 	
 	
 	
