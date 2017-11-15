@@ -4,8 +4,8 @@
 import csv
 import datetime
 
-file_test = open("./test/data_2.csv", "r")
-col=""
+file_test = open("./test/data.csv", "r")
+
 #################################
 ######  Usefull functions  ######
 #################################
@@ -18,7 +18,7 @@ def normalize_colors(a):
 		l_color[2]=int(l_color[2].replace("]",""))
 		for i in range(len(l_color)):
 			if int(l_color[i])>1:
-				l_color[i]=int(l_color[i])/255	#str ?	
+				l_color[i]=round(float(l_color[i])/255,2)	
 		return(str(l_color));
 	else:
 		print("not a RGB color")
@@ -47,8 +47,6 @@ def clean_file(f):
 					print("Warning: "+row[2]+" has no color (could not be added)")
 			else:
 				print("Warning: "+row[2]+" has no volume (could not be added)")
-	global col
-	col=res[0]
 	res=res[1:]
 	to_erase=[]
 	for i in range(len(res)):
@@ -75,9 +73,7 @@ def write_header(f):
 	file_res.write("{\n    \"title\" : \"Detergent from converter\",\n    \"date\" : \"last modification date "+str(datetime.datetime.now())+"\",\n    \"author\" : \"CSV_TO_JSON_CONVERTER\",\n    \"data\" : {\n        ")
 
 
-#tester les colonnes vides !!!!!!!!!!!!!!
-
-columns = ["name","vol","color","complete name","Molecular formula","MM","CMC (mM)","Aggregation number","Ref","PDB file","detergent image","SMILES"]
+columns = ["name","vol","color","complete name","Molecular formula","MM","CMC (mM)","Aggregation number","Ref","PDB file","detergent image","SMILES"] # because columns are in french, we have to translate them to english
 
 ######  Write the rest of the file  #####
 
@@ -136,16 +132,8 @@ row[2] nom commun -> doit être non vide row[2] != ''
 row[3] volume -> doit être != ''
 row[4] couleur -> doit être !=''
 
-8 espaces = 1 tabulation
-
-['', 'Catégorie', 'nom commun', 'volume (VOIDOO) (A3)', 'couleur', 'nom réel', 'Molecular Formula', 'MM', '', 'CMC (mM)', 'Nb aggrégation', 'Ref', 'fichier PDB', 'image du détergent', '', 'SMILES'
-
-
-			file_res.write("{ \"name\" : \""+ res[i][2]+"\", \"vol\" : "+res[i][3]+", \"color\" : "+res[i][4]+", \"complete name\" : \""+res[i][5]+"\", \"Molecular formula\" : \""+res[i][6]+"\", \"MM\" : \""+res[i][7]+"\", \"''\" : \""+res[i][8]+"\", \"CMC (mM)\" : \""+res[i][9]+"\", \"Aggregation number\" : \""+res[i][10]+"\", \"Ref\" : \""+res[i][11]+"\", \"PDB file\" : \""+res[i][12]+"\", \"detergent image\" : \""+res[i][13]+"\", \"''\" : \""+res[i][14]+"\", \"SMILES\" : \""+res[i][15]+"\"},\n            ")
-
 TO DO:
 
-- Detection des colonnes vides
 - paramètres de la fonction
 - intervalles (?)
 
@@ -155,18 +143,10 @@ TO DO:
 res=clean_file(file_test)
 output="./res.json"
 write_res(output)
-print(col)
-i_col = []
-for i in range(len(col)):
-	if col[i]!='':
-		i_col.append(i)
-print(i_col)
+
 
 ###########################
 ######  Questions  ########
 ###########################
 
-#avec les indices -> on sait sur quoi travailler
-# problème -> identifier les types des colonnes, identifier leur ordre pour la traduction
-	
 
