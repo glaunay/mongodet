@@ -1,99 +1,99 @@
-;;;;;;;;;;;;;;;
-;;;;RGB;;;;;;;;;;;
-;Catégorie;nom commun;volume (VOIDOO) (A3);couleur;nom réel;Molecular Formula;MM;;CMC (mM);Nb aggrégation;Ref;fichier PDB;image du détergent;;SMILES
-;maltosides;OM;391.1;[0,1,0];n-Octyl-β-D-Maltopyranoside;C20H38O11;454.4;;19.5;47;Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);OM.pdb;;;CCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;NM;408.9;[0,1,0];n-Nonyl-β-D-Maltopyranoside;C21H40O11;468.5;;6;55;Anatrace/Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);NM.pdb;;;CCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;DM;424.1;[0,1,0];n-Decyl-β-D-Maltopyranoside;C22H42O11;482.6;;1.8;69;Alpes, H., Apell, H.-J., Knoll, G., Plattner, H. and Riek, R. (1988) Biochim. Biophys. Acta 946, 379-388./Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);DM.pdb;;;CCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;UDM;437;[0,1,0];n-Undecyl-β-D-Maltopyranoside;C23H44O11;496.6;;0.59;71;Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;UDM.pdb;;;CCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;DDM;453;[0,1,0];n-Dodecyl-β-D-Maltopyranoside;C24H46O11;510.6;;0.17;78-149;Anatrace/VanAken, T., Foxall-VanAken, S., Castleman, S. and Ferguson-Miller, S (1986) Methods Enzymol. 125, 27-35.;DDM.pdb;;;CCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;TriDM;465.9;[0,1,0];n-Tridecyl-β-D-Maltopyranoside;C25H48O11;524.6;;0.033;186;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;TriDM.pdb;;;CCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;HM;362.5;[0,1,0];n-Hexyl-β-D-Maltopyranoside;C18H34O11;426.4;;210;-;Anatrace;HDM.pdb;;;CCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;TetraDM;483.6;[0,1,0];n-Tetradecyl-β-D-Maltopyranoside;C26H50O11;538.6;;0.01;-;Anatrace ;TDM.pdb;;;CCCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;PPS;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;neopentyl-glycol;DGNG;568.7;[1,0.6,0.6];Decyl Glucose Neopentyl Glycol ;C35H68O12;624.41;;-;-;Anatrace;DGNG.pdb;;;CCCCCCCCC(CCCCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O
-;;LMNG;885.7;[1,0.6,0.6];Lauryl Maltose Neopentyl Glycol ;C47H88O22;1005.19;;0.01;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";?;;;CCCCCCCCCCC(CCCCCCCCCC)(COC1OC(CO)C(OC2OC(CO)C(O)C(O)C2O)C(O)C1O)COC3OC(CO)C(OC4OC(CO)C(O)C(O)C4O)C(O)C3O
-;;DMNG ;;[1,0.6,0.6];Decyl Maltose Neopentyl Glycol ;C43H80O22;949.08;;0.036;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";?;;;CCCCCCCCC(CCCCCCCC)(COC1OC(CO)C(OC2OC(CO)C(O)C(O)C2O)C(O)C1O)COC3OC(CO)C(OC4OC(CO)C(O)C(O)C4O)C(O)C3O
-;;OGNG;504.9;[1,0.6,0.6];Octyl Glucose Neopentyl Glycol;C27H52O12;568.69;;1.02;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";OGNG.pdb;;;CCCCCCC(CCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;glucosides;OG;267.5;[1,1,0];n-Octyl-β-D-Glucopyranoside;C14H28O6;292.4;;18-20;27-100;Lorber, B., Bishop, J. B. and DeLucas, L. J. (1990) Biochim. Biophys. Acta 1023, 254-265;OG.pdb;;;CCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
-;;NG;284.5;[1,1,0];n-Nonyl-β-D-Glucopyranoside;C15H30O6;306.4;;6.5;133;Anatrace ;NG.pdb;;;CCCCCCCCCOC1OC(CO)C(O)C(O)C1O
-;;DG;297.7;[1,1,0];n-Decyl-β-D-Glucopyranoside;C16H32O6;320.4;;2.2;-;Helenius, A., McCaslin, D. R., Fries, E. And Tanford, C. (1979) Methods Enzymol. 56, 734-749;DG.pdb;;;CCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
-;;Hexyl-G;235.7;[1,1,0];n-Hexyl-β-D-Glucopyranoside;C12H24O6;264.4;;250;-;Anatrace ;HG.pdb;;;CCCCCCOC1C(C(C(C(O1)CO)O)O)O
-;;Heptyl-G;251.5;[1,1,0];n-Heptyl-β-D-Glucopyranoside;C13H26O6;278.4;;70;-;Anatrace ;Heptyl-β-D-Glucopyranoside.pdb;;;CCCCCCCOC1C(C(C(C(O1)CO)O)O)O
-;;DDG;328.4;[1,1,0];n-Dodecyl-β-D-Glucopyranoside;C18H36O6;348.5;;0.19;-; Helenius, A., McCaslin, D. R., Fries, E. and Tanford, C. (1979) Methods Enzymol. 56, 734-749;Dodecyl-β-D-Glucopyranoside.pdb;;;CCCCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;cholesterol derivatives;CHAPS;548.1;[1,0,1];3-[(3-Cholamidopropyl)-Dimethylammonio]-1-Propane Sulfonate];C32H58N2O7S;614.9;;8;10;Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82/Womack, M. D., Kendall, D. A. and MacDonald, R. C. (1983) Biochim. Biophys. Acta 733, 210-215;CHAPS.pdb;;;CC(CCC(=O)NCCC[N+](C)(C)CCCS(=O)(=O)[O-])C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
-;;CHAPSO;554.1;[1,0,1];3-[(3-Cholamidopropyl)dimethylammonio]-2-Hydroxy-1-Propanesulfonate;C32H58N2O8S;630.9;;8;11;Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82;CHAPSO.pdb;;;CC(CCC(=O)NCCC[N+](C)(C)CC(CS(=O)(=O)[O-])O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
-;;Cholate;367.5;[1,0,1];cholate;C24H39O5Na;430.6;;9-15;2-4,8;Brito, R. M. M and Vaz, W. L. C. (1986) Anal. Biochem 152, 250-255/Vendittis, E., Paumbo, G., Parlata, G. and Borchini, U. (1981) Anal. Biochem. 115, 278-286/ LeMaire, M., Champeil, P. and Moller, J. V. (2000) Biochimica et Biophysica Acta 1508, 86-111;Cholate.pdb;;;CC(CCC(=O)O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
-;;Deoxycholic Acid, Sodium Salt;361.3;[1,0,1];3α,12α-Dihydroxy-5β-Cholan-24-oic Acid, Monosodium Salt;C24H39O4Na;414.562;;6;22;Anatrace/Black, Shaun D.: http://psyche.uthct.edu/shaun/SBlack/detergnt.html;deoCholate.pdb;;;CC(CCC(=O)[O-])C1CCC2C1(C(CC3C2CCC4C3(CCC(C4)O)C)O)C.[Na+]
-;;Cholesterol;382.2;[1,0,1];3β-Hydroxy-5-Cholestene;C27H46O;386.6;;;;Anatrace;cholesterol.pdb;;;CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C
-;;CHS;574.1;[1,0,1];Cholesteryl Hemisuccinate Tris Salt;C35H61NO7;607.9;;;;Anatrace;CHS.pdb;;;CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)OC(=O)CCC(=O)O)C)C.C(C(CO)(CO)N)O
-;;digitonine;1000.2;;Digitonine ;C56H92O29;1229.323;;<0.5;;Sigma-Aldrich;;;;CC1CCC2(C(C3C(O2)C(C4C3(CCC5C4CCC6C5(CC(C(C6)OC7C(C(C(C(O7)CO)OC8C(C(C(C(O8)CO)O)OC9C(C(C(CO9)O)O)O)OC2C(C(C(C(O2)CO)O)OC2C(C(C(C(O2)CO)O)O)O)O)O)O)O)C)C)O)C)OC1
-;;;;;;;;;;;;;;;
-;fos-choline;FC8;280.4;[0.9,1,0.6];Fos-Choline-8;C13H30NO4P;295.4;;114;-;Anatrace;FC8.pdb;;;CCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC9;293.7;[0.9,1,0.6];Fos-Choline-9;C14H32NO4P;309.4;;39.5;5;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC9.pdb;;;CCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC10;308.9;[0.9,1,0.6];Fos-Choline-10;C15H34NO4P;323.4;;11;24;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC10.pdb;;;CCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC11;323.9;[0.9,1,0.6];Fos-Choline-11;C16H36NO4P;337.4;;1.85;18;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC11.pdb;;;CCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC12;338.8;[0.9,1,0.6];Fos-Choline-12;C17H38NO4P;351.5;;1.5;54;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC12.pdb;;;CCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC13;354.9;[0.9,1,0.6];Fos-Choline-13;C18H40NO4P;365.5;;0.75;87;Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC13.pdb;;;CCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC14;369.4;[0.9,1,0.6];Fos-Choline-14;C19H42NO4P;379.5;;0.12;108;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC14.pdb;;;CCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC15;385.4;[0.9,1,0.6];Fos-Choline-15;C20H44NO4P;393.5;;0.07;131;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC15.pdb;;;CCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;FC16;400.5;[0.9,1,0.6];Fos-Choline-16;C21H46NO4P;407.5;;0.013;178;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC16.pdb;;;CCCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;amine oxide ;LDAO;245.6;[0,0,1];n-Dodecyl-N,N-Dimethylamine-N-Oxide/Lauryldimethylamine-N-Oxide;C14H31NO;229.4;;1-2;76;Anatrace/ Herrmann, K. W. (1962) J. Phys. Chem. 66, 292/ Herrmann, K. W. (1966) J. Colloid Interface Sci. 22, 352.;LDAO.pdb;;;CCCCCCCCCCCC[N+](C)(C)[O-]
-;;DDAO;215.1;[0,0,1];n-Decyl-N,N-Dimethylamine-N-Oxide/Decylmethylamine-N-Oxide;C12H27NO;201.4;;10.48;7;Anatrace ;DDAO.pdb;;;CCCCCCCCCC[N+](C)(C)[O-]
-;;LAPAO;306.8;[0,0,1];3-Laurylamido-N,N'-Dimethylpropyl Amine Oxide;C17H36N2O2;300.6;;1.56;126;Anatrace/Dahout-Gonzalez, C., Brandolin, G., and Pebay-Peyroula. E. (2003) Acta. Cryst. D59, 2353-2355.;LAPAO.pdb;;;CCCCCCCCCCCC(=O)NCCC[N+](C)(C)[O-]
-;;UDAO;230.1;[0,0,1];n-Undecyl-N,N-Dimethylamine-Oxide;C13H29NO;215.4;;3.21;-;Anatrace;UDAO.pdb;;;CCCCCCCCCCC[N+](C)(C)[O-]
-;;TDAO;275.8;[0,0,1];n-Tetradecyl-N,N-Dimethylamine-N-Oxide;C16H35NO;257.5;;0.29;-;Anatrace;TDAO.pdb;;;CCCCCCCCCCCCCC[N+](C)(C)[O-]
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;lipids;DMPC;661.8;[0.4,0,0];1,2-Dimyristoyl-sn-Glycero-3-Phosphocholine ;C36H72NO8P;677.9;;;;;DMPC.pdb;;;CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCC
-;;DPPC;722.9;[0.4,0,0];1,2-Dihexadecanoyl-sn-Glycero-3-Phosphocholine;C40H80NO8P;734.039;;;;;DPPC.pdb;;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCCCC
-;;DOPC;779.8;[0.4,0,0];1,2-Dioleoyl-sn-Glycero-3-Phosphocholine;C44H84NO8P;786.113;;;;;DOPC.pdb;;;CCCCCCCCC=CCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC
-;;POPE;706.3;[0.4,0,0];1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphoethanolamine;C39H76NO8P;717.996;;;;;POPE.pdb;;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCCN)OC(=O)CCCCCCCC=CCCCCCCCC
-;;DMPG;641.6;[0.4,0,0];1,2-Dimyristoyl-sn-Glycero-3-[Phospho-rac-(1-Glycerol)];C34H66NaO10P;688.9;;;;;DMPG.pdb;;;CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC(CO)O)OC(=O)CCCCCCCCCCCCC.[Na+]
-;;POPC;750.4;[0.4,0,0];1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphocholine;C42H82NO8P;760.076;;;;;POPC.pdb;;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;thio glucosides et maltosides ;LTM;467.2;[1,0.5,0.5];n-Dodecyl-β-D-Thiomaltopyranoside;C24H46O10S;526.6;;0.05;126;Anatrace ;LTM.pdb;;;CCCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;UTM;450.8;[1,0.5,0.5];n-Undecyl-β-D-Thiomaltopyranoside;C23H44O10S;512.7;;0.21;106;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract.;UTM.pdb;;;CCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;DTG;311.7;[1,0.5,0.5];n-Decyl-β-D-Thioglucopyranoside;C16H32O5S;336.4;;0.9;;Anatrace;DTG.pdb;;;CCCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
-;;DTM;430.1;[1,0.5,0.5];n-Decyl-β-D-Thiomaltopyranoside;C22H42O10S;498.6;;0.9;75;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;DTM.pdb;;;CCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;HTG;264.9;[1,0.5,0.5];n-Heptyl-β-D-Thioglucopyranoside;C13H26O5S;294.4;;29;27;Anatrace ;HTG.pdb;;;CCCCCCCSC1C(C(C(C(O1)CO)O)O)O
-;;NTG;294.8;[1,0.5,0.5];n-Nonyl-β-D-Thioglucopyranoside;C15H30O5S;322.4;;2.9;-;Anatrace;NTG.pdb;;;CCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
-;;NTM;421.4;[1,0.5,0.5];n-Nonyl-β-D-Thiomaltopyranoside;C21H40O10S;484.6;;3.2;;Anatrace ;NTM.pdb;;;CCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;OTG;280.6;[1,0.5,0.5];n-Octyl-β-D-Thioglucopyranoside;C14H28O5S;308.4;;9;-;Saito, S. and Tsuchiya, T. (1984) Biochem. J. 222, 829-832;OTG.pdb;;;CCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
-;;OTM;403.7;[1,0.5,0.5];n-Octyl-β-D-Thiomaltopyranoside;C20H38O10S;470.6;;8.5;-;Anatrace ;OTM.pdb;;;CCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
-;;;;;;;;;;;;;;;
-;;Amphipol A8-35;-;[0,0,0];Amphipol A8-35;(C6.2H10.3O1.35N0.65Na0.35)~72;9 kDa;;;;Zoonens & Popot, J. Membr. Biol. 247:759-796, 2014;;;;-
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;Calixarènes;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;DCOD;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;8;280,4;;;;;;;;;;;;
-;;9;293,7;;;;;;;;;;;;
-;;10;308,9;;;;;;;;;;;;
-;;11;323,9;;;;;;;;;;;;
-;;12;344;;;;;;;;;;;;
-;;13;354,9;;;;;;;;;;;;
-;;14;385,9;;;;;;;;;;;;
-;;15;385,4;;;;;;;;;;;;
-;;16;400,5;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;RGB;;;;;;;;;
+;Catégorie;nom commun;volume (VOIDOO) (A3);couleur;nom réel;Molecular Formula;MM;CMC (mM);Nb aggrégation;Ref;fichier PDB;image du détergent;SMILES
+;maltosides;OM;391.1;[0,1,0];n-Octyl-β-D-Maltopyranoside;C20H38O11;454.4;19.5;47;Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);OM.pdb;;CCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;NM;408.9;[0,1,0];n-Nonyl-β-D-Maltopyranoside;C21H40O11;468.5;6;55;Anatrace/Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);NM.pdb;;CCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;DM;424.1;[0,1,0];n-Decyl-β-D-Maltopyranoside;C22H42O11;482.6;1.8;69;Alpes, H., Apell, H.-J., Knoll, G., Plattner, H. and Riek, R. (1988) Biochim. Biophys. Acta 946, 379-388./Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University);DM.pdb;;CCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;UDM;437;[0,1,0];n-Undecyl-β-D-Maltopyranoside;C23H44O11;496.6;0.59;71;Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;UDM.pdb;;CCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;DDM;453;[0,1,0];n-Dodecyl-β-D-Maltopyranoside;C24H46O11;510.6;0.17;78-149;Anatrace/VanAken, T., Foxall-VanAken, S., Castleman, S. and Ferguson-Miller, S (1986) Methods Enzymol. 125, 27-35.;DDM.pdb;;CCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;TriDM;465.9;[0,1,0];n-Tridecyl-β-D-Maltopyranoside;C25H48O11;524.6;0.033;186;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;TriDM.pdb;;CCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;HM;362.5;[0,1,0];n-Hexyl-β-D-Maltopyranoside;C18H34O11;426.4;210;-;Anatrace;HDM.pdb;;CCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;TetraDM;483.6;[0,1,0];n-Tetradecyl-β-D-Maltopyranoside;C26H50O11;538.6;0.01;-;Anatrace ;TDM.pdb;;CCCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;PPS;;;;;;;;;;;
+;;;;;;;;;;;;;
+;neopentyl-glycol;DGNG;568.7;[1,0.6,0.6];Decyl Glucose Neopentyl Glycol ;C35H68O12;624.41;-;-;Anatrace;DGNG.pdb;;CCCCCCCCC(CCCCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O
+;;LMNG;885.7;[1,0.6,0.6];Lauryl Maltose Neopentyl Glycol ;C47H88O22;1005.19;0.01;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";?;;CCCCCCCCCCC(CCCCCCCCCC)(COC1OC(CO)C(OC2OC(CO)C(O)C(O)C2O)C(O)C1O)COC3OC(CO)C(OC4OC(CO)C(O)C(O)C4O)C(O)C3O
+;;DMNG ;;[1,0.6,0.6];Decyl Maltose Neopentyl Glycol ;C43H80O22;949.08;0.036;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";?;;CCCCCCCCC(CCCCCCCC)(COC1OC(CO)C(OC2OC(CO)C(O)C(O)C2O)C(O)C1O)COC3OC(CO)C(OC4OC(CO)C(O)C(O)C4O)C(O)C3O
+;;OGNG;504.9;[1,0.6,0.6];Octyl Glucose Neopentyl Glycol;C27H52O12;568.69;1.02;-;"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008";OGNG.pdb;;CCCCCCC(CCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;glucosides;OG;267.5;[1,1,0];n-Octyl-β-D-Glucopyranoside;C14H28O6;292.4;18-20;27-100;Lorber, B., Bishop, J. B. and DeLucas, L. J. (1990) Biochim. Biophys. Acta 1023, 254-265;OG.pdb;;CCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
+;;NG;284.5;[1,1,0];n-Nonyl-β-D-Glucopyranoside;C15H30O6;306.4;6.5;133;Anatrace ;NG.pdb;;CCCCCCCCCOC1OC(CO)C(O)C(O)C1O
+;;DG;297.7;[1,1,0];n-Decyl-β-D-Glucopyranoside;C16H32O6;320.4;2.2;-;Helenius, A., McCaslin, D. R., Fries, E. And Tanford, C. (1979) Methods Enzymol. 56, 734-749;DG.pdb;;CCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
+;;Hexyl-G;235.7;[1,1,0];n-Hexyl-β-D-Glucopyranoside;C12H24O6;264.4;250;-;Anatrace ;HG.pdb;;CCCCCCOC1C(C(C(C(O1)CO)O)O)O
+;;Heptyl-G;251.5;[1,1,0];n-Heptyl-β-D-Glucopyranoside;C13H26O6;278.4;70;-;Anatrace ;Heptyl-β-D-Glucopyranoside.pdb;;CCCCCCCOC1C(C(C(C(O1)CO)O)O)O
+;;DDG;328.4;[1,1,0];n-Dodecyl-β-D-Glucopyranoside;C18H36O6;348.5;0.19;-; Helenius, A., McCaslin, D. R., Fries, E. and Tanford, C. (1979) Methods Enzymol. 56, 734-749;Dodecyl-β-D-Glucopyranoside.pdb;;CCCCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;cholesterol derivatives;CHAPS;548.1;[1,0,1];3-[(3-Cholamidopropyl)-Dimethylammonio]-1-Propane Sulfonate];C32H58N2O7S;614.9;8;10;Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82/Womack, M. D., Kendall, D. A. and MacDonald, R. C. (1983) Biochim. Biophys. Acta 733, 210-215;CHAPS.pdb;;CC(CCC(=O)NCCC[N+](C)(C)CCCS(=O)(=O)[O-])C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
+;;CHAPSO;554.1;[1,0,1];3-[(3-Cholamidopropyl)dimethylammonio]-2-Hydroxy-1-Propanesulfonate;C32H58N2O8S;630.9;8;11;Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82;CHAPSO.pdb;;CC(CCC(=O)NCCC[N+](C)(C)CC(CS(=O)(=O)[O-])O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
+;;Cholate;367.5;[1,0,1];cholate;C24H39O5Na;430.6;9-15;2-4,8;Brito, R. M. M and Vaz, W. L. C. (1986) Anal. Biochem 152, 250-255/Vendittis, E., Paumbo, G., Parlata, G. and Borchini, U. (1981) Anal. Biochem. 115, 278-286/ LeMaire, M., Champeil, P. and Moller, J. V. (2000) Biochimica et Biophysica Acta 1508, 86-111;Cholate.pdb;;CC(CCC(=O)O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C
+;;Deoxycholic Acid, Sodium Salt;361.3;[1,0,1];3α,12α-Dihydroxy-5β-Cholan-24-oic Acid, Monosodium Salt;C24H39O4Na;414.562;6;22;Anatrace/Black, Shaun D.: http://psyche.uthct.edu/shaun/SBlack/detergnt.html;deoCholate.pdb;;CC(CCC(=O)[O-])C1CCC2C1(C(CC3C2CCC4C3(CCC(C4)O)C)O)C.[Na+]
+;;Cholesterol;382.2;[1,0,1];3β-Hydroxy-5-Cholestene;C27H46O;386.6;;;Anatrace;cholesterol.pdb;;CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C
+;;CHS;574.1;[1,0,1];Cholesteryl Hemisuccinate Tris Salt;C35H61NO7;607.9;;;Anatrace;CHS.pdb;;CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)OC(=O)CCC(=O)O)C)C.C(C(CO)(CO)N)O
+;;digitonine;1000.2;;Digitonine ;C56H92O29;1229.323;<0.5;;Sigma-Aldrich;;;CC1CCC2(C(C3C(O2)C(C4C3(CCC5C4CCC6C5(CC(C(C6)OC7C(C(C(C(O7)CO)OC8C(C(C(C(O8)CO)O)OC9C(C(C(CO9)O)O)O)OC2C(C(C(C(O2)CO)O)OC2C(C(C(C(O2)CO)O)O)O)O)O)O)O)C)C)O)C)OC1
+;;;;;;;;;;;;;
+;fos-choline;FC8;280.4;[0.9,1,0.6];Fos-Choline-8;C13H30NO4P;295.4;114;-;Anatrace;FC8.pdb;;CCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC9;293.7;[0.9,1,0.6];Fos-Choline-9;C14H32NO4P;309.4;39.5;5;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC9.pdb;;CCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC10;308.9;[0.9,1,0.6];Fos-Choline-10;C15H34NO4P;323.4;11;24;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC10.pdb;;CCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC11;323.9;[0.9,1,0.6];Fos-Choline-11;C16H36NO4P;337.4;1.85;18;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC11.pdb;;CCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC12;338.8;[0.9,1,0.6];Fos-Choline-12;C17H38NO4P;351.5;1.5;54;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC12.pdb;;CCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC13;354.9;[0.9,1,0.6];Fos-Choline-13;C18H40NO4P;365.5;0.75;87;Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC13.pdb;;CCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC14;369.4;[0.9,1,0.6];Fos-Choline-14;C19H42NO4P;379.5;0.12;108;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC14.pdb;;CCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC15;385.4;[0.9,1,0.6];Fos-Choline-15;C20H44NO4P;393.5;0.07;131;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC15.pdb;;CCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;FC16;400.5;[0.9,1,0.6];Fos-Choline-16;C21H46NO4P;407.5;0.013;178;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;FC16.pdb;;CCCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;amine oxide ;LDAO;245.6;[0,0,1];n-Dodecyl-N,N-Dimethylamine-N-Oxide/Lauryldimethylamine-N-Oxide;C14H31NO;229.4;1-2;76;Anatrace/ Herrmann, K. W. (1962) J. Phys. Chem. 66, 292/ Herrmann, K. W. (1966) J. Colloid Interface Sci. 22, 352.;LDAO.pdb;;CCCCCCCCCCCC[N+](C)(C)[O-]
+;;DDAO;215.1;[0,0,1];n-Decyl-N,N-Dimethylamine-N-Oxide/Decylmethylamine-N-Oxide;C12H27NO;201.4;10.48;7;Anatrace ;DDAO.pdb;;CCCCCCCCCC[N+](C)(C)[O-]
+;;LAPAO;306.8;[0,0,1];3-Laurylamido-N,N'-Dimethylpropyl Amine Oxide;C17H36N2O2;300.6;1.56;126;Anatrace/Dahout-Gonzalez, C., Brandolin, G., and Pebay-Peyroula. E. (2003) Acta. Cryst. D59, 2353-2355.;LAPAO.pdb;;CCCCCCCCCCCC(=O)NCCC[N+](C)(C)[O-]
+;;UDAO;230.1;[0,0,1];n-Undecyl-N,N-Dimethylamine-Oxide;C13H29NO;215.4;3.21;-;Anatrace;UDAO.pdb;;CCCCCCCCCCC[N+](C)(C)[O-]
+;;TDAO;275.8;[0,0,1];n-Tetradecyl-N,N-Dimethylamine-N-Oxide;C16H35NO;257.5;0.29;-;Anatrace;TDAO.pdb;;CCCCCCCCCCCCCC[N+](C)(C)[O-]
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;lipids;DMPC;661.8;[0.4,0,0];1,2-Dimyristoyl-sn-Glycero-3-Phosphocholine ;C36H72NO8P;677.9;;;;DMPC.pdb;;CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCC
+;;DPPC;722.9;[0.4,0,0];1,2-Dihexadecanoyl-sn-Glycero-3-Phosphocholine;C40H80NO8P;734.039;;;;DPPC.pdb;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCCCC
+;;DOPC;779.8;[0.4,0,0];1,2-Dioleoyl-sn-Glycero-3-Phosphocholine;C44H84NO8P;786.113;;;;DOPC.pdb;;CCCCCCCCC=CCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC
+;;POPE;706.3;[0.4,0,0];1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphoethanolamine;C39H76NO8P;717.996;;;;POPE.pdb;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCCN)OC(=O)CCCCCCCC=CCCCCCCCC
+;;DMPG;641.6;[0.4,0,0];1,2-Dimyristoyl-sn-Glycero-3-[Phospho-rac-(1-Glycerol)];C34H66NaO10P;688.9;;;;DMPG.pdb;;CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC(CO)O)OC(=O)CCCCCCCCCCCCC.[Na+]
+;;POPC;750.4;[0.4,0,0];1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphocholine;C42H82NO8P;760.076;;;;POPC.pdb;;CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;thio glucosides et maltosides ;LTM;467.2;[1,0.5,0.5];n-Dodecyl-β-D-Thiomaltopyranoside;C24H46O10S;526.6;0.05;126;Anatrace ;LTM.pdb;;CCCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;UTM;450.8;[1,0.5,0.5];n-Undecyl-β-D-Thiomaltopyranoside;C23H44O10S;512.7;0.21;106;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract.;UTM.pdb;;CCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;DTG;311.7;[1,0.5,0.5];n-Decyl-β-D-Thioglucopyranoside;C16H32O5S;336.4;0.9;;Anatrace;DTG.pdb;;CCCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
+;;DTM;430.1;[1,0.5,0.5];n-Decyl-β-D-Thiomaltopyranoside;C22H42O10S;498.6;0.9;75;Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract;DTM.pdb;;CCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;HTG;264.9;[1,0.5,0.5];n-Heptyl-β-D-Thioglucopyranoside;C13H26O5S;294.4;29;27;Anatrace ;HTG.pdb;;CCCCCCCSC1C(C(C(C(O1)CO)O)O)O
+;;NTG;294.8;[1,0.5,0.5];n-Nonyl-β-D-Thioglucopyranoside;C15H30O5S;322.4;2.9;-;Anatrace;NTG.pdb;;CCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
+;;NTM;421.4;[1,0.5,0.5];n-Nonyl-β-D-Thiomaltopyranoside;C21H40O10S;484.6;3.2;;Anatrace ;NTM.pdb;;CCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;OTG;280.6;[1,0.5,0.5];n-Octyl-β-D-Thioglucopyranoside;C14H28O5S;308.4;9;-;Saito, S. and Tsuchiya, T. (1984) Biochem. J. 222, 829-832;OTG.pdb;;CCCCCCCCSC1C(C(C(C(O1)CO)O)O)O
+;;OTM;403.7;[1,0.5,0.5];n-Octyl-β-D-Thiomaltopyranoside;C20H38O10S;470.6;8.5;-;Anatrace ;OTM.pdb;;CCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O
+;;;;;;;;;;;;;
+;;Amphipol A8-35;-;[0,0,0];Amphipol A8-35;(C6.2H10.3O1.35N0.65Na0.35)~72;9 kDa;;;Zoonens & Popot, J. Membr. Biol. 247:759-796, 2014;;;-
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;Calixarènes;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;DCOD;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;;;;;;;;;;;;
+;;8;280,4;;;;;;;;;;
+;;9;293,7;;;;;;;;;;
+;;10;308,9;;;;;;;;;;
+;;11;323,9;;;;;;;;;;
+;;12;344;;;;;;;;;;
+;;13;354,9;;;;;;;;;;
+;;14;385,9;;;;;;;;;;
+;;15;385,4;;;;;;;;;;
+;;16;400,5;;;;;;;;;;
