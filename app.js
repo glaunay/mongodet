@@ -42,7 +42,7 @@ app.use('/getHeader',function (req, res, next) {
 	next();
 });
 app.use('/getTable',function (req, res, next) {
-	res.send("<table id='detable' class='display' cellspacing='0' width='100%''>"
+	res.send("<table id='detable' class='cell-border' cellspacing='0' width='100%''>"
 		+"<thead> <tr> <th>Category</th> <th>Name</th> <th>Volum</th>"
 		+"<th>Color</th> </tr> </thead> <tfoot> <tr> <th>Category</th>"
 		+"<th>Name</th> <th>Volum</th> <th>Color</th> </tr> </tfoot> </table>")
@@ -66,7 +66,7 @@ MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
 */
 
 app.listen(3000, function () {
-	console.log('Example app listening on port 3000!')
+	console.log('mongodet server listening on port 3000!')
 })
 /*
 var readJson=function(path) {

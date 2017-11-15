@@ -1,44 +1,38 @@
 $(document).ready(function() {
-	// Get the header of page with title
-	var getHead = new XMLHttpRequest();
-	getHead.onreadystatechange=function() {
-	if (this.readyState == 4 && this.status == 200) {
-		$("header").html(this.responseText);
-		}
-	};
-	getHead.open("GET", "/getHeader", true);
-	getHead.send();
 	
+	// Logo which show the missing value in DataTable
+	var alertLogo = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>'
+
+	// Get the header of page with title
+	$.get("/getHeader", function(data, status){
+		$("header").html(data);
+	});
+
 	// Get the table field with data
-	var getTab = new XMLHttpRequest();
-	getTab.onreadystatechange=function() {
-	if (this.readyState == 4 && this.status == 200) {
-		$("#table").html(this.responseText);
-		// Initialize DataTable with options
-		$('#detable').DataTable( {
+	$.get("/getTable", function(data, status){
+		// Initialise DataTables with column names
+		$("#table").html(data);
+		// Insert data into DataTable with options
+		var table = $('#detable').DataTable( {
 			"processing": true,
-			"serverSide": false,
+			"scrollX": true,
 			"ajax": "data/det.json",
 			"columns": [
-				{ "data": "category" },
-				{ "data": "name" },
-				{ "data": "vol" },
-				{ "data": "color" }
+				{ "data": "category", "defaultContent": alertLogo },
+				{ "data": "name", "defaultContent": alertLogo },
+				{ "data": "vol", "defaultContent": alertLogo },
+				{ "data": "color", "defaultContent": alertLogo }
 			]
 		} );
-		}
-	};
-	getTab.open("GET", "/getTable", true);
-	getTab.send();
+	});
 
+	// Get info from row where clicked
+	$('#detable').on('click', 'tr', function () {
+		var data = table.row( this ).data();
+		console.log(data[0]);
+		console.log("I'm here!");
+	} );
+	
 	document.getElementById("text").innerHTML = "Ici y aura du texte explicatif";
-
-	// button for jQuery testing
-	$("#btn1").click(function(){
-		$("#text").append(" <b>Appended text</b>.");
-	});
-	$("#btn2").click(function(){
-		$("#text").empty();
-	});
 
 } );
