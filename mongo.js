@@ -1,6 +1,6 @@
 //HTML part
 
-var babel = require('babel-polyfill');
+//var babel = require('babel-polyfill');
 var express = require('express');
 var jsonfile = require('jsonfile');
 var path = require('path');
