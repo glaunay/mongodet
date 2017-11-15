@@ -112,6 +112,31 @@ var Json_new_to_old = function(path) {
 
 
 
+
+//Function to insert JSON file in database 
+	var insertData = function(path, db) {
+		var dict = Json_old_to_new(path);
+		for(var i=0; i<dict.data.length; i++){
+			var detergent = dict.data[i];
+			var check = checkConditions(detergent);
+			if(check == true){ //if conditions are check
+				db.collection('det').insert(detergent, function(err,docsInserted){
+    				console.log(docsInserted);
+				});
+				//console.log(detergent._id, ' : The detergent has been added to the database');
+			}
+			else{
+				//console.log(detergent._id, ' : ', checkConditions(detergent));
+			}
+		}	
+	}
+
+
+
+
+//MONGODB
+
+
 var MongoClient = require('mongodb').MongoClient;
 
 MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
@@ -119,29 +144,13 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	throw err;
 	}
 
+	insertData(__dirname+"/data/detergents.json", db); 
 
-	//Function to insert JSON file in database 
-	var insertData = function(path) {
-		var dict = Json_old_to_new(path);
-		for(var i=0; i<dict.data.length; i++){
-			var detergent = dict.data[i];
-			var check = checkConditions(detergent);
-			if(check == true){ //if conditions are check
-				db.collection('det').insert(detergent);
-				console.log(detergent._id, ' : The detergent has been added to the database');
-			}
-			else{
-				console.log(detergent._id, ' : ', checkConditions(detergent));
-			}
-		}	
-	}
-
-	insertData(__dirname+"/data/detergents.json"); 
-
-	
 });
 
-module.exports{
-	insertData : insertData
+
+module.exports = {
+	insertData: insertData
 }
+
 
