@@ -13,12 +13,14 @@ file_test = open("./test/data.csv", "r")
 def normalize_colors(a):
 	l_color = a.split(",")
 	if len(l_color)==3:
-		l_color[0]=int(l_color[0].replace("[",""))
-		l_color[1]=int(l_color[1])
-		l_color[2]=int(l_color[2].replace("]",""))
+		l_color[0]=float(l_color[0].replace("[",""))
+		l_color[1]=float(l_color[1])
+		l_color[2]=float(l_color[2].replace("]",""))
 		for i in range(len(l_color)):
-			if int(l_color[i])>1:
-				l_color[i]=round(float(l_color[i])/255,2)	
+			if l_color[0] <= 1 and l_color[1] <=1 and l_color[2]<=1:
+				l_color[0]*=255
+				l_color[1]*=255
+				l_color[2]*=255			
 		return(str(l_color));
 	else:
 		print("not a RGB color")
@@ -89,11 +91,8 @@ def write_res(f):
 				if j == 1:
 					file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
 				elif j == 2:
-					try:
-						res[i][j+2]=normalize_colors(res[i][j+2])
-						file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
-					except:
-						file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
+					res[i][j+2]=normalize_colors(res[i][j+2])
+					file_res.write("\""+columns[j]+"\" : "+ res[i][j+2]+",")
 				elif j==5 or j==6 or j==7 :
 					try:
 						float(res[i][j+2])
