@@ -59,22 +59,7 @@ app.use('/getTable',function (req, res, next) {
 });
 
 app.use('/loadTab',function (req, res, next) {
-	let donnees = {	"title" : "Detergetent data",
-		"date" : "last modificiation date 2017-07-27",
-		"author" : "G.Launay & V.Chaptal",
-		"data":
-		[{ "category" : "maltoside", "_id" : "OM", "vol" : 391.1, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "NM", "vol" : 408.9, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "DM", "vol" : 424.1, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "UDM", "vol" : 437, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "DDM", "vol" : 453, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "TriDM", "vol" : 465.9, "color" : [0,1,0]},
-		{ "category" : "maltoside", "_id" : "TDM", "vol" : 483.6, "color" : [0,1,0]},
-		{ "category" : "neopentyl-glycol", "_id" : "LMNG", "vol" : 885.7, "color" : [1,0.6,0.6]},
-		{ "category" : "neopentyl-glycol", "_id" : "DGNG", "vol" : 568.7, "color" : [1,0.6,0.6]},
-		{ "category" : "neopentyl-glycol", "_id" : "OGNG", "vol" : 504.9, "color" : [1,0.6,0.6]},
-		{ "category" : "cholesterol derivative", "_id" : "Cholate", "vol" : 367.5, "color" : [255,0,255]}]
-	};
+	let donnees = mongo.test();
 	res.send(donnees);
 	next();
 });
