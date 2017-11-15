@@ -59,7 +59,7 @@ app.use('/getTable',function (req, res, next) {
 });
 
 app.use('/loadTab',function (req, res, next) {
-	let donnees = mongo.test();
+	let donnees = {"data":mongo.test()};
 	res.send(donnees);
 	next();
 });
