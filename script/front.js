@@ -16,13 +16,22 @@ $(document).ready(function() {
 		var table = $('#detable').DataTable( {
 			"processing": true,
 			"scrollX": true,
-			"ajax": "data/det.json",
+			"ajax": { "url": "/loadTab" },
 			"columns": [
 				{ "data": "category", "defaultContent": alertLogo },
-				{ "data": "name", "defaultContent": alertLogo },
+				{ "data": "_id", "defaultContent": alertLogo },
 				{ "data": "vol", "defaultContent": alertLogo },
 				{ "data": "color", "defaultContent": alertLogo }
-			]
+			],
+			"aoColumnDefs": [ {
+				"aTargets": [3],
+				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+					let detColor = "rgb(" + String(sData) + ")"
+					$(nTd).html('<i class="fa fa-cc-amex" aria-hidden="true"></i>')
+					$(nTd).css('color', detColor)
+					console.log(sData)
+				}
+			} ]
 		} );
 	});
 
