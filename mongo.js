@@ -6,6 +6,7 @@ var jsonfile = require('jsonfile');
 var path = require('path');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
+var ObjectId = require('mongodb').ObjectID;
 
 var app = express();
 var fs = require('fs');
@@ -112,34 +113,48 @@ var Json_new_to_old = function(path) {
 
 
 //Function to insert JSON file in database 
-	var insertData = function(path, db) {
-		var dict = Json_old_to_new(path);
-		var list = [];
-		var list2 = []
+var insertData = function(path, db) {
+	var dict = Json_old_to_new(path);
+	var list = [];
+	var list2 = []
 
-		for(var i=0; i<dict.data.length; i++){
-			var detergent = dict.data[i];
-			var check = checkConditions(detergent);
+	for(var i=0; i<dict.data.length; i++){
+		var detergent = dict.data[i];
+		var check = checkConditions(detergent);
 
-			if(check == true){ //if conditions are check
-				db.collection('det').insert(detergent, function(err,result){
-					if(err){
-						if (err.code == 11000) {
-    					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
-    					list.push(nameDet);
-    					console.log(nameDet, ': The detergent name must be unique');
-    					}
+		if(check == true){ //if conditions are check
+			db.collection('det').insert(detergent, function(err,result){
+				if(err){
+					if (err.code == 11000) {
+					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
+					list.push(nameDet);
+					console.log(nameDet, ': The detergent name must be unique');
 					}
-				});
-			}
-
-			else{
-				list.push(detergent._id);
-				console.log(detergent._id, ' : ', checkConditions(detergent));
-			}
+				}
+			});
 		}
-		console.log('Insertion of detergents is finish !')
+
+		else{
+			list.push(detergent._id);
+			console.log(detergent._id, ' : ', checkConditions(detergent));
+		}
 	}
+	console.log('Insertion of detergents is finish !')
+}
+
+
+
+//Function to delete a detergent
+var deleteDet = function(db, idDet){
+	db.collection('det').deleteOne({'_id' : idDet}, function(err, result) {
+	    if (err){
+	    	throw err;
+	    }
+	    else{
+	    	console.log(idDet, ': The detergent has been removed');    
+		}
+    });
+}
 
 
 
@@ -159,11 +174,15 @@ var MongoClient = require('mongodb').MongoClient;
 
 MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	if (err) {
-	throw err;
+		throw err;
 	}
 
-	insertData(__dirname+"/data/detergents.json", db); 
+	//insertData(__dirname+"/data/res.json", db); 
 	//test();
+
+	deleteDet(db,'DDM');
+
+	//db.collection('det').deleteOne({'_id' : 'DM'});
 
 });
 
