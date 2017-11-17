@@ -29,10 +29,6 @@ var checkConditionsInsert = function(detergent){
 		check = 'The detergent name must be filled with string type';
 		return check;
 	}
-	if (typeof(detergent.complete_name) != 'string' || detergent.complete_name == 'null'){ //A MODIFIER ?
-		check = 'The detergent complete name must be filled with string type';
-		return check;
-	}
 	if (typeof(detergent.vol) != 'number' || detergent.vol == 'null'){
 		check = 'The detergent volume must be filled with number type';
 		return check;
@@ -52,12 +48,6 @@ var checkConditionsUpdate = function(key, value){
 	if(key == 'category'){
 		if(typeof(value) != 'string' || value == 'null'){
 			check = 'The detergent category must be filled with string type';
-			return check;
-		}
-	}
-	if(key == 'complete_name'){
-		if (typeof(value) != 'string' || value == 'null'){ //A MODIFIER ?
-			check = 'The detergent complete name must be filled with string type';
 			return check;
 		}
 	}
@@ -208,9 +198,10 @@ var insertDet = function(db, det){
 
 
 
-//Function to modify a detegent (input : id like "OM", key like "categorie" and value like "maltoside")
+//Function to modify a detegent (input : id like "OM", key like "categorie" and value1 like "maltoside")
+//value2 is the value that replace the first (value1)
 var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
-	check = true;
+	check = true
 	if(key == '_id'){
 		console.log('The name of the detergent can\'t be update')
 		check = false;
@@ -219,16 +210,24 @@ var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value 
 		if(key == 'color'){
 			modifyColor(value);
 		}
-		if(key == 'category' || key == 'complete_name' || key == 'vol' || key == 'color'){
+		if(key == 'category' || key == 'vol' || key == 'color'){
 			check = checkConditionsUpdate(key, value);
 		}
 
 		if(check == true){
-			//MODIFICATION
+			db.collection('det').find({'_id' : id}).toArray((err, result) => {
+				if(err){
+					throw err;
+				}
+				if(result.length == 1){
+					var newval = {};
+					newval[key] = value;
+					db.collection('det').update({'_id' : id},{$set:newval});	
+					console.log('The database has been update');
+				}
+			})
 		}
-
 	}
-	console.log(key);
 }
 
 
@@ -255,8 +254,11 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 	//insertData(db, __dirname+"/data/res.json"); 
 	//test();
 	//deleteDet(db,'DDM');
-	//var toto = { "_id" : "TUTU", "complete_name" : "tititititii", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
+	//var toto = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
 	//insertDet(db, toto);
+	modifyDet(db, 'OM', 'vol', 419);
+
+	//db.collection('det').update({'_id' : 'OM'},{$set:{'vol' : 430}});
 
 
 });
