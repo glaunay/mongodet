@@ -1,6 +1,6 @@
 //HTML part
 
-//var babel = require('babel-polyfill');
+var babel = require('babel-polyfill');
 var express = require('express');
 var jsonfile = require('jsonfile');
 var path = require('path');
@@ -18,8 +18,8 @@ module.exports = app;
 //FUNCTIONS
 
 
-//Function to check conditions
-var checkConditions = function(detergent){
+//Function to check conditions for insert detergents
+var checkConditionsInsert = function(detergent){
 	var check = true;
 	if(typeof(detergent.category) != 'string' || detergent.category == 'null'){
 		check = 'The detergent category must be filled with string type';
@@ -27,6 +27,10 @@ var checkConditions = function(detergent){
 	}
 	if (typeof(detergent._id) != 'string' || detergent.name == 'null'){
 		check = 'The detergent name must be filled with string type';
+		return check;
+	}
+	if (typeof(detergent.complete_name) != 'string' || detergent.complete_name == 'null'){ //A MODIFIER ?
+		check = 'The detergent complete name must be filled with string type';
 		return check;
 	}
 	if (typeof(detergent.vol) != 'number' || detergent.vol == 'null'){
@@ -42,13 +46,45 @@ return check;
 
 
 
+//Function to check conditions for update detergents
+var checkConditionsUpdate = function(key, value){
+	var check = true;
+	if(key == 'category'){
+		if(typeof(value) != 'string' || value == 'null'){
+			check = 'The detergent category must be filled with string type';
+			return check;
+		}
+	}
+	if(key == 'complete_name'){
+		if (typeof(value) != 'string' || value == 'null'){ //A MODIFIER ?
+			check = 'The detergent complete name must be filled with string type';
+			return check;
+		}
+	}
+	if(key == 'vol'){
+		if (typeof(value) != 'number' || value == 'null'){
+			check = 'The detergent volume must be filled with number type';
+			return check;
+		}
+	}
+	if(key == 'color'){
+		if (typeof(value) != 'object' || value != 3) {
+			check = 'The detergent color must be a list of 3 values';
+			return check;
+		}
+	}
+
+	return check;
+}
+
+
 //Function to normalize colors
 var modifyColor = function(detergent){
-	if (detergent.color[0] >= 0 && detergent.color[1] >= 0 && detergent.color[2] >= 0  //A VERIFIER 
-	&& detergent.color[0] <= 1 && detergent.color[1] <= 1 && detergent.color[2] <= 1){
-		detergent.color[0] = detergent.color[0]*255;
-		detergent.color[1] = detergent.color[1]*255;
-		detergent.color[2] = detergent.color[2]*255;
+	if (detergent[0] >= 0 && detergent[1] >= 0 && detergent[2] >= 0  //A VERIFIER 
+	&& detergent[0] <= 1 && detergent[1] <= 1 && detergent[2] <= 1){
+		detergent[0] = detergent[0]*255;
+		detergent[1] = detergent[1]*255;
+		detergent[2] = detergent[2]*255;
 	}
 }
 
@@ -66,16 +102,13 @@ var Json_old_to_new = function(path) {
 			det.category = Object.keys(dict.data)[i];
 			det['_id'] = det['name']; //Rename key 'name' to '_id'
 			delete det['name'];
-			modifyColor(det); //Normalization of colors
+			modifyColor(det.color); //Normalization of colors
 			write.push(det);
 		}
 	}
 	dict.data = write; //replace "data" values
 	return dict;
 }
-
-
-
 
 
 
@@ -113,21 +146,18 @@ var Json_new_to_old = function(path) {
 
 
 //Function to insert JSON file in database 
-var insertData = function(path, db) {
+var insertData = function(db, path) {
 	var dict = Json_old_to_new(path);
-	var list = [];
-	var list2 = []
 
 	for(var i=0; i<dict.data.length; i++){
 		var detergent = dict.data[i];
-		var check = checkConditions(detergent);
+		var check = checkConditionsInsert(detergent);
 
 		if(check == true){ //if conditions are check
 			db.collection('det').insert(detergent, function(err,result){
 				if(err){
 					if (err.code == 11000) {
 					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
-					list.push(nameDet);
 					console.log(nameDet, ': The detergent name must be unique');
 					}
 				}
@@ -135,8 +165,7 @@ var insertData = function(path, db) {
 		}
 
 		else{
-			list.push(detergent._id);
-			console.log(detergent._id, ' : ', checkConditions(detergent));
+			console.log(detergent._id, ' : ', checkConditionsInsert(detergent));
 		}
 	}
 	console.log('Insertion of detergents is finish !')
@@ -144,7 +173,7 @@ var insertData = function(path, db) {
 
 
 
-//Function to delete a detergent
+//Function to delete a detergent (input : var with the _id of the detergent)
 var deleteDet = function(db, idDet){
 	db.collection('det').deleteOne({'_id' : idDet}, function(err, result) {
 	    if (err){
@@ -154,6 +183,52 @@ var deleteDet = function(db, idDet){
 	    	console.log(idDet, ': The detergent has been removed');    
 		}
     });
+}
+
+
+
+//Function to add a new detergent (input : var like { "_id" : "OM", "vol" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
+var insertDet = function(db, det){
+	modifyColor(det);
+	console.log(det);
+	check = checkConditionsInsert(det);
+	if(check == true){
+		db.collection('det').insert(det, function(err,result){
+			if(err){
+				if (err.code == 11000) {
+				console.log('The detergent name must be unique');
+				}
+			}
+			else{
+				console.log('The detergent has been added');
+			}
+		});
+	}
+}
+
+
+
+//Function to modify a detegent (input : id like "OM", key like "categorie" and value like "maltoside")
+var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
+	check = true;
+	if(key == '_id'){
+		console.log('The name of the detergent can\'t be update')
+		check = false;
+	}
+	else{
+		if(key == 'color'){
+			modifyColor(value);
+		}
+		if(key == 'category' || key == 'complete_name' || key == 'vol' || key == 'color'){
+			check = checkConditionsUpdate(key, value);
+		}
+
+		if(check == true){
+			//MODIFICATION
+		}
+
+	}
+	console.log(key);
 }
 
 
@@ -177,12 +252,12 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		throw err;
 	}
 
-	//insertData(__dirname+"/data/res.json", db); 
+	//insertData(db, __dirname+"/data/res.json"); 
 	//test();
+	//deleteDet(db,'DDM');
+	//var toto = { "_id" : "TUTU", "complete_name" : "tititititii", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
+	//insertDet(db, toto);
 
-	deleteDet(db,'DDM');
-
-	//db.collection('det').deleteOne({'_id' : 'DM'});
 
 });
 
