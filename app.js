@@ -1,6 +1,10 @@
 var express = require('express');
 var jsonfile = require('jsonfile')
 var mongo = require('./mongo');
+var {spawn} = require('child_process')
+
+
+const child = spawn('mongod'); // find a way to shut it when out of the program
 
 
 //Partie HTML
