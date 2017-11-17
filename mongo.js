@@ -279,14 +279,13 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 module.exports = {
 	test: test
 }
-
 */
 //To return the database
 module.exports = {
   	FindinDet: function() {
     	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
       		var collection = db.collection('det');
-    		var items = collection.find().toArray();
+    		return collection.find().toArray();
     	}).then(function(items) {
       		console.log(items);
      		return items;
@@ -294,7 +293,5 @@ module.exports = {
   	}
 
 };
-
-
 
 
