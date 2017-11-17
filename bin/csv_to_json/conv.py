@@ -3,8 +3,36 @@
 
 import csv
 import datetime
+import sys
 
-file_test = open("./test/data.csv", "r")
+
+#################################
+#####  Arguments function  ######
+#################################
+def get_arg():
+	arg_l=[]
+	for arg in sys.argv: 
+		arg_l.append(arg)
+	return(arg_l)
+
+def input_file():
+	args=get_arg()
+	if args[1]=="-i" or args[1]=="--input":
+		return(args[2])
+	else:
+		return(args[1]+" is not a correct argument, use -i or --input to choose the file to convert")
+
+def output_file():
+	args=get_arg()
+	try:
+		if args[3]=="-o" or args[3]=="--output":
+			return(args[4])
+		elif args[3]!="-o" or args[3]!="--output":
+			print(args[3]+" is not a correct argument, use -o or --output to choose the path of the converted file, result will be saved in ./res.json")
+			return("./res.json")
+	except:
+		print("no output file chosen, result will be saved in ./res.json")
+		return("./res.json")
 
 #################################
 ######  Usefull functions  ######
@@ -139,9 +167,13 @@ TO DO:
 """
 ###### Main program #######
 
-res=clean_file(file_test)
-output="./res.json"
+#file_test = open("./test/data.csv", "r")
+to_convert=input_file()
+f=open(to_convert,"r")
+output=output_file()
+res=clean_file(f)
 write_res(output)
+
 
 
 ###########################
