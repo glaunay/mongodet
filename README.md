@@ -37,13 +37,7 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 ### Import data into mongoDB
 
-To import data into mongoDB, you must first open a console and run the following command line:
-
-```
-mongod
-```
-
-Then open another console and run the following command lines:
+To import data into mongoDB, you must open a console and run the following command lines:
 
 ```
 mongo
@@ -53,11 +47,6 @@ mongo
 use det
 ```
 
-Finally open another terminal and run the following command line locating at the root of the project. The function 'inserJson' of the 'script.js' file will fill the database with the detergents.json file located in the data folder
-
-```
-node script.js
-```
 You can now see in the console of Node.js the result of the insertion.
 
 
