@@ -259,7 +259,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		throw err;
 	}
 
-	//insertData(db, __dirname+"/data/res.json"); 
+	//insertData(db, __dirname+"/bin/csv_to_json/res.json"); 
 	//test();
 	//deleteDet(db,'DDM');
 	//var toto = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
@@ -275,23 +275,24 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 
 
 //EXPORT
-
-/*module.exports = {
+/*
+module.exports = {
 	test: test
-}*/
+}
 
-
+*/
 //To return the database
 module.exports = {
   	FindinDet: function() {
     	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
       		var collection = db.collection('det');
-    		return collection.find().toArray();
+    		var items = collection.find().toArray();
     	}).then(function(items) {
       		console.log(items);
      		return items;
     	});
   	}
+
 };
 
 

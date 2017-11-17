@@ -23,7 +23,17 @@ $(document).ready(function() {
 				{ "data": "category", "defaultContent": alertLogo },
 				{ "data": "_id", "defaultContent": alertLogo },
 				{ "data": "vol", "defaultContent": alertLogo },
-				{ "data": "color", "defaultContent": alertLogo }
+				{ "data": "color", "defaultContent": alertLogo },
+				{ "data": "complete name", "defaultContent": alertLogo },
+				{ "data": "Molecular formula", "defaultContent": alertLogo },
+				{ "data": "MM", "defaultContent": alertLogo },
+				{ "data": "CMC (mM)", "defaultContent": alertLogo },
+				{ "data": "Aggregation number", "defaultContent": alertLogo },
+				{ "data": "Ref", "defaultContent": alertLogo },				
+				{ "data": "PDB file", "defaultContent": alertLogo },
+				{ "data": "detergent image", "defaultContent": alertLogo },
+				{ "data": "SMILES", "defaultContent": alertLogo },
+
 			],
 			"aoColumnDefs": [ {
 				"aTargets": [3],
