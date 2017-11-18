@@ -1,13 +1,8 @@
 //HTML part
 
-var babel = require('babel-polyfill');
 var express = require('express');
 var jsonfile = require('jsonfile');
 var path = require('path');
-var favicon = require('serve-favicon');
-var bodyParser = require('body-parser');
-var ObjectId = require('mongodb').ObjectID;
-
 var app = express();
 var fs = require('fs');
 
@@ -81,14 +76,18 @@ var modifyColor = function(detergent){
 	
 
 //Function to modify JSON file in a new format 
-var Json_old_to_new = function(path) {
+var Json_detBelt_mongo = function(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	var write = [];
+
+	var values = Object.keys(dict.data).map(function(key) {
+    	return dict.data[key];
+	});
 	
-	for(i=0; i<Object.values(dict.data).length; i++){ //for each class
+	for(i=0; i<values.length; i++){ //for each class
 	
-		for(j=0; j<Object.values(dict.data)[i].length; j++){ //for each detergent
-			var det = Object.values(dict.data)[i][j];
+		for(j=0; j<values[i].length; j++){ //for each detergent
+			var det = values[i][j];
 			det.category = Object.keys(dict.data)[i];
 			det['_id'] = det['name']; //Rename key 'name' to '_id'
 			delete det['name'];
@@ -103,21 +102,26 @@ var Json_old_to_new = function(path) {
 
 
 //Function to modify new JSON file in the old format 
-var Json_new_to_old = function(path) {
+var Json_mongo_detBelt = function(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	var write = [];
 	var category = [];
 	var counter = 0;
 	var tempo = '';
+
+	var values = Object.keys(dict.data).map(function(key) {
+    	return dict.data[key];
+	});
 	
-	for(i=0; i<Object.values(dict.data).length; i++){ //for each detergent
+	for(i=0; i<values.length; i++){ //for each detergent
 		if(category.includes(dict.data[i].category) == false){ //if it's a new detergent class
 			category.push(dict.data[i].category);
 			delete dict.data[i].category
 			write[category[counter]] = [dict.data[i]];
 			counter += 1;
 
-		}else{
+		}
+		else{
 			for(j=0; j<Object.keys(write).length; j++){
 				if(dict.data[i].category == Object.keys(write)[j]){ //else
 					tempo = dict.data[i].category;
@@ -137,7 +141,7 @@ var Json_new_to_old = function(path) {
 
 //Function to insert JSON file in database 
 var insertData = function(db, path) {
-	var dict = Json_old_to_new(path);
+	var dict = Json_detBelt_mongo(path);
 
 	for(var i=0; i<dict.data.length; i++){
 		var detergent = dict.data[i];
@@ -232,14 +236,6 @@ var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value 
 
 
 
-//Function to return all the base
-var database = function database(db){
-	var collection = db.collection('det');
-	return 
-}
-
-
-
 //Function for a test
 var test = function test(){
 	var list = [{ "_id" : "OM", "vol" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "vol" : 408.9, "color" : [0,255,0], "category" : "maltoside"}];
@@ -259,14 +255,13 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		throw err;
 	}
 
+	det = db.getSiblingDB("det");
+
 	//insertData(db, __dirname+"/bin/csv_to_json/res.json"); 
-	//test();
 	//deleteDet(db,'DDM');
 	//var toto = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
 	//insertDet(db, toto);
 	//modifyDet(db, 'OM', 'vol', 419);
-
-
 
 });
 
@@ -275,11 +270,12 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 
 
 //EXPORT
-/*
-module.exports = {
+
+/*module.exports = {
 	test: test
-}
-*/
+}*/
+
+
 //To return the database
 module.exports = {
   	FindinDet: function() {
@@ -291,7 +287,8 @@ module.exports = {
      		return items;
     	});
   	}
-
 };
+
+
 
 
