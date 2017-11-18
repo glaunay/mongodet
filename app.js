@@ -70,13 +70,6 @@ app.use('/getHeader',function (req, res, next) {
 	next();
 });
 
-app.use('/getTable',function (req, res, next) {
-	res.send("<table id='detable' class='cell-border' cellspacing='0' width='100%''>"
-		+"<thead> <tr> <th>Category</th> <th>Name</th> <th>Volum</th>"
-		+"<th>Color</th><th>complete name</th><th>Molecular formula</th><th>MM</th><th>CMC (mM)</th><th>Aggregation number</th><th>Ref</th><th>PDB file</th><th>detergent image</th><th>SMILES</th></tr></thead> <tfoot> <tr> <th>Category</th>"
-		+"<th>Name</th> <th>Volum</th> <th>Color</th> <th>complete name</th><th>Molecular formula</th><th>MM</th><th>CMC (mM)</th><th>Aggregation number</th><th>Ref</th><th>PDB file</th><th>detergent image</th><th>SMILES</th></tr> </tfoot> </table>")
-	next();
-});
 
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
 	var donnees = {"data":mongo.FindinDet()};
@@ -98,11 +91,6 @@ app.post('/newDet',function (req, res) {
 app.use('/script', express.static(__dirname + '/script'));
 app.use('/data', express.static(__dirname + '/data'));
 app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
-
-app.use('/getHeader',function (req, res, next) {
-	res.send("<h1>Detergent Database CRUD Interface</h1>")
-	next();
-});
 
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
