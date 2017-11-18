@@ -106,17 +106,17 @@ $(document).ready(function() {
 	$("footer").html(
 		'<div id="flogo" class="w3-container w3-col m4 13">'+
 		'<a href="http://www.cnrs.fr/" target="_blank">'+
-		'<img src="/pic/logo_CNRS.png" alt="CNRS" height="100">'+
+		'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
 		'</a>'+
 		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank">'+
-		'<img src="/pic/logo_MMSB.png" alt="MMSB" height="100">'+
+		'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
 		'</a>'+
 		'<a href="https://www.univ-lyon1.fr/" target="_blank">'+
-		'<img src="/pic/logo_UCBL.png" alt="UCBL" height="100">'+
+		'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
 		'</a>'+
 		'</div>'+
 		'<div class="w3-container w3-small w3-col m8 19">'+
-		'<p>'+
+		'<p style="vertical-align:middle;">'+
 		'Contact :<br>'+
 		'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
 		'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
@@ -132,7 +132,16 @@ $(document).ready(function() {
 			"category": $("#categ").val(),
 			"_id": $("#dname").val(),
 			"vol": $("#volum").val(),
-			"color": rgbColor
+			"color": rgbColor,
+			"complete_name": $("#dcname").val(),
+			"Molecular_formula": $("#molform").val(),
+			"MM": $("#molmass").val(),
+			"CMC_(mM)": $("#cmc").val(),
+			"Aggregation_number": $("#aggnum").val(),
+			"Ref": $("#docref").val(),
+			"PDB_file": $("#pdbfile").val(),
+			"detergent_image": $("#detpic").val(),
+			"SMILES": $("#smiles").val()
 		});
 	}); 
 
