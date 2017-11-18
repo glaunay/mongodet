@@ -202,42 +202,30 @@ var insertDet = function insertDet(db, det){
 
 
 
-//Function to modify a detegent (input : id like "OM", key like "category" and value1 like "maltoside")
-//value2 is the value that replace the first (value1)
-var modifyDet = function modifyDet(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
+//Function to modify a detegent (input : id like "OM" and det is the document like { "_id" : "OM", "vol" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
+var modifyDet = function modifyDet(db, id, det){ //ATTENTION : if key = col, value must to be a list
 	check = true
-	if(key == '_id'){
-		console.log('The name of the detergent can\'t be update')
-		check = false;
+	modifyColor(det.color);
+	check = checkConditionsInsert(det);
+		
+	if(check == true){
+		db.collection('det').find({'_id' : id}).toArray((err, result) => {
+			if(err){
+				throw err;
+			}
+			if(result.length == 1){
+				db.collection('det').update({'_id' : id},{$set: det}, function(err,result){
+					if(err){
+						throw err;
+					}
+					else{
+						console.log('The database has been update');
+					}
+				});
+			}
+		})
 	}
-	else{
-		if(key == 'color'){
-			modifyColor(value);
-		}
-		if(key == 'category' || key == 'vol' || key == 'color'){
-			check = checkConditionsUpdate(key, value);
-		}
-
-		if(check == true){
-			db.collection('det').find({'_id' : id}).toArray((err, result) => {
-				if(err){
-					throw err;
-				}
-				if(result.length == 1){
-					var newval = {};
-					newval[key] = value;
-					db.collection('det').update({'_id' : id},{$set:newval}, function(err,result){
-						if(err){
-							throw err;
-						}
-						else{
-							console.log('The database has been update');
-						}
-					});
-				}
-			})
-		}
-	}
+	
 }
 
 
@@ -321,7 +309,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	//insertDet(db, newdet);
 
 	//Modify the volume of the 'OM' detergent
-	//modifyDet(db, 'OM', 'vol', 419);
+	//modifyDet(db, 'OM', {"_id" : "OM", "category":"maltosides","vol" : 20,"color" : [0.0, 255.0, 0.0],"complete_name" : "n-Octyl-β-D-Maltopyranoside","Molecular formula" : "C20H38O11","MM" : 454.4,"CMC (mM)" : 19.5,"Aggregation number" : 47,"Ref" : "Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University)","PDB file" : "OM.pdb","detergent image" : null,"SMILES" : "CCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O"});
 
 	//Delete a caracteristic for all detergent
 	//deleteCaract(db, 'color');
@@ -331,6 +319,18 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 
 	//Give all detgernts class
 	//detCategory(db);
+
+
+	/*mr = db.runCommand({
+		"mapreduce" : "my_collection",
+		"map" : function() {
+		for (var key in this) { emit(key, null); }
+		},
+		"reduce" : function(key, stuff) { return null; }, 
+		"out": "my_collection" + "_keys"
+	})
+
+	db[mr.result].distinct("_id")*/
 
 });
 
