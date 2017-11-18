@@ -226,12 +226,34 @@ var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value 
 				if(result.length == 1){
 					var newval = {};
 					newval[key] = value;
-					db.collection('det').update({'_id' : id},{$set:newval});	
-					console.log('The database has been update');
+					db.collection('det').update({'_id' : id},{$set:newval}, function(err,result){
+						if(err){
+							throw err;
+						}
+						else{
+							console.log('The database has been update');
+						}
+					});
 				}
 			})
 		}
 	}
+}
+
+
+
+//Function to delete a caracteristics of detergents
+var deleteCaract = function deleteCaract(db, caract){
+	var todelete = {};
+	todelete[caract] = 1;
+	db.collection('det').update({}, {$unset: todelete} , {multi: true}, function(err,result){
+			if(err){
+				throw err;
+			}
+			else{
+				console.log('The caracteristic has been delete for all detergents');
+			}
+	});
 }
 
 
@@ -266,8 +288,11 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	//var newdet = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
 	//insertDet(db, newdet);
 
-	//Modify the volume of th' 'OM' detergent
+	//Modify the volume of the 'OM' detergent
 	//modifyDet(db, 'OM', 'vol', 419);
+
+	//Delete a caracteristic for all detergent
+	//deleteCaract(db, 'color');
 
 });
 
@@ -299,7 +324,8 @@ module.exports = {
   	insertData : insertData,
   	deleteDet : deleteDet,
   	insertDet : insertDet,
-  	modifyDet : modifyDet
+  	modifyDet : modifyDet,
+  	deleteCaract : deleteCaract
 };
 
 
