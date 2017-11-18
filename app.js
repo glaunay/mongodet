@@ -85,12 +85,24 @@ app.use('/loadTab',function (req, res, next) {   /// to load the data in the dat
 });
 
 // intercept json from POST request
+
 app.use(bodyParser.urlencoded({
 		extended: true
 }));
+
 app.use(bodyParser.json());
+
 app.post('/newDet',function (req, res) {
-	console.log(req.body)
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+	if (err) {
+		throw err;
+	}
+	var to_insert = req.body;
+	mongo.insertDet(db,to_insert);
+	console.log(req.body);
+
+
+});
 });
 
 //Partie BD
