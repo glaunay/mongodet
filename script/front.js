@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	// Logo which show the missing value in DataTable
-	var alertLogo = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>'
+	var alertLogo = '<i class="fa fa-question-circle-o" aria-hidden="true"></i>'
 	// Logo which show the color of detergent
 	var colorLogo = '<i class="fa fa-heart" aria-hidden="true"></i>'
 
@@ -17,7 +17,7 @@ $(document).ready(function() {
 					"<th>Name</th>"+
 					"<th>Volum</th>"+
 					"<th>Color</th> "+
-					"<th>complete name</th>"+
+					"<th>Complete name</th>"+
 					"<th>Molecular formula</th>"+
 					"<th>MM</th>"+
 					"<th>CMC (mM)</th>"+
@@ -34,7 +34,7 @@ $(document).ready(function() {
 					"<th>Name</th>"+
 					"<th>Volum</th>"+
 					"<th>Color</th>"+
-					"<th>complete name</th>"+
+					"<th>Complete name</th>"+
 					"<th>Molecular formula</th>"+
 					"<th>MM</th>"+
 					"<th>CMC (mM)</th>"+
@@ -56,14 +56,14 @@ $(document).ready(function() {
 			{ "data": "_id", "defaultContent": alertLogo },
 			{ "data": "vol", "defaultContent": alertLogo },
 			{ "data": "color", "defaultContent": alertLogo },
-			{ "data": "complete name", "defaultContent": alertLogo },
-			{ "data": "Molecular formula", "defaultContent": alertLogo },
+			{ "data": "complete_name", "defaultContent": alertLogo },
+			{ "data": "Molecular_formula", "defaultContent": alertLogo },
 			{ "data": "MM", "defaultContent": alertLogo },
-			{ "data": "CMC (mM)", "defaultContent": alertLogo },
-			{ "data": "Aggregation number", "defaultContent": alertLogo },
+			{ "data": "CMC_(mM)", "defaultContent": alertLogo },
+			{ "data": "Aggregation_number", "defaultContent": alertLogo },
 			{ "data": "Ref", "defaultContent": alertLogo },				
-			{ "data": "PDB file", "defaultContent": alertLogo },
-			{ "data": "detergent image", "defaultContent": alertLogo },
+			{ "data": "PDB_file", "defaultContent": alertLogo },
+			{ "data": "detergent_image", "defaultContent": alertLogo },
 			{ "data": "SMILES", "defaultContent": alertLogo }
 
 		],
