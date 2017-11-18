@@ -72,10 +72,16 @@ app.use('/getHeader',function (req, res, next) {
 
 
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
-	var donnees = {"data":mongo.FindinDet()};
-	console.log(donnees)
-	res.send(donnees);
-	next();
+	mongo.FindinDet().then(function(items) {
+  var test = items;
+  //console.log({"data":test});
+  	res.send({"data":test});
+  	next();
+}, function(err) {
+  console.error('The promise was rejected', err, err.stack);
+});
+
+	
 });
 
 // intercept json from POST request
@@ -92,6 +98,8 @@ app.use('/script', express.static(__dirname + '/script'));
 app.use('/data', express.static(__dirname + '/data'));
 app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
 
+
+/*
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
 	if (err) {
@@ -104,15 +112,17 @@ MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
 		console.log(result);
 	});
 });
-
+*/
 /*
+var test =[];
 mongo.FindinDet().then(function(items) {
-  console.info('The promise was fulfilled with items!', items);
+  test = items;
+  console.log(test);
 }, function(err) {
   console.error('The promise was rejected', err, err.stack);
 });
-
 */
+
 //console.log(mongo.FindinDet())
 
 app.listen(3000, function () {
