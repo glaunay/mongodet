@@ -32,7 +32,7 @@ var checkConditionsInsert = function(detergent){
 		check = 'The detergent color must be a list of 3 values';
 		return check;
 	}
-return check;
+return check; //Return true if conditions are met
 }
 
 
@@ -59,13 +59,13 @@ var checkConditionsUpdate = function(key, value){
 		}
 	}
 
-	return check;
+	return check; //Return true if conditions are met
 }
 
 
-//Function to normalize colors
+//Function to normalize colors between 0 and 255
 var modifyColor = function(detergent){
-	if (detergent[0] >= 0 && detergent[1] >= 0 && detergent[2] >= 0  //A VERIFIER 
+	if (detergent[0] >= 0 && detergent[1] >= 0 && detergent[2] >= 0
 	&& detergent[0] <= 1 && detergent[1] <= 1 && detergent[2] <= 1){
 		detergent[0] = detergent[0]*255;
 		detergent[1] = detergent[1]*255;
@@ -143,14 +143,14 @@ var Json_mongo_detBelt = function(path) {
 var insertData = function(db, path) {
 	var dict = Json_detBelt_mongo(path);
 
-	for(var i=0; i<dict.data.length; i++){
+	for(var i=0; i<dict.data.length; i++){ //for each detergent
 		var detergent = dict.data[i];
 		var check = checkConditionsInsert(detergent);
 
 		if(check == true){ //if conditions are check
 			db.collection('det').insert(detergent, function(err,result){
 				if(err){
-					if (err.code == 11000) {
+					if (err.code == 11000) { //if _id is not unique
 					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
 					console.log(nameDet, ': The detergent name must be unique');
 					}
@@ -250,17 +250,23 @@ var test = function test(){
 
 var MongoClient = require('mongodb').MongoClient;
 
-MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
+//For do some tests
+MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
 	if (err) {
 		throw err;
 	}
 
-	//det = db.getSiblingDB("det");
+	//Insert the 'res.json' file in database
+	//insertData(db, __dirname+"/data/res.json");
 
-	//insertData(db, __dirname+"/bin/csv_to_json/res.json"); 
-	//deleteDet(db,'DDM');
-	//var toto = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
-	//insertDet(db, toto);
+	//Delete the 'OM' detergent
+	//deleteDet(db,'OM');
+
+	//Insert a new detergent
+	//var newdet = { "_id" : "TUTU", "vol" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
+	//insertDet(db, newdet);
+
+	//Modify the volume of th' 'OM' detergent
 	//modifyDet(db, 'OM', 'vol', 419);
 
 });
