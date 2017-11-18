@@ -98,8 +98,9 @@ app.post('/newDet',function (req, res) {
 		throw err;
 	}
 	var to_insert = req.body;
+	to_insert.vol=Number(to_insert.vol,10)
+	to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
 	mongo.insertDet(db,to_insert);
-	console.log(req.body);
 
 
 });
