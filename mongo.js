@@ -321,7 +321,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	//detCategory(db);
 
 
-	/*mr = db.runCommand({
+	/*mr = db.command({
 		"mapreduce" : "my_collection",
 		"map" : function() {
 		for (var key in this) { emit(key, null); }
@@ -331,6 +331,8 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	})
 
 	db[mr.result].distinct("_id")*/
+
+
 
 });
 
@@ -348,7 +350,7 @@ module.exports = {
       		var collection = db.collection('det');
     		return collection.find().toArray();
     	}).then(function(items) {
-      		console.log(items);
+      		//console.log(items);
      		return items;
     	});
   	},
