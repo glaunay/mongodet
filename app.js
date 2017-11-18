@@ -105,6 +105,17 @@ app.post('/newDet',function (req, res) {
 
 });
 });
+app.post('/removeDet',function (req, res) {
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+	if (err) {
+		throw err;
+	}
+	var to_delete = req.body;
+	//console.log(to_delete._id);
+	mongo.deleteDet(db,to_delete._id);
+
+});
+});
 
 //Partie BD
 app.use('/script', express.static(__dirname + '/script'));
