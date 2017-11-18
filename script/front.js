@@ -95,7 +95,7 @@ $(document).ready(function() {
 
 	// Sent detergent for removing by POST
 	$('#remove').click( function () {
-        $.post("/removeDet",JSON.stringify(table.row('.selected').data()));
+        $.post("/removeDet",table.row('.selected').data());
         //$('#suptest').html(JSON.stringify(table.row('.selected').data()));
     } );
 	
