@@ -255,7 +255,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		throw err;
 	}
 
-	det = db.getSiblingDB("det");
+	//det = db.getSiblingDB("det");
 
 	//insertData(db, __dirname+"/bin/csv_to_json/res.json"); 
 	//deleteDet(db,'DDM');
@@ -278,7 +278,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 
 //To return the database
 module.exports = {
-  	FindinDet: function() {
+  	FindinDet : function() {
     	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
       		var collection = db.collection('det');
     		return collection.find().toArray();
@@ -286,7 +286,14 @@ module.exports = {
       		console.log(items);
      		return items;
     	});
-  	}
+  	},
+
+  	Json_detBelt_mongo : Json_detBelt_mongo,
+  	Json_mongo_detBelt : Json_mongo_detBelt,
+  	insertData : insertData,
+  	deleteDet : deleteDet,
+  	insertDet : insertDet,
+  	modifyDet : modifyDet
 };
 
 
