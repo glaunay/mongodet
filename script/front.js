@@ -3,7 +3,7 @@ $(document).ready(function() {
 	// Logo which show the missing value in DataTable
 	var alertLogo = '<i class="fa fa-question-circle-o" aria-hidden="true"></i>'
 	// Logo which show the color of detergent
-	var colorLogo = '<i class="fa fa-heart" aria-hidden="true"></i>'
+	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>'
 
 	// Get the header of page with title
 	$("header").html("<h1>Detergent Database CRUD Interface</h1>");
@@ -71,19 +71,33 @@ $(document).ready(function() {
 			"aTargets": [3],
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 				let detColor = "rgb(" + String(sData) + ")"
-				$(nTd).html(colorLogo+colorLogo+colorLogo)
+				$(nTd).html(colorLogo)
 				$(nTd).css('color', detColor)
 			}
 		} ]
 	} );
 
+	$("#modif").append('<button id="remove">Remove selected</button>');
+	$("#remove").hide();
 
-	// Get info from row where clicked
-	$('#detable').on('click', 'tr', function () {
-		var data = table.row( this ).data();
-		console.log(data[0]);
-		console.log("I'm here!");
+	// Select row for deleting
+	$('#detable tbody').on( 'click', 'tr', function () {
+		if ( $(this).hasClass('selected') ) {
+			$(this).removeClass('selected');
+			$("#remove").hide();
+		}
+		else {
+			table.$('tr.selected').removeClass('selected');
+			$(this).addClass('selected');
+			$("#remove").show();
+		}
 	} );
+
+	// Sent detergent for removing by POST
+	$('#remove').click( function () {
+        $.post("/removeDet",JSON.stringify(table.row('.selected').data()));
+        //$('#suptest').html(JSON.stringify(table.row('.selected').data()));
+    } );
 	
 	// Subtitle content
 	$("#text").html("User-friendly front-end for MongoDB");
