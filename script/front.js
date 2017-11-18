@@ -6,35 +6,77 @@ $(document).ready(function() {
 	var colorLogo = '<i class="fa fa-heart" aria-hidden="true"></i>'
 
 	// Get the header of page with title
-	$.get("/getHeader", function(data, status){
-		$("header").html(data);
-	});
+	$("header").html("<h1>Detergent Database CRUD Interface</h1>");
 
-	// Get the table field with data
-	$.get("/getTable", function(data, status){
-		// Initialise DataTables with column names
-		$("#table").html(data);
-		// Insert data into DataTable with options
-		var table = $('#detable').DataTable( {
-			"processing": true,
-			"scrollX": true,
-			"ajax": { "url": "/loadTab" },
-			"columns": [
-				{ "data": "category", "defaultContent": alertLogo },
-				{ "data": "_id", "defaultContent": alertLogo },
-				{ "data": "vol", "defaultContent": alertLogo },
-				{ "data": "color", "defaultContent": alertLogo }
-			],
-			"aoColumnDefs": [ {
-				"aTargets": [3],
-				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-					let detColor = "rgb(" + String(sData) + ")"
-					$(nTd).html(colorLogo+colorLogo+colorLogo)
-					$(nTd).css('color', detColor)
-				}
-			} ]
-		} );
-	});
+	// Initialise DataTables with column names
+	$("#table").html(
+		"<table id='detable' class='cell-border' cellspacing='0' width='100%''>"+
+			"<thead>"+
+				"<tr>"+
+					"<th>Category</th>"+
+					"<th>Name</th>"+
+					"<th>Volum</th>"+
+					"<th>Color</th> "+
+					"<th>complete name</th>"+
+					"<th>Molecular formula</th>"+
+					"<th>MM</th>"+
+					"<th>CMC (mM)</th>"+
+					"<th>Aggregation number</th>"+
+					"<th>Ref</th>"+
+					"<th>PDB file</th>"+
+					"<th>detergent image</th>"+
+					"<th>SMILES</th>"+
+				"</tr>"+
+			"</thead>"+
+			"<tfoot>"+
+				"<tr>"+
+					"<th>Category</th>"+
+					"<th>Name</th>"+
+					"<th>Volum</th>"+
+					"<th>Color</th>"+
+					"<th>complete name</th>"+
+					"<th>Molecular formula</th>"+
+					"<th>MM</th>"+
+					"<th>CMC (mM)</th>"+
+					"<th>Aggregation number</th>"+
+					"<th>Ref</th>"+
+					"<th>PDB file</th>"+
+					"<th>detergent image</th>"+
+					"<th>SMILES</th>"+
+				"</tr>"+
+			"</tfoot>"+
+		"</table>");
+	// Insert data into DataTable with options
+	var table = $('#detable').DataTable( {
+		"processing": true,
+		"scrollX": true,
+		"ajax": { "url": "/loadTab" },
+		"columns": [
+			{ "data": "category", "defaultContent": alertLogo },
+			{ "data": "_id", "defaultContent": alertLogo },
+			{ "data": "vol", "defaultContent": alertLogo },
+			{ "data": "color", "defaultContent": alertLogo },
+			{ "data": "complete name", "defaultContent": alertLogo },
+			{ "data": "Molecular formula", "defaultContent": alertLogo },
+			{ "data": "MM", "defaultContent": alertLogo },
+			{ "data": "CMC (mM)", "defaultContent": alertLogo },
+			{ "data": "Aggregation number", "defaultContent": alertLogo },
+			{ "data": "Ref", "defaultContent": alertLogo },				
+			{ "data": "PDB file", "defaultContent": alertLogo },
+			{ "data": "detergent image", "defaultContent": alertLogo },
+			{ "data": "SMILES", "defaultContent": alertLogo }
+
+		],
+		"aoColumnDefs": [ {
+			"aTargets": [3],
+			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				let detColor = "rgb(" + String(sData) + ")"
+				$(nTd).html(colorLogo+colorLogo+colorLogo)
+				$(nTd).css('color', detColor)
+			}
+		} ]
+	} );
+
 
 	// Get info from row where clicked
 	$('#detable').on('click', 'tr', function () {
