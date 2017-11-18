@@ -38,7 +38,7 @@ return check; //Return true if conditions are met
 
 
 //Function to check conditions for update detergents
-var checkConditionsUpdate = function(key, value){
+var checkConditionsUpdate = function checkConditionsUpdate(key, value){
 	var check = true;
 	if(key == 'category'){
 		if(typeof(value) != 'string' || value == 'null'){
@@ -64,7 +64,7 @@ var checkConditionsUpdate = function(key, value){
 
 
 //Function to normalize colors between 0 and 255
-var modifyColor = function(detergent){
+var modifyColor = function modifyColor(detergent){
 	if (detergent[0] >= 0 && detergent[1] >= 0 && detergent[2] >= 0
 	&& detergent[0] <= 1 && detergent[1] <= 1 && detergent[2] <= 1){
 		detergent[0] = detergent[0]*255;
@@ -76,7 +76,7 @@ var modifyColor = function(detergent){
 	
 
 //Function to modify JSON file in a new format 
-var Json_detBelt_mongo = function(path) {
+var Json_detBelt_mongo = function Json_detBelt_mongo(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	var write = [];
 
@@ -102,7 +102,7 @@ var Json_detBelt_mongo = function(path) {
 
 
 //Function to modify new JSON file in the old format 
-var Json_mongo_detBelt = function(path) {
+var Json_mongo_detBelt = function Json_mongo_detBelt(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	var write = [];
 	var category = [];
@@ -140,7 +140,7 @@ var Json_mongo_detBelt = function(path) {
 
 
 //Function to insert JSON file in database 
-var insertData = function(db, path) {
+var insertData = function insertData(db, path) {
 	var dict = Json_detBelt_mongo(path);
 
 	for(var i=0; i<dict.data.length; i++){ //for each detergent
@@ -168,7 +168,7 @@ var insertData = function(db, path) {
 
 
 //Function to delete a detergent (input : var with the _id of the detergent)
-var deleteDet = function(db, idDet){
+var deleteDet = function deleteDet(db, idDet){
 	db.collection('det').deleteOne({'_id' : idDet}, function(err, result) {
 	    if (err){
 	    	throw err;
@@ -182,7 +182,7 @@ var deleteDet = function(db, idDet){
 
 
 //Function to add a new detergent (input : var like { "_id" : "OM", "vol" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
-var insertDet = function(db, det){
+var insertDet = function insertDet(db, det){
 	modifyColor(det);
 	console.log(det);
 	check = checkConditionsInsert(det);
@@ -202,9 +202,14 @@ var insertDet = function(db, det){
 
 
 
-//Function to modify a detegent (input : id like "OM", key like "categorie" and value1 like "maltoside")
+//Function that returns a list of all categories of detergents
+var detCategory
+
+
+
+//Function to modify a detegent (input : id like "OM", key like "category" and value1 like "maltoside")
 //value2 is the value that replace the first (value1)
-var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
+var modifyDet = function modifyDet(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
 	check = true
 	if(key == '_id'){
 		console.log('The name of the detergent can\'t be update')
@@ -242,7 +247,7 @@ var modifyDet = function(db, id, key, value){ //ATTENTION : if key = col, value 
 
 
 
-//Function to delete a caracteristics of detergents
+//Function to delete a caracteristic of detergents
 var deleteCaract = function deleteCaract(db, caract){
 	var todelete = {};
 	todelete[caract] = 1;
@@ -253,6 +258,22 @@ var deleteCaract = function deleteCaract(db, caract){
 			else{
 				console.log('The caracteristic has been delete for all detergents');
 			}
+	});
+}
+
+
+
+//Function to rename a caracteristic of detergents
+var modifyCaract = function modifyCaract(db, caract1, caract2){ //caract1 : name in the database, caract2 : new name
+	var rename = {};
+	rename[caract1] = caract2;
+	db.collection('det').update({}, {$rename: rename}, {multi: true}, function(err,result){
+		if(err){
+			throw err;
+		}
+		else{
+			console.log('The database has been update');
+		}
 	});
 }
 
@@ -279,7 +300,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	}
 
 	//Insert the 'res.json' file in database
-	//insertData(db, __dirname+"/data/res.json");
+	insertData(db, __dirname+"/data/res.json");
 
 	//Delete the 'OM' detergent
 	//deleteDet(db,'OM');
@@ -294,6 +315,10 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	//Delete a caracteristic for all detergent
 	//deleteCaract(db, 'color');
 
+	//Rename the 'vol' caracteristic in 'volume'
+	//modifyCaract(db, 'vol', 'volume');
+
+
 });
 
 
@@ -302,14 +327,10 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 
 //EXPORT
 
-/*module.exports = {
-	test: test
-}*/
-
-
-//To return the database
 module.exports = {
-  	FindinDet : function() {
+  	test: test,
+
+  	FindinDet : function() { //To return the database
     	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
       		var collection = db.collection('det');
     		return collection.find().toArray();
@@ -319,13 +340,13 @@ module.exports = {
     	});
   	},
 
-  	Json_detBelt_mongo : Json_detBelt_mongo,
-  	Json_mongo_detBelt : Json_mongo_detBelt,
-  	insertData : insertData,
-  	deleteDet : deleteDet,
-  	insertDet : insertDet,
-  	modifyDet : modifyDet,
-  	deleteCaract : deleteCaract
+  	Json_detBelt_mongo: Json_detBelt_mongo,
+  	Json_mongo_detBelt: Json_mongo_detBelt,
+  	insertData: insertData,
+  	deleteDet: deleteDet,
+  	insertDet: insertDet,
+  	modifyDet: modifyDet,
+  	deleteCaract: deleteCaract
 };
 
 
