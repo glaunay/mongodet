@@ -1,9 +1,25 @@
 var express = require('express');
 var jsonfile = require('jsonfile')
 var mongo = require('./mongo');
+var MongoClient = require('mongodb').MongoClient;
 var {spawn} = require('child_process')
 
 const child = spawn('mongod'); // find a way to shut it when out of the program
+
+// Init the database
+
+
+arg = process.argv;
+if (arg.length > 2){
+	if (arg[2]=="--init"){
+		MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
+			if (err) {
+				throw err;
+			}
+			mongo.insertData(db, __dirname+arg[3]); 
+		})
+	}
+}
 
 
 //Partie HTML
@@ -109,12 +125,13 @@ mongo.FindinDet().then(function(items) {
 });
 
 */
-console.log(mongo.FindinDet())
+//console.log(mongo.FindinDet())
 
 app.listen(3000, function () {
 	console.log('mongodet server listening on port 3000!')
 })
-/*
 
 
-*/
+
+
+
