@@ -202,11 +202,6 @@ var insertDet = function insertDet(db, det){
 
 
 
-//Function that returns a list of all categories of detergents
-var detCategory
-
-
-
 //Function to modify a detegent (input : id like "OM", key like "category" and value1 like "maltoside")
 //value2 is the value that replace the first (value1)
 var modifyDet = function modifyDet(db, id, key, value){ //ATTENTION : if key = col, value must to be a list
@@ -288,6 +283,22 @@ var test = function test(){
 
 
 
+//Function that returns a list of all categories of detergents
+var detCategory = function detCategory(db){
+	db.collection('det').distinct("category",(function(err, result){
+		if(err){
+			throw err;
+		}
+		else{
+			console.log(result);
+       		return result;
+		}
+   }))
+}
+
+
+
+
 
 //MONGODB
 
@@ -300,7 +311,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	}
 
 	//Insert the 'res.json' file in database
-	insertData(db, __dirname+"/data/res.json");
+	//insertData(db, __dirname+"/data/res.json");
 
 	//Delete the 'OM' detergent
 	//deleteDet(db,'OM');
@@ -318,6 +329,8 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	//Rename the 'vol' caracteristic in 'volume'
 	//modifyCaract(db, 'vol', 'volume');
 
+	//Give all detgernts class
+	//detCategory(db);
 
 });
 
@@ -346,7 +359,8 @@ module.exports = {
   	deleteDet: deleteDet,
   	insertDet: insertDet,
   	modifyDet: modifyDet,
-  	deleteCaract: deleteCaract
+  	deleteCaract: deleteCaract,
+  	detCategory: detCategory
 };
 
 
