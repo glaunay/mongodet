@@ -1,4 +1,6 @@
-# mongodet
+# mongodet 
+version 0.2
+
 *Light NoSQL database with user-friendly web interface - *
 *Projet S3 M2BI UCBL*
 
@@ -18,11 +20,10 @@ First, use one of the following commands to get the project in the folder your w
 
 - ```git clone git@github.com:friton/mongodet.git```
 
-It contains the main program and a csv_to_json converter (in the /bin/csv_to_json folder).
 
 ### Node.js
 
-Get installation file from Node.js official [website](https://nodejs.org). To check if node is already installed, run `node -v` on your terminal.
+Get installation file from Node.js official [website](https://nodejs.org). To check if node is already installed, run `node -v` on your terminal. It will give you node version installed on your computer.
 
 ### mongoDB
 
@@ -52,7 +53,7 @@ Now you can access the web inteface by entering `localhost:3000` on your favorit
 
 ### Import data into mongoDB
 
-To import data into mongoDB, you must had an option to the previous command line with the path of the Json file:
+The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
 
 ```
 app.js --init [path]
@@ -65,9 +66,11 @@ app.js --init [path]
 ### Format conversion
 Det.belt's Json file format needs to be converted to be integrated into the database. A function returns the format requested by the mongo database from the Det.belt file (Json_detBelt_mongo) ; a second can do the opposite (Json_mongo_detbelt).
 
+### CSV_to_JSON converter
+
+A csv_to_json converter has been developped. It is accessible in the /bin/csv_to_json folder.
 
 ## Contacts
 
 If you are experiencing issues with the project, you can contact us: [S. Delolme-Sabatier](mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr), [C. Gaud](mailto:caroline.gaud@etu.univ-lyon1.fr), [S. Hu](mailto:shangnong.hu@etu.univ-lyon1.fr).
 	
-
