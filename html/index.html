@@ -26,63 +26,22 @@
 	<!-- here is the location of DataTable -->
 	<div id="table" class="w3-container w3-padding"></div>
 
-	<form class="w3-container w3-padding">
-		<input type="radio" name="edit" value="browse" checked> Browse<br>
-		<input type="radio" name="edit" value="add"> Add new <br>
-		<input type="radio" name="edit" value="remove"> Remove<br>
-		<input type="radio" name="edit" value="update"> Update one
-	</form>
+	<div class="w3-container w3-light-gray w3-margin">
+		<h3>Operations</h3>
+		<div class="w3-container w3-margin">
+			<button id="btnbrowse" class="w3-btn w3-green">Browse only</button>
+			<button id="btnadd" class="w3-btn w3-green">Add new</button>
+			<button id="btnremv" class="w3-btn w3-red">Remove one</button>
+			<button id="btnupdt" class="w3-btn w3-blue">Update one</button>
+		</div>
+	</div>
 
 	<!-- here is the fild for input -->
 	<div id="modif" class="w3-container w3-padding w3-row">
 		
-		<div class="w3-col m2">
-		<b>Category:</b><br>
-		<input type="text" id="categ" value="Cholesterol"><br>
-		<b>Name:</b><br>
-		<input type="text" id="dname" value="OMG"><br>
-		</div>
-		<div class="w3-col m2">
-		<b>Volum:</b><br>
-		<input type="text" id="volum" value=100.2><br>
-		<b>Color:</b><br>
-		<input type="color" id="dcolor" value=#cc66ff style="width:70%;"><br>
-		</div>
-		<div class="w3-col m2">
-		Complete name:<br>
-		<input type="text" id="dcname" value="Oh my god"><br>
-		Molecular formula:<br>
-		<input type="text" id="molform"><br>
-		</div>
-		<div class="w3-col m2">
-		MM:<br>
-		<input type="text" id="molmass"><br>
-		CMC (nm):<br>
-		<input type="text" id="cmc"><br>
-		</div>
-		<div class="w3-col m2">
-		Aggregation number:<br>
-		<input type="text" id="aggnum"><br>
-		Ref:<br>
-		<input type="text" id="docref"><br>
-		</div>
-		<div class="w3-col m2">
-		PDB file:<br>
-		<input type="text" id="pdbfile"><br>
-		Detergent image:<br>
-		<input type="text" id="detpic"><br>
-		</div>
-		<div class="w3-col m2">
-		SMILES:<br>
-		<input type="text" id="smiles"><br>
-		</div>
-		
-		<br><br>
-		<button id="submit">Submit</button>
-
 	</div>
 
-
+	<!-- Footer -->
 	<footer class="w3-container w3-dark-grey w3-row" style="padding: 1em;">
 	</footer>
 

@@ -5,8 +5,78 @@ $(document).ready(function() {
 	// Logo which show the color of detergent
 	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>'
 
-	// Get the header of page with title
+	var attFields = '<div id="fieldadd">'+
+		'<div class="w3-col m2">'+
+			'<b>Category:</b><br>'+
+			'<input type="text" id="categ"><br>'+
+			'<b>Name:</b><br>'+
+			'<input type="text" id="dname"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'<b>Volum:</b><br>'+
+			'<input type="text" id="volum"><br>'+
+			'<b>Color:</b><br>'+
+			'<input type="color" id="dcolor" value=#cc66ff style="width:70%;"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'Complete name:<br>'+
+			'<input type="text" id="dcname"><br>'+
+			'Molecular formula:<br>'+
+			'<input type="text" id="molform"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'MM:<br>'+
+			'<input type="text" id="molmass"><br>'+
+			'CMC (nm):<br>'+
+			'<input type="text" id="cmc"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'Aggregation number:<br>'+
+			'<input type="text" id="aggnum"><br>'+
+			'Ref:<br>'+
+			'<input type="text" id="docref"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'PDB file:<br>'+
+			'<input type="text" id="pdbfile"><br>'+
+			'Detergent image:<br>'+
+			'<input type="text" id="detpic"><br>'+
+		'</div>'+
+		'<div class="w3-col m2">'+
+			'SMILES:<br>'+
+			'<input type="text" id="smiles"><br>'+
+		'</div>'+
+	'</div>'
+
+////////////////// INITIALIZE PAGE CONTENTS //////////////////
+
+	// Header content
 	$("header").html("<h1>Detergent Database CRUD Interface</h1>");
+
+	// Subtitle content
+	$("#text").html("User-friendly front-end for MongoDB");
+	
+	// Footer content
+	$("footer").html(
+		'<div id="flogo" class="w3-container w3-col m4 13">'+
+		'<a href="http://www.cnrs.fr/" target="_blank">'+
+		'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
+		'</a>'+
+		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank">'+
+		'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
+		'</a>'+
+		'<a href="https://www.univ-lyon1.fr/" target="_blank">'+
+		'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
+		'</a>'+
+		'</div>'+
+		'<div class="w3-container w3-small w3-col m8 19">'+
+		'<p style="vertical-align:middle;">'+
+		'Contact :<br>'+
+		'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
+		'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
+		'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
+		'</p>'+
+		'</div>');
 
 	// Initialise DataTables with column names
 	$("#table").html(
@@ -46,6 +116,7 @@ $(document).ready(function() {
 				"</tr>"+
 			"</tfoot>"+
 		"</table>");
+	
 	// Insert data into DataTable with options
 	var table = $('#detable').DataTable( {
 		"processing": true,
@@ -77,55 +148,76 @@ $(document).ready(function() {
 		} ]
 	} );
 
-	$("#modif").append('<button id="remove">Remove selected</button>');
-	$("#remove").hide();
+////////////////// ACTIONS ON PAGE //////////////////
 
-	// Select row for deleting
+	// Select row
 	$('#detable tbody').on( 'click', 'tr', function () {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
-			$("#remove").hide();
+			// For removing
+			try{
+				document.getElementById("sendremove").disabled = true;
+				}
+			catch(err) {
+			};
 		}
 		else {
 			table.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
-			$("#remove").show();
+			// For removing
+			try{
+				document.getElementById("sendremove").disabled = false;
+			}
+			catch(err) {
+			};
+			// Data of dertergent when selected
+			let selectedData = table.row('.selected').data();
+			$("#categ").val(selectedData.category);
+			$("#dname").val(selectedData._id);
+			$("#volum").val(selectedData.vol);
+			//$("#dcolor").val(selectedData.dcolor);	// there has convertion to do
+			$("#dcname").val(selectedData).complete_name;
+			$("#molform").val(selectedData.Molecular_formula);
+			$("#molmass").val(selectedData.MM);
+			//$("#cmc").val(selectedData.CMC_(mM));	// key name shouldn't have ()
+			$("#aggnum").val(selectedData.Aggregation_number);
+			$("#docref").val(selectedData.Ref);
+			$("#pdbfile").val(selectedData.PDB_file);
+			$("#detpic").val(selectedData.detergent_image);
+			$("#smiles").val(selectedData.SMILES);
 		}
 	} );
+	
+	// Reset field
+	$("#btnbrowse").click(function(){
+		$("#modif").empty();
+	});
 
-	// Sent detergent for removing by POST
-	$('#remove').click( function () {
-        $.post("/removeDet",table.row('.selected').data());
-        //$('#suptest').html(JSON.stringify(table.row('.selected').data()));
-    } );
-	
-	// Subtitle content
-	$("#text").html("User-friendly front-end for MongoDB");
-	
-	// Footer content
-	$("footer").html(
-		'<div id="flogo" class="w3-container w3-col m4 13">'+
-		'<a href="http://www.cnrs.fr/" target="_blank">'+
-		'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
-		'</a>'+
-		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank">'+
-		'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
-		'</a>'+
-		'<a href="https://www.univ-lyon1.fr/" target="_blank">'+
-		'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
-		'</a>'+
-		'</div>'+
-		'<div class="w3-container w3-small w3-col m8 19">'+
-		'<p style="vertical-align:middle;">'+
-		'Contact :<br>'+
-		'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
-		'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
-		'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
-		'</p>'+
-		'</div>');
+	// Enable field for adding new detergent
+	$("#btnadd").click(function(){
+		$("#modif").empty();
+		$("#modif").html(attFields);
+		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block">Add new detergent</button>');
+	});
+
+	// Enable field for removing detergent
+	$("#btnremv").click(function(){
+		$("#modif").empty();
+		$("#modif").html('<button id="sendremove" class="w3-btn w3-red w3-block">Remove selected!</button>');
+		document.getElementById("sendremove").disabled = true;
+	});
+
+	// Enable field for updating a detergent
+	$("#btnupdt").click(function(){
+		$("#modif").empty();
+		$("#modif").html(attFields);
+		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block">Update detergent</button>');
+	});
+
+////////////////// SEND TO SERVER //////////////////
 
 	// Send POST request for new detergent
-	$("#submit").click(function(){
+	$("#sendnew").click(function(){
 		let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
 		$.post("/newDet",
 		{
@@ -143,6 +235,33 @@ $(document).ready(function() {
 			"detergent_image": $("#detpic").val(),
 			"SMILES": $("#smiles").val()
 		});
-	}); 
+	});
+
+	// Send detergent for removing by POST
+	$('#sendremove').click( function () {
+		$.post("/removeDet",selectedData);
+		//$('#suptest').html(JSON.stringify(table.row('.selected').data()));
+	} );
+
+		// Send POST request for new detergent
+	$("#sendupdate").click(function(){
+		let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
+		$.post("/updateDet",
+		{
+			"category": $("#categ").val(),
+			"_id": $("#dname").val(),
+			"vol": $("#volum").val(),
+			"color": rgbColor,
+			"complete_name": $("#dcname").val(),
+			"Molecular_formula": $("#molform").val(),
+			"MM": $("#molmass").val(),
+			"CMC_(mM)": $("#cmc").val(),
+			"Aggregation_number": $("#aggnum").val(),
+			"Ref": $("#docref").val(),
+			"PDB_file": $("#pdbfile").val(),
+			"detergent_image": $("#detpic").val(),
+			"SMILES": $("#smiles").val()
+		});
+	});
 
 } );
