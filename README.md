@@ -38,6 +38,18 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 ### Run the project
 
+### Import data into mongoDB
+
+The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
+
+```
+app.js --init [path]
+```
+
+**Note** : the Json file must be in Det.belt format. The database now contains detergents of your file.
+
+### Access to the web page
+
 Locating at root of this project, run the following command line:
 ```
 node app.js
@@ -48,17 +60,16 @@ Then you will see as response:
 mongodet server listening on port 3000!
 ```
 
-Now you can access the web inteface by entering `localhost:3000` on your favorite web browser and enjoy!
+Now you can access the web inteface by entering `localhost:3000` on your favorite web browser (Google Chrome recommended ) and enjoy!
 
 
-### Import data into mongoDB
 
-The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
+### Interact with the web page
 
-```
-app.js --init [path]
-```
-**Note** : the Json file must be in Det.belt format. The database now contains detergents of your file.
+Different operation are available on the web page.
+You can add a detergent into the database clicking on the "add new" button.
+You can also update a detergent by clicking on the "update one" button and then select a line.
+Finally, you can suppress a detergent by clicking on the button "remove one" then select the line you want to delete.
 
 
 ## Additional programs
