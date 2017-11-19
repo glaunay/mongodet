@@ -218,7 +218,7 @@ $(document).ready(function() {
 				"PDB_file": $("#pdbfile").val(),
 				"detergent_image": $("#detpic").val(),
 				"SMILES": $("#smiles").val()
-			};
+			});
 		});
 	});
 
