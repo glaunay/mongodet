@@ -74,3 +74,10 @@ A csv_to_json converter has been developped. It is accessible in the /bin/csv_to
 
 If you are experiencing issues with the project, you can contact us: [S. Delolme-Sabatier](mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr), [C. Gaud](mailto:caroline.gaud@etu.univ-lyon1.fr), [S. Hu](mailto:shangnong.hu@etu.univ-lyon1.fr).
 	
+## Improvements to be done
+
+Currently, no messages are sent on the webpage when an action (update, addition or deletion of a detergent) is made.
+It will be done as soon as possible.
+Mongod continue to run after the closing of the program, this will be corrected too
+In the next release, user will be able to delete columns
+A backup system will also be added. 
