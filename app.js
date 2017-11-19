@@ -71,10 +71,14 @@ app.use('/getHeader',function (req, res, next) {
 });
 
 
+
+// Operations on the database
+
+
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
 	mongo.FindinDet().then(function(items) {
   var test = items;
-  //console.log({"data":test});
+  console.log({"data":test});
   	res.send({"data":test});
   	next();
 }, function(err) {
@@ -117,10 +121,19 @@ app.post('/removeDet',function (req, res) {
 });
 });
 
-//Partie BD
-app.use('/script', express.static(__dirname + '/script'));
-app.use('/data', express.static(__dirname + '/data'));
-app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
+app.post('/updateDet',function (req, res) {
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+	if (err) {
+		throw err;
+	}
+	var to_update = req.body;
+	console.log(to_update);
+	
+
+
+});
+});
+
 
 
 /*
