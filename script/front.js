@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	
 	// Logo which show the missing value in DataTable
-	var alertLogo = '<i class="fa fa-question-circle-o" aria-hidden="true"></i>'
+	var alertLogo = '<i class="fa fa-question-circle-o" aria-hidden="true"></i>';
 	// Logo which show the color of detergent
-	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>'
+	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>';
 
 	var attFields = '<div id="fieldadd">'+
 		'<div class="w3-col m2">'+
@@ -46,7 +46,43 @@ $(document).ready(function() {
 			'SMILES:<br>'+
 			'<input type="text" id="smiles"><br>'+
 		'</div>'+
-	'</div>'
+	'</div>';
+
+	// From https://gist.github.com/lrvick/2080648
+	RGBToHex = function(r,g,b){
+		var bin = r << 16 | g << 8 | b;
+		return (function(h){
+			return new Array(7-h.length).join("0")+h
+		})(bin.toString(16).toUpperCase())
+	};
+
+	// From https://gist.github.com/lrvick/2080648
+	hexToRGB = function(hex){
+		var r = hex >> 16;
+		var g = hex >> 8 & 0xFF;
+		var b = hex & 0xFF;
+		return [r,g,b];
+	};
+
+	// Build JSON by getting values from input field
+	formToJSON = function(){
+		return {
+				"category": $("#categ").val(),
+				"_id": $("#dname").val(),
+				"vol": $("#volum").val(),
+				"color": hexToRGB("0x"+$("#dcolor").val().slice(1)),
+				"complete_name": $("#dcname").val(),
+				"Molecular_formula": $("#molform").val(),
+				"MM": $("#molmass").val(),
+				"CMC": $("#cmc").val(),
+				"Aggregation_number": $("#aggnum").val(),
+				"Ref": $("#docref").val(),
+				"PDB_file": $("#pdbfile").val(),
+				"detergent_image": $("#detpic").val(),
+				"SMILES": $("#smiles").val()
+			};
+	};
+
 
 ////////////////// INITIALIZE PAGE CONTENTS //////////////////
 
@@ -58,24 +94,27 @@ $(document).ready(function() {
 	
 	// Footer content
 	$("footer").html(
-		'<div id="flogo" class="w3-container w3-col m4 13">'+
-		'<a href="http://www.cnrs.fr/" target="_blank">'+
-		'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
-		'</a>'+
-		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank">'+
-		'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
-		'</a>'+
-		'<a href="https://www.univ-lyon1.fr/" target="_blank">'+
-		'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
-		'</a>'+
+		'<div id="flogo" class="w3-container w3-col w3-half">'+
+			'<a href="http://www.cnrs.fr/" target="_blank">'+
+				'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
+			'</a>'+
+			'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank">'+
+				'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
+			'</a>'+
+			'<a href="https://www.univ-lyon1.fr/" target="_blank">'+
+				'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
+			'</a>'+
+			'<a href="https://www.bioinfo-lyon.fr/" target="_blank">'+
+				'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon">'+
+			'</a>'+
 		'</div>'+
-		'<div class="w3-container w3-small w3-col m8 19">'+
-		'<p style="vertical-align:middle;">'+
-		'Contact :<br>'+
-		'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
-		'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
-		'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
-		'</p>'+
+		'<div class="w3-container w3-small w3-col w3-half">'+
+			'<p style="vertical-align:middle;">'+
+				'Contact :<br>'+
+				'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
+				'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
+				'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
+			'</p>'+
 		'</div>');
 
 	// Initialise DataTables with column names
@@ -177,7 +216,8 @@ $(document).ready(function() {
 			$("#categ").val(selectedData.category);
 			$("#dname").val(selectedData._id);
 			$("#volum").val(selectedData.vol);
-			//$("#dcolor").val(selectedData.dcolor);	// there has convertion to do
+			let selCol = selectedData.color
+			$("#dcolor").val("#"+RGBToHex(selCol[0],selCol[1],selCol[2]));
 			$("#dcname").val(selectedData.complete_name);
 			$("#molform").val(selectedData.Molecular_formula);
 			$("#molmass").val(selectedData.MM);
@@ -202,23 +242,7 @@ $(document).ready(function() {
 		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
-			let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
-			$.post("/newDet",
-			{
-				"category": $("#categ").val(),
-				"_id": $("#dname").val(),
-				"vol": $("#volum").val(),
-				"color": rgbColor,
-				"complete_name": $("#dcname").val(),
-				"Molecular_formula": $("#molform").val(),
-				"MM": $("#molmass").val(),
-				"CMC": $("#cmc").val(),
-				"Aggregation_number": $("#aggnum").val(),
-				"Ref": $("#docref").val(),
-				"PDB_file": $("#pdbfile").val(),
-				"detergent_image": $("#detpic").val(),
-				"SMILES": $("#smiles").val()
-			});
+			$.post("/newDet", formToJSON() );
 		});
 	});
 
@@ -240,23 +264,7 @@ $(document).ready(function() {
 		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
 		// Send POST request for update one detergent
 		$("#sendupdate").click(function(){
-			let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
-			$.post("/updateDet",
-			{
-				"category": $("#categ").val(),
-				"_id": $("#dname").val(),
-				"vol": $("#volum").val(),
-				"color": rgbColor,
-				"complete_name": $("#dcname").val(),
-				"Molecular_formula": $("#molform").val(),
-				"MM": $("#molmass").val(),
-				"CMC": $("#cmc").val(),
-				"Aggregation_number": $("#aggnum").val(),
-				"Ref": $("#docref").val(),
-				"PDB_file": $("#pdbfile").val(),
-				"detergent_image": $("#detpic").val(),
-				"SMILES": $("#smiles").val()
-			});
+			$.post("/updateDet", formToJSON() );
 		});
 	});
 
