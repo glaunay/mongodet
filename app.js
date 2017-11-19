@@ -131,7 +131,19 @@ app.post('/updateDet',function (req, res) {
 		throw err;
 	}
 	var to_update = req.body;
-	console.log(to_update);
+	to_update.vol = Number(to_update.vol)
+	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
+	if (to_update.MM != ''){
+		to_update.MM = Number(to_update.MM)
+	}
+	if (to_update.CMC != ''){
+		to_update.CMC = Number(to_update.CMC)
+	}
+	if (to_update.Aggregation_number != ''){
+		to_update.Aggregation_number = Number(to_update.Aggregation_number)
+	}
+	
+	mongo.modifyDet(db,to_update._id,to_update);
 	
 
 
