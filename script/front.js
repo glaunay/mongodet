@@ -181,7 +181,7 @@ $(document).ready(function() {
 			$("#dcname").val(selectedData.complete_name);
 			$("#molform").val(selectedData.Molecular_formula);
 			$("#molmass").val(selectedData.MM);
-			$("#cmc").val(selectedData.CMC_(mM));
+			$("#cmc").val(selectedData.cmc);
 			$("#aggnum").val(selectedData.Aggregation_number);
 			$("#docref").val(selectedData.Ref);
 			$("#pdbfile").val(selectedData.PDB_file);
@@ -218,7 +218,7 @@ $(document).ready(function() {
 				"PDB_file": $("#pdbfile").val(),
 				"detergent_image": $("#detpic").val(),
 				"SMILES": $("#smiles").val()
-			};
+			});
 		});
 	});
 
