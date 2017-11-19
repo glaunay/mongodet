@@ -116,6 +116,16 @@ $(document).ready(function() {
 				"</tr>"+
 			"</tfoot>"+
 		"</table>");
+
+	// Buttons for operations on database
+	$("#operationsbtn").html(
+		'<h3>Operations</h3>'+
+		'<div class="w3-container w3-margin">'+
+			'<button id="btnbrowse" class="w3-btn w3-ripple w3-teal">Browse only</button>'+
+			'<button id="btnadd" class="w3-btn w3-ripple w3-green">Add new</button>'+
+			'<button id="btnremv" class="w3-btn w3-ripple w3-red w3-right">Remove one</button>'+
+			'<button id="btnupdt" class="w3-btn w3-ripple w3-blue">Update one</button>'+
+		'</div>');
 	
 	// Insert data into DataTable with options
 	var table = $('#detable').DataTable( {
@@ -155,28 +165,20 @@ $(document).ready(function() {
 		if ( $(this).hasClass('selected') ) {
 			$(this).removeClass('selected');
 			// For removing
-			try{
-				document.getElementById("sendremove").disabled = true;
-				}
-			catch(err) {
-			};
+			$("#sendremove").prop('disabled',true);
 		}
 		else {
 			table.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
 			// For removing
-			try{
-				document.getElementById("sendremove").disabled = false;
-			}
-			catch(err) {
-			};
+			$("#sendremove").prop('disabled',false);
 			// Data of dertergent when selected
-			let selectedData = table.row('.selected').data();
+			var selectedData = table.row('.selected').data();
 			$("#categ").val(selectedData.category);
 			$("#dname").val(selectedData._id);
 			$("#volum").val(selectedData.vol);
 			//$("#dcolor").val(selectedData.dcolor);	// there has convertion to do
-			$("#dcname").val(selectedData).complete_name;
+			$("#dcname").val(selectedData.complete_name);
 			$("#molform").val(selectedData.Molecular_formula);
 			$("#molmass").val(selectedData.MM);
 			//$("#cmc").val(selectedData.CMC_(mM));	// key name shouldn't have ()
@@ -197,70 +199,64 @@ $(document).ready(function() {
 	$("#btnadd").click(function(){
 		$("#modif").empty();
 		$("#modif").html(attFields);
-		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block">Add new detergent</button>');
+		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
+		// Send POST request for new detergent
+		$("#sendnew").click(function(){
+			let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
+			$.post("/newDet",
+			{
+				"category": $("#categ").val(),
+				"_id": $("#dname").val(),
+				"vol": $("#volum").val(),
+				"color": rgbColor,
+				"complete_name": $("#dcname").val(),
+				"Molecular_formula": $("#molform").val(),
+				"MM": $("#molmass").val(),
+				"CMC_(mM)": $("#cmc").val(),
+				"Aggregation_number": $("#aggnum").val(),
+				"Ref": $("#docref").val(),
+				"PDB_file": $("#pdbfile").val(),
+				"detergent_image": $("#detpic").val(),
+				"SMILES": $("#smiles").val()
+			};
+		});
 	});
 
 	// Enable field for removing detergent
 	$("#btnremv").click(function(){
 		$("#modif").empty();
-		$("#modif").html('<button id="sendremove" class="w3-btn w3-red w3-block">Remove selected!</button>');
-		document.getElementById("sendremove").disabled = true;
+		$("#modif").html('<button id="sendremove" class="w3-btn w3-red w3-block w3-ripple">Remove selected!</button>');
+		$("#sendremove").prop('disabled',true);
+		// Send POST request for removing one detergent
+		$('#sendremove').click( function () {
+			$.post("/removeDet",table.row('.selected').data());
+		} );
 	});
 
 	// Enable field for updating a detergent
 	$("#btnupdt").click(function(){
 		$("#modif").empty();
 		$("#modif").html(attFields);
-		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block">Update detergent</button>');
-	});
-
-////////////////// SEND TO SERVER //////////////////
-
-	// Send POST request for new detergent
-	$("#sendnew").click(function(){
-		let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
-		$.post("/newDet",
-		{
-			"category": $("#categ").val(),
-			"_id": $("#dname").val(),
-			"vol": $("#volum").val(),
-			"color": rgbColor,
-			"complete_name": $("#dcname").val(),
-			"Molecular_formula": $("#molform").val(),
-			"MM": $("#molmass").val(),
-			"CMC_(mM)": $("#cmc").val(),
-			"Aggregation_number": $("#aggnum").val(),
-			"Ref": $("#docref").val(),
-			"PDB_file": $("#pdbfile").val(),
-			"detergent_image": $("#detpic").val(),
-			"SMILES": $("#smiles").val()
-		});
-	});
-
-	// Send detergent for removing by POST
-	$('#sendremove').click( function () {
-		$.post("/removeDet",selectedData);
-		//$('#suptest').html(JSON.stringify(table.row('.selected').data()));
-	} );
-
-		// Send POST request for new detergent
-	$("#sendupdate").click(function(){
-		let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
-		$.post("/updateDet",
-		{
-			"category": $("#categ").val(),
-			"_id": $("#dname").val(),
-			"vol": $("#volum").val(),
-			"color": rgbColor,
-			"complete_name": $("#dcname").val(),
-			"Molecular_formula": $("#molform").val(),
-			"MM": $("#molmass").val(),
-			"CMC_(mM)": $("#cmc").val(),
-			"Aggregation_number": $("#aggnum").val(),
-			"Ref": $("#docref").val(),
-			"PDB_file": $("#pdbfile").val(),
-			"detergent_image": $("#detpic").val(),
-			"SMILES": $("#smiles").val()
+		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
+		// Send POST request for update one detergent
+		$("#sendupdate").click(function(){
+			let rgbColor = $("#dcolor").val().match(/[A-Za-z0-9]{2}/g).map(function(v) { return parseInt(v, 16) });
+			$.post("/updateDet",
+			{
+				"category": $("#categ").val(),
+				"_id": $("#dname").val(),
+				"vol": $("#volum").val(),
+				"color": rgbColor,
+				"complete_name": $("#dcname").val(),
+				"Molecular_formula": $("#molform").val(),
+				"MM": $("#molmass").val(),
+				"CMC_(mM)": $("#cmc").val(),
+				"Aggregation_number": $("#aggnum").val(),
+				"Ref": $("#docref").val(),
+				"PDB_file": $("#pdbfile").val(),
+				"detergent_image": $("#detpic").val(),
+				"SMILES": $("#smiles").val()
+			});
 		});
 	});
 
