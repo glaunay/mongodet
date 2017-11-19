@@ -1,8 +1,9 @@
 # mongodet 
 version 0.2
 
-*Light NoSQL database with user-friendly web interface - *
-*Projet S3 M2BI UCBL*
+*Light NoSQL database with user-friendly web interface*
+
+*Projet S3 [M2BI](https://www.bioinfo-lyon.fr/) [UCBL](https://www.univ-lyon1.fr/)*
 
 ## Introduction
 
@@ -38,17 +39,17 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 ### Run the project
 
-### Import data into mongoDB
+#### Import data into mongoDB
 
 The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
 
 ```
-app.js --init [path]
+node app.js --init [path]
 ```
 
 **Note** : the Json file must be in Det.belt format. The database now contains detergents of your file.
 
-### Access to the web page
+#### Access to the web page
 
 Locating at root of this project, run the following command line:
 ```
@@ -67,9 +68,9 @@ Now you can access the web inteface by entering `localhost:3000` on your favorit
 ### Interact with the web page
 
 Different operation are available on the web page.
-You can add a detergent into the database clicking on the "add new" button.
-You can also update a detergent by clicking on the "update one" button and then select a line.
-Finally, you can suppress a detergent by clicking on the button "remove one" then select the line you want to delete.
+You can add a detergent into the database clicking on the "Add new" button.
+You can also update a detergent by clicking on the "Update one" button and then select a line.
+Finally, you can suppress a detergent by clicking on the button "Remove one" then select the line you want to delete.
 
 
 ## Additional programs
@@ -87,8 +88,6 @@ If you are experiencing issues with the project, you can contact us: [S. Delolme
 	
 ## Improvements to be done
 
-Currently, no messages are sent on the webpage when an action (update, addition or deletion of a detergent) is made.
-It will be done as soon as possible.
 Mongod continue to run after the closing of the program, this will be corrected too
 In the next release, user will be able to delete columns
 A backup system will also be added. 
