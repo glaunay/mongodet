@@ -103,7 +103,7 @@ def write_header(f):
 	file_res.write("{\n    \"title\" : \"Detergent from converter\",\n    \"date\" : \"last modification date "+str(datetime.datetime.now())+"\",\n    \"author\" : \"CSV_TO_JSON_CONVERTER\",\n    \"data\" : {\n        ")
 
 
-columns = ["name","vol","color","complete_name","Molecular_formula","MM","CMC_(mM)","Aggregation_number","Ref","PDB_file","detergent_image","SMILES"] # because columns are in french, we have to translate them to english
+columns = ["name","vol","color","complete_name","Molecular_formula","MM","CMC","Aggregation_number","Ref","PDB_file","detergent_image","SMILES"] # because columns are in french, we have to translate them to english
 
 ######  Write the rest of the file  #####
 
