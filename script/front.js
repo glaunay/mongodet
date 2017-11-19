@@ -140,7 +140,7 @@ $(document).ready(function() {
 			{ "data": "complete_name", "defaultContent": alertLogo },
 			{ "data": "Molecular_formula", "defaultContent": alertLogo },
 			{ "data": "MM", "defaultContent": alertLogo },
-			{ "data": "cmc", "defaultContent": alertLogo },
+			{ "data": "CMC", "defaultContent": alertLogo },
 			{ "data": "Aggregation_number", "defaultContent": alertLogo },
 			{ "data": "Ref", "defaultContent": alertLogo },				
 			{ "data": "PDB_file", "defaultContent": alertLogo },
@@ -181,7 +181,7 @@ $(document).ready(function() {
 			$("#dcname").val(selectedData.complete_name);
 			$("#molform").val(selectedData.Molecular_formula);
 			$("#molmass").val(selectedData.MM);
-			$("#cmc").val(selectedData.cmc);
+			$("#cmc").val(selectedData.CMC);
 			$("#aggnum").val(selectedData.Aggregation_number);
 			$("#docref").val(selectedData.Ref);
 			$("#pdbfile").val(selectedData.PDB_file);
@@ -212,7 +212,7 @@ $(document).ready(function() {
 				"complete_name": $("#dcname").val(),
 				"Molecular_formula": $("#molform").val(),
 				"MM": $("#molmass").val(),
-				"cmc": $("#cmc").val(),
+				"CMC": $("#cmc").val(),
 				"Aggregation_number": $("#aggnum").val(),
 				"Ref": $("#docref").val(),
 				"PDB_file": $("#pdbfile").val(),
@@ -250,7 +250,7 @@ $(document).ready(function() {
 				"complete_name": $("#dcname").val(),
 				"Molecular_formula": $("#molform").val(),
 				"MM": $("#molmass").val(),
-				"cmc": $("#cmc").val(),
+				"CMC": $("#cmc").val(),
 				"Aggregation_number": $("#aggnum").val(),
 				"Ref": $("#docref").val(),
 				"PDB_file": $("#pdbfile").val(),
