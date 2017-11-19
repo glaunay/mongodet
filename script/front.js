@@ -83,6 +83,22 @@ $(document).ready(function() {
 			};
 	};
 
+	buildTabColumns = function(){
+		return "<th>Category</th>"+
+				"<th>Name</th>"+
+				"<th>Volum</th>"+
+				"<th>Color</th> "+
+				"<th>Complete name</th>"+
+				"<th>Molecular formula</th>"+
+				"<th>MM</th>"+
+				"<th>CMC (mM)</th>"+
+				"<th>Aggregation number</th>"+
+				"<th>References</th>"+
+				"<th>PDB file</th>"+
+				"<th>Detergent image</th>"+
+				"<th>SMILES</th>"
+	}
+
 
 ////////////////// INITIALIZE PAGE CONTENTS //////////////////
 
@@ -120,51 +136,9 @@ $(document).ready(function() {
 	// Initialise DataTables with column names
 	$("#table").html(
 		"<table id='detable' class='cell-border' cellspacing='0' width='100%''>"+
-			"<thead>"+
-				"<tr>"+
-					"<th>Category</th>"+
-					"<th>Name</th>"+
-					"<th>Volum</th>"+
-					"<th>Color</th> "+
-					"<th>Complete name</th>"+
-					"<th>Molecular formula</th>"+
-					"<th>MM</th>"+
-					"<th>CMC (mM)</th>"+
-					"<th>Aggregation number</th>"+
-					"<th>Ref</th>"+
-					"<th>PDB file</th>"+
-					"<th>detergent image</th>"+
-					"<th>SMILES</th>"+
-				"</tr>"+
-			"</thead>"+
-			"<tfoot>"+
-				"<tr>"+
-					"<th>Category</th>"+
-					"<th>Name</th>"+
-					"<th>Volum</th>"+
-					"<th>Color</th>"+
-					"<th>Complete name</th>"+
-					"<th>Molecular formula</th>"+
-					"<th>MM</th>"+
-					"<th>CMC (mM)</th>"+
-					"<th>Aggregation number</th>"+
-					"<th>Ref</th>"+
-					"<th>PDB file</th>"+
-					"<th>detergent image</th>"+
-					"<th>SMILES</th>"+
-				"</tr>"+
-			"</tfoot>"+
+			"<thead><tr>" + buildTabColumns() + "</tr></thead>"+
+			"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
 		"</table>");
-
-	// Buttons for operations on database
-	$("#operationsbtn").html(
-		'<h3>Operations</h3>'+
-		'<div class="w3-container w3-margin">'+
-			'<button id="btnbrowse" class="w3-btn w3-ripple w3-teal">Browse only</button>'+
-			'<button id="btnadd" class="w3-btn w3-ripple w3-green">Add new</button>'+
-			'<button id="btnremv" class="w3-btn w3-ripple w3-red w3-right">Remove one</button>'+
-			'<button id="btnupdt" class="w3-btn w3-ripple w3-blue">Update one</button>'+
-		'</div>');
 	
 	// Insert data into DataTable with options
 	var table = $('#detable').DataTable( {
@@ -181,7 +155,7 @@ $(document).ready(function() {
 			{ "data": "MM", "defaultContent": alertLogo },
 			{ "data": "CMC", "defaultContent": alertLogo },
 			{ "data": "Aggregation_number", "defaultContent": alertLogo },
-			{ "data": "Ref", "defaultContent": alertLogo },				
+			{ "data": null, "defaultContent": "<button>See ref</button>" },				
 			{ "data": "PDB_file", "defaultContent": alertLogo },
 			{ "data": "detergent_image", "defaultContent": alertLogo },
 			{ "data": "SMILES", "defaultContent": alertLogo }
@@ -196,6 +170,16 @@ $(document).ready(function() {
 			}
 		} ]
 	} );
+
+	// Buttons for operations on database
+	$("#operationsbtn").html(
+		'<h3>Operations</h3>'+
+		'<div class="w3-container w3-margin">'+
+			'<button id="btnbrowse" class="w3-btn w3-ripple w3-teal">Browse only</button>'+
+			'<button id="btnadd" class="w3-btn w3-ripple w3-green">Add new</button>'+
+			'<button id="btnremv" class="w3-btn w3-ripple w3-red w3-right">Remove one</button>'+
+			'<button id="btnupdt" class="w3-btn w3-ripple w3-blue">Update one</button>'+
+		'</div>');
 
 ////////////////// ACTIONS ON PAGE //////////////////
 
@@ -229,6 +213,12 @@ $(document).ready(function() {
 			$("#smiles").val(selectedData.SMILES);
 		}
 	} );
+
+	// Alert reference of detergent
+	$('#detable tbody').on( 'click', 'button', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        alert( data.Ref );
+    } );
 	
 	// Reset field
 	$("#btnbrowse").click(function(){
@@ -242,7 +232,12 @@ $(document).ready(function() {
 		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
+			let addedName = table.row('.selected').data()._id;
 			$.post("/newDet", formToJSON() );
+			$('#detable').DataTable().ajax.reload();
+			$("#modif").empty();
+			$("#modif").html(attFields);
+			alert(addedName + " was successfully insert to database!");
 		});
 	});
 
@@ -253,7 +248,11 @@ $(document).ready(function() {
 		$("#sendremove").prop('disabled',true);
 		// Send POST request for removing one detergent
 		$('#sendremove').click( function () {
+			let deletedName = table.row('.selected').data()._id;
 			$.post("/removeDet",table.row('.selected').data());
+			$('#detable').DataTable().ajax.reload();
+			$("#sendremove").prop('disabled',true);
+			alert(deletedName + " was successfully removed from database!");
 		} );
 	});
 
@@ -264,7 +263,12 @@ $(document).ready(function() {
 		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
 		// Send POST request for update one detergent
 		$("#sendupdate").click(function(){
+			let modifiedName = table.row('.selected').data()._id;
 			$.post("/updateDet", formToJSON() );
+			$('#detable').DataTable().ajax.reload();
+			$("#modif").empty();
+			$("#modif").html(attFields);
+			alert(modifiedName + " is now up to date!");
 		});
 	});
 
