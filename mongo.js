@@ -138,7 +138,6 @@ var Json_mongo_detBelt = function Json_mongo_detBelt(path) {
 
 
 
-
 //Function to insert JSON file in database 
 var insertData = function insertData(db, path) {
 	var dict = Json_detBelt_mongo(path);
@@ -164,6 +163,18 @@ var insertData = function insertData(db, path) {
 	}
 	console.log('Insertion of detergents is finish !')
 }
+
+
+//Functiun to return the database
+var FindinDet = function FindinDet() { 
+	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
+  		var collection = db.collection('det');
+		return collection.find().toArray();
+	}).then(function(items) {
+  		//console.log(items);
+ 		return items;
+	});
+  }
 
 
 
@@ -299,7 +310,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	}
 
 	//Insert the 'res.json' file in database
-	//insertData(db, __dirname+"/data/res.json");
+	insertData(db, __dirname+"/data/res.json");
 
 	//Delete the 'OM' detergent
 	//deleteDet(db,'OM');
@@ -345,16 +356,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 module.exports = {
   	test: test,
 
-  	FindinDet : function() { //To return the database
-    	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
-      		var collection = db.collection('det');
-    		return collection.find().toArray();
-    	}).then(function(items) {
-      		//console.log(items);
-     		return items;
-    	});
-  	},
-
+  	FindinDet : FindinDet,
   	Json_detBelt_mongo: Json_detBelt_mongo,
   	Json_mongo_detBelt: Json_mongo_detBelt,
   	insertData: insertData,
