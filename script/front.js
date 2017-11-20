@@ -234,10 +234,12 @@ $(document).ready(function() {
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
 			$.post("/newDet", formToJSON() );
+			let alertName = formToJSON()._id
 			$('#detable').DataTable().ajax.reload();
 			$("#modif").empty();
 			$("#modif").html(attFields);
-			alert(formToJSON()._id + " was successfully insert to database!");
+			$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
+			alert(String(alertName) + " was successfully insert to database!");
 		});
 	});
 
@@ -268,6 +270,7 @@ $(document).ready(function() {
 			$('#detable').DataTable().ajax.reload();
 			$("#modif").empty();
 			$("#modif").html(attFields);
+			$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
 			alert(modifiedName + " is now up to date!");
 		});
 	});
