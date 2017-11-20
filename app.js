@@ -65,10 +65,6 @@ app.use('/script', express.static(__dirname + '/script'));
 app.use('/data', express.static(__dirname + '/data'));
 app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
 app.use('/pic', express.static(__dirname + '/images'));
-app.use('/getHeader',function (req, res, next) {
-  res.send("<h1>Detergent Database CRUD Interface</h1>")
-  next();
-});
 
 
 
@@ -78,12 +74,8 @@ app.use('/getHeader',function (req, res, next) {
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
   mongo.FindinDet().then(function(items) {
   var test = items;
-  //console.log({"data":test});
-  	res.send({"data":test});
-  	next();
-
-  //console.log({"data":test});
-    res.send({"data":test});
+ 
+     res.send({"data":test});
     next();
 }, function(err) {
   console.error('The promise was rejected', err, err.stack);
