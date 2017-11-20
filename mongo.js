@@ -165,8 +165,9 @@ var insertData = function insertData(db, path) {
 }
 
 
-//Functiun to return the database
-var FindinDet = function FindinDet() { 
+
+//Function to return the database
+var FindinDet =  function FindinDet() { 
 	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
   		var collection = db.collection('det');
 		return collection.find().toArray();
@@ -174,7 +175,7 @@ var FindinDet = function FindinDet() {
   		//console.log(items);
  		return items;
 	});
-  }
+}
 
 
 
@@ -310,7 +311,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	}
 
 	//Insert the 'res.json' file in database
-	insertData(db, __dirname+"/data/res.json");
+	//insertData(db, __dirname+"/data/res.json");
 
 	//Delete the 'OM' detergent
 	//deleteDet(db,'OM');
