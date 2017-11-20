@@ -86,7 +86,7 @@ $(document).ready(function() {
 	buildTabColumns = function(){
 		return "<th>Category</th>"+
 				"<th>Name</th>"+
-				"<th>Volum</th>"+
+				"<th>Volume</th>"+
 				"<th>Color</th> "+
 				"<th>Complete name</th>"+
 				"<th>Molecular formula</th>"+
@@ -144,6 +144,7 @@ $(document).ready(function() {
 	var table = $('#detable').DataTable( {
 		"processing": true,
 		"scrollX": true,
+		"deferRender": true,
 		"ajax": { "url": "/loadTab" },
 		"columns": [
 			{ "data": "category", "defaultContent": alertLogo },
@@ -232,12 +233,11 @@ $(document).ready(function() {
 		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
-			let addedName = table.row('.selected').data()._id;
 			$.post("/newDet", formToJSON() );
 			$('#detable').DataTable().ajax.reload();
 			$("#modif").empty();
 			$("#modif").html(attFields);
-			alert(addedName + " was successfully insert to database!");
+			alert(formToJSON()._id + " was successfully insert to database!");
 		});
 	});
 
