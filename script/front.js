@@ -54,6 +54,8 @@ $(document).ready(function() {
 
 	var table = undefined;
 
+	var listHide = [];
+
 	// Logo which show the color of detergent
 	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>';
 
@@ -162,11 +164,11 @@ $(document).ready(function() {
 	$("#text").html("User-friendly front-end for Det.Belt detergents database");
 
 	// Generate message card at openning
-	$("#message").html(
+	/*$("#message").html(
 		'<div class="w3-panel w3-red w3-display-container">'+
 			'<span onclick="this.parentElement.style.display='+"'none'"+'" class="w3-button w3-red w3-large w3-display-topright">&times;</span>'+
 			'<h3>Adblock detected!</h3>'+
-			'<p>Please disable Adblock to continue talking with your favorite detergents ;)</p>'+
+			'<p>Please disable Adblock to continue dealing with your favorite detergents ;)</p>'+
 		'</div>'+
 		'<div class="w3-panel w3-blue w3-display-container">'+
 			'<span onclick="this.parentElement.style.display='+"'none'"+'" class="w3-button w3-blue w3-large w3-display-topright">&times;</span>'+
@@ -174,7 +176,7 @@ $(document).ready(function() {
 			'<p>Hello, you are using the database managing interface for Det.Belt. You have five buttons on the top of screen. '+
 			'They allow you swich between managing operations. Be careful with the red button on top right and have fun!</p>'+
 		'</div>'
-	);
+	);*/
 	
 	// Footer content
 	$("footer").html(
@@ -200,6 +202,7 @@ $(document).ready(function() {
 				'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
 			'</p>'+
 		'</div>');
+	$("footer").css({"position": "relative", "right": "0", "bottom": "0", "left": "0", "padding": "1em"});
 
 
 	// Contruct columns definition into a list of json for DataTable
@@ -240,23 +243,43 @@ $(document).ready(function() {
 		var data = table.row( $(this).parents('tr') ).data();
 		alert( data.Ref );
 	} );
-	
+
 	// Display the table or reload it
 	$("#btnbrowse").click(function(){
 		// Check if the table is already build or not yet
 		if (table === undefined) {
 			// Initialise DataTables with column names
 			$("#table").html(
+				"<div id='parameters'></div>"+
 				"<table id='detable' class='cell-border' cellspacing='0' width='100%''>"+
 					"<thead><tr>" + buildTabColumns() + "</tr></thead>"+
 					"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
 				"</table>"
 			);
+			
+			// Build checkboxs
+			let cboxs = "";
+			for (i = 0; i < htField.length; i++) {
+				cboxs += '<input type="checkbox" id="chk' + ipField[i] + '"> ' + htField[i] + "	";
+			};
+			$("#parameters").html(cboxs);
+			$("#parameters").append("<br><button id='hideCol'>Hide columns</button>");
+			$("#hideCol").click(function(){
+				listHide = [];
+				for (i = 0; i < htField.length; i++) {
+					console.log(i,!document.getElementById("chk"+ipField[i]).checked);
+					listHide[i] = { "target": [i], "visible": document.getElementById("chk"+ipField[i]).checked};
+				};
+				console.log(listHide);
+				$('#detable').DataTable().ajax.reload();
+			});
+
 			// DataTable construction
 			table = $('#detable').DataTable( {
 				"processing": true,
 				"scrollX": true,
 				"deferRender": true,
+				"responsive": true,
 				"ajax": { "url": "/loadTab" },
 				"columns": colfunction(),
 				"aoColumnDefs": [ {
@@ -266,7 +289,8 @@ $(document).ready(function() {
 						$(nTd).html(colorLogo)
 						$(nTd).css('color', detColor)
 					}
-				} ]
+				} ],
+				"columnDefs": [{"target": [1], "visible": false}]
 			} );
 			// Select row
 			$('#detable tbody').on( 'click', 'tr', function () {
@@ -294,8 +318,6 @@ $(document).ready(function() {
 			$("#modif").empty();
 			$('#detable').DataTable().ajax.reload();
 		};
-
-
 	});
 
 	// Enable field for adding new detergent
