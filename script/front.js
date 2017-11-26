@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 	// This document will getting from database in the future
 	fieldname = {	"_id" : "fieldname",
 		"database":[
@@ -253,6 +253,7 @@ $(document).ready(function() {
 				"scrollX": true,
 				"deferRender": true,
 				"responsive": true,
+				"searchHighlight": true,
 				"ajax": { "url": "/loadTab" },
 				"columns": colfunction(),
 				"aoColumnDefs": [ {

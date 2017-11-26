@@ -14,7 +14,6 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<!-- My own script -->
 	<script src="/script/front.js" type="text/javascript"></script>
-
 </head>
 
 <body style="min-height: 100vh; display: flex; flex-direction: column;">
@@ -36,6 +35,15 @@
 	<footer class="w3-container w3-row w3-middle" style="background-color: #6c797f"></footer>
 
 </body>
+
+<!-- Scripts necessary for highlighting searching results -->
+<script type="text/javascript" language="javascript" src="//bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.16/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+<style type="text/css">
+	table.dataTable span.highlight {
+	  background-color: #FFFF88;
+	}
+</style>
 
 </html>
 
