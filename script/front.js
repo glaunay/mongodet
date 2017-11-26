@@ -59,48 +59,22 @@ $(document).ready(function() {
 	// Logo which show the color of detergent
 	var colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>';
 
-	var attFields = '<div id="fieldadd">'+
-		'<div class="w3-col m2">'+
-			'<b>Category:</b><br>'+
-			'<input type="text" id="category"><br>'+
-			'<b>Name:</b><br>'+
-			'<input type="text" id="_id"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'<b>Volum:</b><br>'+
-			'<input type="text" id="volume"><br>'+
-			'<b>Color:</b><br>'+
-			'<input type="color" id="color" value=#cc66ff style="width:70%;"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'Complete name:<br>'+
-			'<input type="text" id="complete_name"><br>'+
-			'Molecular formula:<br>'+
-			'<input type="text" id="molecular_formula"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'MM:<br>'+
-			'<input type="text" id="molecular_mass"><br>'+
-			'CMC (nm):<br>'+
-			'<input type="text" id="CMC"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'Aggregation number:<br>'+
-			'<input type="text" id="aggregation_number"><br>'+
-			'Ref:<br>'+
-			'<input type="text" id="ref"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'PDB file:<br>'+
-			'<input type="text" id="pdbfile"><br>'+
-			'Detergent image:<br>'+
-			'<input type="text" id="image"><br>'+
-		'</div>'+
-		'<div class="w3-col m2">'+
-			'SMILES:<br>'+
-			'<input type="text" id="smiles"><br>'+
-		'</div>'+
-	'</div>';
+	var attFields = function attFields() {
+		let code = '<div id="fieldadd">';
+		for (i = 0; i < ipField.length; i++) {
+			if (ipField[i] != 'color') {
+				code += '<div class="w3-col l2 m4 w3-padding">'+ htField[i] +':<br>'+
+					'<input type="text" class="w3-input w3-border" id="'+ ipField[i] +'">'+
+					'</div>';
+			} else {
+				code += '<div class="w3-col l2 m4 w3-padding">'+ htField[i] +':<br>'+
+					'<input type="color" id="color" value=#cc66ff style="width:100%">'+
+					'</div>';
+			}
+		};
+		code += '</div>';
+		return code;
+	};
 
 	// From https://gist.github.com/lrvick/2080648
 	RGBToHex = function(r,g,b){
@@ -121,13 +95,14 @@ $(document).ready(function() {
 	// Build JSON by getting values from input field
 	formToJSON = function(){
 		let jfile = {};
-		for (i = 0; i < dbField.length; i++) {
-			jfile[String(dbField[i])] = eval("$('#" + ipField[i] + "').val()");
+		for (i = 0; i < ipField.length; i++) {
+			jfile[String(ipField[i])] = eval("$('#" + ipField[i] + "').val()");
 		};
 		jfile.color = hexToRGB("0x"+jfile.color.slice(1));
 		return jfile;
 	};
 
+	// Build the HTML code for dataTable with column names
 	buildTabColumns = function(){
 		let HTML = "";
 		for (i = 0; i < htField.length; i++) {
@@ -180,39 +155,35 @@ $(document).ready(function() {
 	
 	// Footer content
 	$("footer").html(
-		'<div id="flogo" class="w3-container w3-col w3-half w3-row">'+
-			'<a href="http://www.cnrs.fr/" target="_blank" class="w3-margin w3-col" style="width:12.5%">'+
-				'<img src="/pic/logo_CNRS.png" alt="CNRS" class="w3-hover-opacity">'+
-			'</a>'+
-			'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank" class="w3-margin  w3-col" style="width:12.5%">'+
-				'<img src="/pic/logo_MMSB.png" alt="MMSB" class="w3-hover-opacity">'+
-			'</a>'+
-			'<a href="https://www.univ-lyon1.fr/" target="_blank" class="w3-margin  w3-col" style="width:12.5%">'+
-				'<img src="/pic/logo_UCBL.png" alt="UCBL" class="w3-hover-opacity">'+
-			'</a>'+
-			'<a href="https://www.bioinfo-lyon.fr/" target="_blank" class="w3-margin  w3-col" style="width:12.5%">'+
-				'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon" class="w3-hover-opacity">'+
-			'</a>'+
-		'</div>'+
-		'<div class="w3-container w3-small w3-col w3-half">'+
-			'<p style="vertical-align:middle;">'+
-				'Contact :<br>'+
-				'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
-				'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
-				'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
-			'</p>'+
-		'</div>');
+		'<a href="https://www.bioinfo-lyon.fr/" target="_blank" class="w3-col w3-padding l2 w3-middle">'+
+			'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon" class="w3-hover-opacity" style="max-width:100%">'+
+		'</a>'+
+		'<a href="http://www.cnrs.fr/" target="_blank" class="w3-col w3-padding l2 m4">'+
+			'<img src="/pic/logo_CNRS.png" alt="CNRS" class="w3-hover-opacity">'+
+		'</a>'+
+		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank" class="w3-col w3-padding l2 m4">'+
+			'<img src="/pic/logo_MMSB.png" alt="MMSB" class="w3-hover-opacity">'+
+		'</a>'+
+		'<a href="https://www.univ-lyon1.fr/" target="_blank" class="w3-col w3-padding l2 m4">'+
+			'<img src="/pic/logo_UCBL.png" alt="UCBL" class="w3-hover-opacity">'+
+		'</a>'+
+		'<p class="w3-col w3-padding w3-small w3-text-white l2 m6" style="vertical-align:middle;">'+
+			'Contact :<br>'+
+			'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
+			'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
+			'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
+		'</p>');
 	$("footer").css({"position": "relative", "right": "0", "bottom": "0", "left": "0", "padding": "1em"});
 
 
 	// Contruct columns definition into a list of json for DataTable
 	var colfunction = function(){
 			let colname = [];
-			for (i = 0; i < dbField.length; i++) {
-				if (dbField[i]==="Ref"){
+			for (i = 0; i < ipField.length; i++) {
+				if (ipField[i]==="ref"){
 					colname[colname.length] = { "data": null, "defaultContent": "<button>See ref</button>" };
 				} else {
-					colname[colname.length] = { "data": dbField[i] };
+					colname[colname.length] = { "data": ipField[i] };
 				};
 			};
 			return colname;
@@ -250,28 +221,30 @@ $(document).ready(function() {
 		if (table === undefined) {
 			// Initialise DataTables with column names
 			$("#table").html(
-				"<div id='parameters'></div>"+
-				"<table id='detable' class='cell-border' cellspacing='0' width='100%''>"+
+				"<div id='parameters' class='w3-padding w3-round'></div>"+
+				"<table id='detable' class='cell-border w3-padding' cellspacing='0' width='100%''>"+
 					"<thead><tr>" + buildTabColumns() + "</tr></thead>"+
 					"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
 				"</table>"
 			);
 			
 			// Build checkboxs
-			let cboxs = "";
+			let cboxs = "<label id='dispar' class='w3-button w3-border w3-padding-small'>Select which columns to display: </label><div id='cboxs' class='w3-border w3-padding'>";
 			for (i = 0; i < htField.length; i++) {
-				cboxs += '<input type="checkbox" id="chk' + ipField[i] + '"> ' + htField[i] + "	";
+				cboxs += '<input type="checkbox" class="w3-check" id="chk' + ipField[i] + '"> ' + htField[i] + "	";
 			};
+			cboxs += "<button id='hideCol' class='w3-button w3-right w3-margin w3-blue w3-tiny w3-round-xxlarge'>Apply</button></div>"
 			$("#parameters").html(cboxs);
-			$("#parameters").append("<br><button id='hideCol'>Hide columns</button>");
+			$("#cboxs").hide();
+			$("#dispar").click(function(){
+				$("#cboxs").toggle();
+			});
 			$("#hideCol").click(function(){
-				listHide = [];
 				for (i = 0; i < htField.length; i++) {
-					console.log(i,!document.getElementById("chk"+ipField[i]).checked);
-					listHide[i] = { "target": [i], "visible": document.getElementById("chk"+ipField[i]).checked};
+					console.log(i, document.getElementById("chk"+ipField[i]).checked);
+					table.column( i ).visible( document.getElementById("chk"+ipField[i]).checked );
 				};
-				console.log(listHide);
-				$('#detable').DataTable().ajax.reload();
+				$("#cboxs").hide();
 			});
 
 			// DataTable construction
@@ -289,9 +262,12 @@ $(document).ready(function() {
 						$(nTd).html(colorLogo)
 						$(nTd).css('color', detColor)
 					}
-				} ],
-				"columnDefs": [{"target": [1], "visible": false}]
+				} ]
 			} );
+
+			document.getElementById("table").className += " w3-padding";
+			//document.getElementById("detable_length").className += " w3-margin";
+
 			// Select row
 			$('#detable tbody').on( 'click', 'tr', function () {
 				if ( $(this).hasClass('selected') ) {
@@ -309,6 +285,7 @@ $(document).ready(function() {
 					selectedToInput(selectedData);
 				}
 			} );
+
 			// Enable other operation's buttons
 			$("#btnaddDet").prop('disabled',false);
 			$("#btnaddCol").prop('disabled',false);
@@ -324,7 +301,9 @@ $(document).ready(function() {
 	$("#btnaddDet").click(function(){
 		$("#modif").empty();
 		$("#modif").html(attFields);
-		$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
+		$("#modif").append('<div class="w3-col l2 m4 w3-padding">'+
+			'<br><button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>'+
+			'</div>');
 		var selectedData = table.row('.selected').data();
 		if (selectedData != undefined) {
 			selectedToInput(selectedData);
@@ -337,15 +316,20 @@ $(document).ready(function() {
 			$('#detable').DataTable().ajax.reload();
 			$("#modif").empty();
 			$("#modif").html(attFields);
-			$("#modif").append('<button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>');
+			$("#modif").append('<div class="w3-col l2 m4 w3-padding">'+
+				'<br><button id="sendnew" class="w3-btn w3-green w3-block w3-ripple">Add new detergent</button>'+
+				'</div>');
 			alert(String(alertName) + " was successfully insert to database!");
 		});
+		$("#cboxs").hide();
 	});
 
 	// Enable field for removing detergent
 	$("#btnremove").click(function(){
 		$("#modif").empty();
-		$("#modif").html('<button id="sendremove" class="w3-btn w3-red w3-block w3-ripple">Remove selected!</button>');
+		$("#modif").html('<div class="w3-margin w3-padding w3-bottom">'+
+			'<button id="sendremove" class="w3-btn w3-red w3-ripple"><b>Remove selected!</b></button>'+
+			'</div>');
 		var selectedData = table.row('.selected').data();
 		if (selectedData === undefined) {
 			$("#sendremove").prop('disabled',true);
@@ -361,13 +345,16 @@ $(document).ready(function() {
 			$("#sendremove").prop('disabled',true);
 			alert(deletedName + " was successfully removed from database!");
 		} );
+		$("#cboxs").hide();
 	});
 
 	// Enable field for updating a detergent
 	$("#btnupdate").click(function(){
 		$("#modif").empty();
 		$("#modif").html(attFields);
-		$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
+		$("#modif").append('<div class="w3-col l2 m4 w3-padding">'+
+			'<br><button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>'+
+			'</div>');
 		var selectedData = table.row('.selected').data();
 		if (selectedData != undefined) {
 			selectedToInput(selectedData);
@@ -379,9 +366,12 @@ $(document).ready(function() {
 			$('#detable').DataTable().ajax.reload();
 			$("#modif").empty();
 			$("#modif").html(attFields);
-			$("#modif").append('<button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>');
+			$("#modif").append('<div class="w3-col l2 m4 w3-padding">'+
+				'<br><button id="sendupdate" class="w3-btn w3-blue w3-block w3-ripple">Update detergent</button>'+
+				'/<div>');
 			alert(modifiedName + " is now up to date!");
 		});
+		$("#cboxs").hide();
 	});
 
 } );
