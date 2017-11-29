@@ -1,5 +1,5 @@
 # mongodet 
-version 0.2
+version 2.1.0.
 
 *Light NoSQL database with user-friendly web interface*
 
@@ -7,7 +7,7 @@ version 0.2
 
 ## Introduction
 
-This project was developed during “Master Bioinformatique Moléculaire: Méthodes et Analyses” from Université Lyon 1: Claude Bernard. It was proposed by Mélanie Garnier, Guillaume Launay, Vincent Chaptal and Juliette Martin from IBCP. It’s purpose was to develop a NoSQL database with an user-friendly web interface of membrane detergents destined to be used by IBCP’s biologists.
+This project was developed during “Master Bioinformatique Moléculaire: Méthodes et Analyses” from Université Lyon 1: Claude Bernard. It was proposed by Mélanie Garnier, Guillaume Launay, Vincent Chaptal and Juliette Martin from IBCP. It’s purpose was to develop a NoSQL database with an user-friendly web interface of membrane detergents destined to be used by the designers of the Det.Belt project.
 
 
 ## Installation
@@ -20,6 +20,10 @@ First, use one of the following commands to get the project in the folder your w
 
 
 - ```git clone git@github.com:friton/mongodet.git```
+
+Or, it is possible to clone the directory from the graphical interface of git by clicking on the green button "clone or download"> "Download zip" to the following address :
+
+```https://github.com/friton/mongodet```
 
 
 ### Node.js
@@ -39,7 +43,7 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 ### Run the project
 
-#### Import data into mongoDB
+#### Initialization of the database
 
 The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
 
