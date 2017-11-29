@@ -43,9 +43,9 @@ $(document).ready(function() {
 			"CMC",
 			"aggregation_number",
 			"ref",
-			"pdbfile",
+			"PDB_file",
 			"image",
-			"smiles"
+			"SMILES"
 		]
 	};
 	var dbField = fieldname.database;
@@ -77,7 +77,7 @@ $(document).ready(function() {
 	};
 
 	// From https://gist.github.com/lrvick/2080648
-	RGBToHex = function(r,g,b){
+	var RGBToHex = function(r,g,b){
 		var bin = r << 16 | g << 8 | b;
 		return (function(h){
 			return new Array(7-h.length).join("0")+h
@@ -85,7 +85,7 @@ $(document).ready(function() {
 	};
 
 	// From https://gist.github.com/lrvick/2080648
-	hexToRGB = function(hex){
+	var hexToRGB = function(hex){
 		var r = hex >> 16;
 		var g = hex >> 8 & 0xFF;
 		var b = hex & 0xFF;
@@ -93,7 +93,7 @@ $(document).ready(function() {
 	};
 
 	// Build JSON by getting values from input field
-	formToJSON = function(){
+	var formToJSON = function(){
 		let jfile = {};
 		for (i = 0; i < ipField.length; i++) {
 			jfile[String(ipField[i])] = eval("$('#" + ipField[i] + "').val()");
@@ -103,7 +103,7 @@ $(document).ready(function() {
 	};
 
 	// Build the HTML code for dataTable with column names
-	buildTabColumns = function(){
+	var buildTabColumns = function(){
 		let HTML = "";
 		for (i = 0; i < htField.length; i++) {
 			HTML += "<th>" + htField[i] + "</th>";
@@ -111,24 +111,25 @@ $(document).ready(function() {
 		return HTML;
 	}
 
-	selectedToInput = function(sRow){
+	var selectedToInput = function(sRow){
 		// Data of dertergent when selected
-		$("#category").val(sRow.category);
-		$("#_id").val(sRow._id);
-		$("#volume").val(sRow.vol);
-		let selCol = sRow.color
-		$("#color").val("#"+RGBToHex(selCol[0],selCol[1],selCol[2]));
-		$("#complete_name").val(sRow.complete_name);
-		$("#molecular_formula").val(sRow.Molecular_formula);
-		$("#molecular_mass").val(sRow.MM);
-		$("#CMC").val(sRow.CMC);
-		$("#aggregation_number").val(sRow.Aggregation_number);
-		$("#ref").val(sRow.Ref);
-		$("#pdbfile").val(sRow.PDB_file);
-		$("#image").val(sRow.detergent_image);
-		$("#smiles").val(sRow.SMILES);
+		for (i = 0; i < ipField.length; i++) {
+			let curField = ipField[i];
+			if (curField != "color") {
+				$('#'+curField).val(eval('sRow.'+curField));
+			} else {
+				let curCol = sRow.color
+				$('#'+curField).val("#"+RGBToHex(curCol[0],curCol[1],curCol[2]));
+			};
+		};
 	};
 
+	var hideSelectedColumns = function(){
+		for (i = 0; i < htField.length; i++) {
+			table.column( i ).visible( document.getElementById("chk"+ipField[i]).checked );
+		};
+		$("#cboxs").hide();
+	}
 
 ////////////////// INITIALIZE PAGE CONTENTS //////////////////
 
@@ -155,23 +156,30 @@ $(document).ready(function() {
 	
 	// Footer content
 	$("footer").html(
-		'<a href="https://www.bioinfo-lyon.fr/" target="_blank" class="w3-col w3-padding l2 w3-middle">'+
+		'<a href="https://www.bioinfo-lyon.fr/" target="_blank" class="w3-col w3-padding w3-center l2">'+
 			'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon" class="w3-hover-opacity" style="max-width:100%">'+
 		'</a>'+
-		'<a href="http://www.cnrs.fr/" target="_blank" class="w3-col w3-padding l2 m4">'+
+		'<a href="http://www.cnrs.fr/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
 			'<img src="/pic/logo_CNRS.png" alt="CNRS" class="w3-hover-opacity">'+
 		'</a>'+
-		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank" class="w3-col w3-padding l2 m4">'+
+		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
 			'<img src="/pic/logo_MMSB.png" alt="MMSB" class="w3-hover-opacity">'+
 		'</a>'+
-		'<a href="https://www.univ-lyon1.fr/" target="_blank" class="w3-col w3-padding l2 m4">'+
+		'<a href="https://www.univ-lyon1.fr/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
 			'<img src="/pic/logo_UCBL.png" alt="UCBL" class="w3-hover-opacity">'+
 		'</a>'+
-		'<p class="w3-col w3-padding w3-small w3-text-white l2 m6" style="vertical-align:middle;">'+
+		'<p class="w3-col w3-padding w3-tiny w3-text-white l2 m6" style="vertical-align:middle;">'+
 			'Contact :<br>'+
-			'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sebastien Delolme-Sabatier</a><br>'+
+			'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sébastien Delolme-Sabatier</a><br>'+
 			'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
 			'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
+		'</p>'+
+		'<p class="w3-col w3-padding w3-tiny w3-text-white l2 m6" style="vertical-align:middle;">'+
+			'Powered by :<br>'+
+			'Node.js - Express.js<br>'+
+			'MongoDB<br>'+
+			'jQuery - DataTable<br>'+
+			'W3-CSS<br>'+
 		'</p>');
 	$("footer").css({"position": "relative", "right": "0", "bottom": "0", "left": "0", "padding": "1em"});
 
@@ -181,7 +189,10 @@ $(document).ready(function() {
 			let colname = [];
 			for (i = 0; i < ipField.length; i++) {
 				if (ipField[i]==="ref"){
-					colname[colname.length] = { "data": null, "defaultContent": "<button>See ref</button>" };
+					colname[colname.length] = { 
+						"data": null, 
+						"defaultContent": "<button class='w3-button w3-round-xxlarge'>"+
+											"<i class='fa fa-eye' aria-hidden='true'></i></button>" };
 				} else {
 					colname[colname.length] = { "data": ipField[i] };
 				};
@@ -209,11 +220,7 @@ $(document).ready(function() {
 
 ////////////////// ACTIONS ON PAGE //////////////////
 
-	// Alert reference of detergent
-	$('#detable tbody').on( 'click', 'button', function () {
-		var data = table.row( $(this).parents('tr') ).data();
-		alert( data.Ref );
-	} );
+	
 
 	// Display the table or reload it
 	$("#btnbrowse").click(function(){
@@ -233,15 +240,26 @@ $(document).ready(function() {
 			for (i = 0; i < htField.length; i++) {
 				cboxs += '<input type="checkbox" class="w3-check" id="chk' + ipField[i] + '"> ' + htField[i] + "	";
 			};
-			cboxs += "<button id='hideCol' class='w3-button w3-right w3-margin w3-blue w3-tiny w3-round-xxlarge'>Apply</button></div>"
+			cboxs += "<button id='hideCol' class='w3-button w3-margin w3-blue w3-tiny w3-round-xxlarge'>Apply</button></div>"
+			
+			// Build checkboxs into HTML
 			$("#parameters").html(cboxs);
+			
+			// Set the checkboxsfield hidden by default
 			$("#cboxs").hide();
+
+			// Toggle the field
 			$("#dispar").click(function(){
 				$("#cboxs").toggle();
+				// Select the boxs correspoding to visible columns
+				for (i = 0; i < ipField.length; i++) {
+					document.getElementById("chk"+ipField[i]).checked = table.column(i).visible();
+				};
 			});
+			
+			// Hide selected columns
 			$("#hideCol").click(function(){
 				for (i = 0; i < htField.length; i++) {
-					console.log(i, document.getElementById("chk"+ipField[i]).checked);
 					table.column( i ).visible( document.getElementById("chk"+ipField[i]).checked );
 				};
 				$("#cboxs").hide();
@@ -267,7 +285,6 @@ $(document).ready(function() {
 			} );
 
 			document.getElementById("table").className += " w3-padding";
-			//document.getElementById("detable_length").className += " w3-margin";
 
 			// Select row
 			$('#detable tbody').on( 'click', 'tr', function () {
@@ -287,12 +304,29 @@ $(document).ready(function() {
 				}
 			} );
 
+			// Alert reference of detergent
+			$('#detable tbody').on( 'click', 'button', function () {
+				var data = table.row( $(this).parents('tr') ).data();
+				alert( data.ref );
+			} );
+
 			// Enable other operation's buttons
 			$("#btnaddDet").prop('disabled',false);
 			$("#btnaddCol").prop('disabled',false);
 			$("#btnupdate").prop('disabled',false);
 			$("#btnremove").prop('disabled',false);
+
+			// Init the table with only 4 first columns, corresponding to Category,
+			// Name, Volume and Color
+			for (i = 0; i < ipField.length; i++) {
+				if (i<4){
+					table.column(i).visible(true);
+				} else {
+					table.column(i).visible(false);
+				};
+			};
 		} else {
+			// When the table is already here
 			$("#modif").empty();
 			$('#detable').DataTable().ajax.reload();
 		};
@@ -328,8 +362,8 @@ $(document).ready(function() {
 	// Enable field for removing detergent
 	$("#btnremove").click(function(){
 		$("#modif").empty();
-		$("#modif").html('<div class="w3-margin w3-padding w3-bottom">'+
-			'<button id="sendremove" class="w3-btn w3-red w3-ripple"><b>Remove selected!</b></button>'+
+		$("#modif").html('<div class="w3-margin w3-padding w3-bottom w3-center">'+
+			'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round"><b>Remove selected!</b></button>'+
 			'</div>');
 		var selectedData = table.row('.selected').data();
 		if (selectedData === undefined) {
