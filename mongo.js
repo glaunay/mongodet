@@ -35,32 +35,6 @@ return check; //Return true if conditions are met
 
 
 
-//Function to check conditions for update detergents
-var checkConditionsUpdate = function(key, value){
-	var check = true;
-	if(key == 'category'){
-		if(typeof(value) != 'string' || value == 'null'){
-			check = 'The detergent category must be filled with string type';
-			return check;
-		}
-	}
-	if(key == 'volume'){
-		if (typeof(value) != 'number' || value == 'null'){
-			check = 'The detergent volume must be filled with number type';
-			return check;
-		}
-	}
-	if(key == 'color'){
-		if (typeof(value) != 'object' || value != 3) {
-			check = 'The detergent color must be a list of 3 values';
-			return check;
-		}
-	}
-
-	return check; //Return true if conditions are met
-}
-
-
 //Function to normalize colors between 0 and 255
 var modifyColor = function(detergent){
 	if (detergent[0] >= 0 && detergent[1] >= 0 && detergent[2] >= 0
@@ -176,6 +150,22 @@ var FindinDet =  function() {
  		return items;
 	});
 }
+
+
+
+//Function to delete the database
+var deleteData = function(db){
+	db.collection('det').drop(function(err,result){
+		if(err){
+			throw err;
+		}
+		else{
+			console.log('The database has been delete');
+		}
+	});
+}
+
+
 
 
 
@@ -301,19 +291,6 @@ var detCategory = function(db){
 
 
 
-//Function to delete the database
-var deleteData = function(db){
-	db.collection('det').drop(function(err,result){
-		if(err){
-			throw err;
-		}
-		else{
-			console.log('The database has been delete');
-		}
-	});
-}
-
-
 
 //MONGODB
 
@@ -362,7 +339,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 //var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
 
 
-	deleteData(db);
+	//deleteData(db);
 
 /*function getDeepKeys() {
 	obj = FindinDet();
@@ -391,8 +368,9 @@ getDeepKeys(obj);*/
 
 module.exports = {
   	testFront: testFront,
-  	FindinDet : FindinDet,
+  	FindinDet: FindinDet,
   	insertData: insertData,
+  	deleteData: deleteData,
   	deleteDet: deleteDet,
   	insertDet: insertDet,
   	modifyDet: modifyDet,
