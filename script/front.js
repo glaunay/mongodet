@@ -124,13 +124,6 @@ $(document).ready(function() {
 		};
 	};
 
-	var hideSelectedColumns = function(){
-		for (i = 0; i < htField.length; i++) {
-			table.column( i ).visible( document.getElementById("chk"+ipField[i]).checked );
-		};
-		$("#cboxs").hide();
-	}
-
 ////////////////// INITIALIZE PAGE CONTENTS //////////////////
 
 	// Header content
@@ -361,6 +354,7 @@ $(document).ready(function() {
 
 	// Enable field for removing detergent
 	$("#btnremove").click(function(){
+
 		$("#modif").empty();
 		$("#modif").html('<div class="w3-margin w3-padding w3-bottom w3-center">'+
 			'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round"><b>Remove selected!</b></button>'+
@@ -373,12 +367,15 @@ $(document).ready(function() {
 		};
 		//selectedToInput(selectedData);
 		// Send POST request for removing one detergent
+
 		$('#sendremove').click( function () {
 			let deletedName = table.row('.selected').data()._id;
-			$.post("/removeDet",table.row('.selected').data());
-			$('#detable').DataTable().ajax.reload();
-			$("#sendremove").prop('disabled',true);
-			alert(deletedName + " was successfully removed from database!");
+			if (confirm("ATTENTION! Did you really want to remove "+deletedName+"? This process is NOT REVERSIBLE!") == true) {
+				$.post("/removeDet",table.row('.selected').data());
+				$('#detable').DataTable().ajax.reload();
+				$("#sendremove").prop('disabled',true);
+				alert(deletedName + " was successfully removed from database!");
+			} 
 		} );
 		$("#cboxs").hide();
 	});
