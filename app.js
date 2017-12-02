@@ -11,13 +11,22 @@ const child = spawn('mongod'); // find a way to shut it when out of the program
 
 arg = process.argv;
 if (arg.length > 2){
-  if (arg[2]=="--init"){
+  if (arg[2]=="-init"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
       if (err) {
         throw err;
       }
-      mongo.insertData(db, __dirname+arg[3]); 
+      mongo.insertData(db, __dirname+'/'+arg[3]); 
     })
+  }
+  else if (arg[2]=="-reinit"){
+    MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
+      if (err) {
+        throw err;
+      }
+      mongo.deleteData(db);
+      mongo.insertData(db, __dirname+'/'+arg[3]); // message not on the right order but work actually
+    })  	
   }
 }
 
@@ -27,11 +36,10 @@ if (arg.length > 2){
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
-module.exports = app;
+
 
 var readJson=function(path) {
   var dict = jsonfile.readFileSync(path,'utf8');
@@ -175,6 +183,6 @@ app.listen(3000, function () {
 })
 
 
-
+module.exports = app;
 
 
