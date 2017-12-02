@@ -48,10 +48,17 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
 
 ```
-node app.js --init [path]
+node app.js -init [path]
 ```
 
 **Note** : the Json file must be in Det.belt format. The database now contains detergents of your file.
+If the database is already filled and you want to reset it, you can use 
+
+```
+node app.js -reinit [path]
+```
+
+where path is the path of the file you want to use to fill your database
 
 #### Access to the web page
 
