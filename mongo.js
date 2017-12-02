@@ -1,11 +1,12 @@
 //HTML part
 
-var express = require('express');
 var jsonfile = require('jsonfile');
 var path = require('path');
-var app = express();
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
+
+//global.CronJob = require('./cron.js');
 
 
 //FUNCTIONS
@@ -13,7 +14,7 @@ var fs = require('fs');
 
 //Function to check conditions for insert detergents
 var checkConditionsInsert = function(detergent){
-	var check = true;
+	let check = true;
 	if(typeof(detergent.category) != 'string' || detergent.category == 'null'){
 		check = 'The detergent category must be filled with string type';
 		return check;
@@ -125,9 +126,9 @@ var insertData = function(db, path) {
 					var nameDet = err.errmsg.split('"')[1]; //id of the detergent error
 					console.log(nameDet, ': The detergent name must be unique');
 					}
-				}
-				else{
-					throw err;
+					else{
+						throw err;
+					}
 				}
 			});
 		}
