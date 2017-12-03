@@ -120,7 +120,7 @@ app.post('/newDet',function (req, res) {
     throw err;
   }
   var to_insert = req.body;
-  to_insert.vol=Number(to_insert.vol,10)
+  to_insert.volume=Number(to_insert.volume,10)
   to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
   mongo.insertDet(db,to_insert);
 
@@ -145,7 +145,7 @@ app.post('/updateDet',function (req, res) {
 		throw err;
 	}
 	var to_update = req.body;
-	to_update.vol = Number(to_update.vol)
+	to_update.volume = Number(to_update.volume)
 	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
 	if (to_update.MM != ''){
 		to_update.MM = Number(to_update.MM)
