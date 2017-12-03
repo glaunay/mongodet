@@ -200,13 +200,17 @@ $(document).ready(function() {
 			);
 			
 			// Build checkboxs
-			let cboxs = "<label id='dispar' class='w3-button w3-border w3-padding-small'>Select which columns to display: </label><div id='cboxs' class='w3-border w3-padding w3-row'>";
+			let cboxs = "<label id='dispar' class='w3-button w3-border w3-padding-small'>"+
+					"Select which columns to display: </label>"+
+					"<div id='cboxs' class='w3-border w3-padding w3-row'>";
 			for (i = 0; i < fieldName.length; i++) {
-				cboxs += '<div class="w3-col l2 m3 s6">'
-				cboxs += '<input type="checkbox" class="w3-check" id="chk' + fieldName[i] + '"> ' + fieldName[i] + "	";
-				cboxs += '</div>'
+				cboxs += '<div class="w3-col l2 m3 s6">'+
+						'<input type="checkbox" class="w3-check" id="chk' + fieldName[i] + '"> ' + fieldName[i] + "	"+
+						'</div>'
 			};
-			cboxs += "<div class='w3-col l2 m3 s6'><button id='hideCol' class='w3-button w3-margin w3-blue w3-small w3-round-xxlarge'>Apply</button></div></div>"
+			cboxs += "<div class='w3-col l2 m3 s6'><button class='w3-button w3-small' id='selall'><ins>Select all</ins></button>"+
+					"<button class='w3-button w3-small' id='dselall'><ins>Unselect all</ins></button></div>"+
+					"<div class='w3-col l2 m3 s6'><button id='hideCol' class='w3-button w3-margin w3-blue w3-small w3-round-xxlarge'>Apply</button></div></div>"
 			
 			// Build checkboxs into HTML
 			$("#parameters").html(cboxs);
@@ -221,6 +225,16 @@ $(document).ready(function() {
 				for (i = 0; i < fieldName.length; i++) {
 					document.getElementById("chk"+fieldName[i]).checked = table.column(i).visible();
 				};
+				$("#selall").click(function(){
+					for (i = 0; i < fieldName.length; i++) {
+						document.getElementById("chk"+fieldName[i]).checked = true;
+					};
+				});
+				$("#dselall").click(function(){
+					for (i = 0; i < fieldName.length; i++) {
+						document.getElementById("chk"+fieldName[i]).checked = false;
+					};
+				});
 			});
 			
 			// Hide selected columns
