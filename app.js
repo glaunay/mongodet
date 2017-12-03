@@ -96,7 +96,7 @@ app.use('/pic', express.static(__dirname + '/images'));
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
   mongo.FindinDet().then(function(items) {
   var test = items;
-    console.log(items.length) 
+    //console.log(items.length) 
     res.send({"data":test});
     next();
 }, function(err) {
