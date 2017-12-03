@@ -6,7 +6,9 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 
 
-//global.CronJob = require('./cron.js');
+global.CronJob = require('./cron.js');
+
+
 
 
 //FUNCTIONS
@@ -75,12 +77,13 @@ var Json_detBelt_mongo = function(path) {
 
 
 //Function to modify new JSON file in the old format 
-var Json_mongo_detBelt = function(path) {
+/*var Json_mongo_detBelt = function(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
-	var write = [];
+	var write = {};
 	var category = [];
 	var counter = 0;
 	var tempo = '';
+	
 
 	var values = Object.keys(dict.data).map(function(key) {
     	return dict.data[key];
@@ -92,7 +95,6 @@ var Json_mongo_detBelt = function(path) {
 			delete dict.data[i].category
 			write[category[counter]] = [dict.data[i]];
 			counter += 1;
-
 		}
 		else{
 			for(j=0; j<Object.keys(write).length; j++){
@@ -105,9 +107,9 @@ var Json_mongo_detBelt = function(path) {
 		}
 	}
 	
-	dict.data = write; 		
+	dict = {"data":write};
 	return dict;
-}
+}*/
 
 
 
@@ -151,6 +153,9 @@ var FindinDet =  function() {
  		return items;
 	});
 }
+
+
+//console.log(FindinDet);
 
 
 
@@ -368,7 +373,7 @@ getDeepKeys(obj);*/
 //EXPORT
 
 module.exports = {
-  	testFront: testFront,
+	testFront: testFront,
   	FindinDet: FindinDet,
   	insertData: insertData,
   	deleteData: deleteData,
