@@ -3,6 +3,11 @@ var jsonfile = require('jsonfile')
 var mongo = require('./mongo');
 var MongoClient = require('mongodb').MongoClient;
 var {spawn} = require('child_process')
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var app = express();
 
 const child = spawn('mongod'); // find a way to shut it when out of the program
 
@@ -28,16 +33,25 @@ if (arg.length > 2){
       mongo.insertData(db, __dirname+'/'+arg[3]); // message not on the right order but work actually
     })  	
   }
+  else if (arg[2]=="--testfront"){
+      return 0;
+  }
+  else if (arg[2]=="--testmongo"){
+    var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
+      if (arg[3]=="--insert"){
+        MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
+          if (err) {
+            throw err;
+          }
+        mongo.insertData(db,obj); 
+    }) 
+      return 0;
+  }}
 }
 
 
 //Partie HTML
 
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var app = express();
 
 
 
@@ -82,8 +96,8 @@ app.use('/pic', express.static(__dirname + '/images'));
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
   mongo.FindinDet().then(function(items) {
   var test = items;
- 
-     res.send({"data":test});
+    console.log(items.length) 
+    res.send({"data":test});
     next();
 }, function(err) {
   console.error('The promise was rejected', err, err.stack);
@@ -149,8 +163,29 @@ app.post('/updateDet',function (req, res) {
 
 });
 });
+app.post('/removeCol',function(req,res){
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+	if (err) {
+		throw err;
+	}
+	var col = req.body.column;
+	mongo.deleteCaract(db,col);
+	//console.log(col)
 
+});
+});
 
+app.post('/addCol',function(req,res){
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+	if (err) {
+		throw err;
+	}
+	//var col = req.body.column;
+	//mongo.deleteCaract(db,col);
+	//console.log(col)
+
+});
+});
 
 /*
 var MongoClient = require('mongodb').MongoClient;
