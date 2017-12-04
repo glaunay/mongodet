@@ -63,7 +63,22 @@ var readJson=function(path) {
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/html/index.html')
 })
-//app.get('/getKeys')
+
+app.get('/getKeys',function(req, res,next){
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
+    	if (err) {
+    		throw err;
+      	}
+      	return(mongo.getallkeys(db)).then(function(items){
+      			//res.send({"value":mongo.getallkeys(db)});
+      			console.log(items)
+      			res.send(items);
+
+      	})
+      	})
+         
+    })
+
 
 // catch 404 and forward to error handler
 /*
