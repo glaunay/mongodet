@@ -36,7 +36,7 @@ if (arg.length > 2){
   else if (arg[2]=="--testfront"){
       return 0;
   }
-  else if (arg[2]=="--testmongo"){
+  /*else if (arg[2]=="--testmongo"){
     var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
       if (arg[3]=="--insert"){
         MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
@@ -46,7 +46,7 @@ if (arg.length > 2){
         mongo.insertData(db,obj); 
     }) 
       return 0;
-  }}
+  }}*/
 }
 
 
@@ -175,18 +175,21 @@ app.post('/removeCol',function(req,res){
 });
 });
 
-app.post('/addCol',function(req,res){
+
+/*
+app.post('/updateCol',function(req,res){
 	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
 	if (err) {
 		throw err;
 	}
-	//var col = req.body.column;
-	//mongo.deleteCaract(db,col);
+	var old_col = req.body.old_column;
+	var new_col = req.body.new_column;
+	mongo.modifyCaract(db,old_col,new_col);
 	//console.log(col)
 
 });
 });
-
+*/
 /*
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
