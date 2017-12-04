@@ -155,7 +155,18 @@ var FindinDet =  function() {
 }
 
 
-//console.log(FindinDet);
+
+//Function to return all keys
+var getallkeys = function(){
+	var allKeys = {};
+	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
+		var collection = db.collection('det');
+		return collection.find().toArray();
+	}).then(function(items) {
+		items.forEach(function(doc){Object.keys(doc).forEach(function(key){allKeys[key]='1'})})
+		var l_keys =Object.keys(allKeys)
+ 		return l_keys;
+	});
 
 
 
@@ -375,6 +386,7 @@ getDeepKeys(obj);*/
 module.exports = {
 	testFront: testFront,
   	FindinDet: FindinDet,
+  	getallkeys: getallkeys,
   	insertData: insertData,
   	deleteData: deleteData,
   	deleteDet: deleteDet,
