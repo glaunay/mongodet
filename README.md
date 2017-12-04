@@ -1,5 +1,5 @@
 # mongodet 
-version 2.1.0.
+
 
 *Light NoSQL database with user-friendly web interface*
 
@@ -83,10 +83,14 @@ You can add a detergent into the database clicking on the "Add new" button.
 You can also update a detergent by clicking on the "Update one" button and then select a line.
 Finally, you can suppress a detergent by clicking on the button "Remove one" then select the line you want to delete.
 
+### Security
+
+For more security and to avoid loss of data, a backup system has been developped. It's main purpose is to make a copy of the database at it's current state everyday at the same hour (currently at 19.00, 19.10 and 19.20). Note that the application mustn't be off during this process. 
 
 ## Additional programs
 
 ### Format conversion
+
 Det.belt's Json file format needs to be converted to be integrated into the database. A function returns the format requested by the mongo database from the Det.belt file (Json_detBelt_mongo) ; a second can do the opposite (Json_mongo_detbelt).
 
 ### CSV_to_JSON converter
@@ -99,6 +103,7 @@ If you are experiencing issues with the project, you can contact us: [S. Delolme
 	
 ## Improvements to be done
 
-Mongod continue to run after the closing of the program, this will be corrected too
-In the next release, user will be able to delete columns
-A backup system will also be added. 
+Mongod continue to run after the closing of the program, this will be corrected in a next release. A test mode is in developpment, it will allow to use front end and backend separatly.
+The backup system currently is activated every day at the same hour, we will soon ensure that this feature work only the days a change has been done.
+It is currently possible to delete a characteristic of a detergent. The possibility to add a new one or to update one is also currently in developpement.
+Finally, on the next release, a HTML tutorial will be implemented. The webpage will also display tooltips so the user will be guided on how to use our application.
