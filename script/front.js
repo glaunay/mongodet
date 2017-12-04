@@ -1,7 +1,7 @@
 // Request the list of key names from server
-fieldname = ""
+fieldName = []
 $.get("/getKeys", function(data){
-		fieldname = data;
+		fieldName = data;
 });
 
 $(document).ready(function() {
@@ -176,12 +176,10 @@ $(document).ready(function() {
 
 	// Buttons for operations on database
 	$("#operationsbar").html(
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnbrowse" class="w3-btn w3-round-large w3-ripple w3-block w3-teal">'+
+		'<div class="w3-col w3-padding w3-mobile l4 "><button id="btnbrowse" class="w3-btn w3-round-large w3-ripple w3-block w3-teal">'+
 			'<i class="fa fa-table" aria-hidden="true"></i> Browse only</button></div>'+
 		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnaddDet" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
 			'<i class="fa fa-plus-circle" aria-hidden="true"></i> Add new detergent</button></div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnaddCol" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
-			'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new column</button></div>'+
 		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnrmCol" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
 			'<i class="fa fa-plus-square" aria-hidden="true"></i> Remove a column</button></div>'+
 		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnupdate" class="w3-btn w3-round-large w3-ripple w3-block w3-blue">'+
@@ -190,7 +188,6 @@ $(document).ready(function() {
 			'<i class="fa fa-trash" aria-hidden="true"></i> Remove one</button></div>'
 	);
 	$("#btnaddDet").prop('disabled',true);
-	$("#btnaddCol").prop('disabled',true);
 	$("#btnrmCol").prop('disabled',true);
 	$("#btnupdate").prop('disabled',true);
 	$("#btnremove").prop('disabled',true);
@@ -309,7 +306,6 @@ $(document).ready(function() {
 
 			// Enable other operation's buttons
 			$("#btnaddDet").prop('disabled',false);
-			$("#btnaddCol").prop('disabled',false);
 			$("#btnrmCol").prop('disabled',false);
 			$("#btnupdate").prop('disabled',false);
 			$("#btnremove").prop('disabled',false);
@@ -342,6 +338,19 @@ $(document).ready(function() {
 		$("#modif").empty();
 		$("#modif").append(attFields);
 		$("#_id").attr('required',true); // to be improved into a function
+		$("#modif").append('<div class="w3-col l2 m4 w3-padding"><br><button id="btnaddCol2" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
+			'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute</button></div>');
+		$("#btnaddCol2").click(function(){
+			$(this).parents("div:first").empty()
+				.removeClass("l2 m4")
+				.addClass("l4 m8 w3-pale-blue")
+				.html('<div class="w3-col l6">New attribute name:<br>'+
+					'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col">'+
+					'</div>'+
+					'<div class="w3-col l6">Value for new attribute:<br>'+
+					'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col_value">'+
+					'</div>')
+		});
 		$("#modif").append(submitbtn);
 		var selectedData = table.row('.selected').data();
 		if (selectedData != undefined) {
@@ -349,7 +358,13 @@ $(document).ready(function() {
 		};
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
-			$.post("/newDet", formToJSON() );
+			if ($("#new_col").val() == "" || $("#new_col_value").val() == ""){
+				$.post("/newDet", formToJSON() );
+			} else {
+				let JSON_send = formToJSON();
+				JSON_send[$("#new_col").val()] = $("#new_col_value").val();
+				$.post("/newDet", JSON_send );
+			}
 			let alertName = formToJSON()._id;
 			$('#detable').DataTable().ajax.reload();
 			$("[autocomplete]").val("");
