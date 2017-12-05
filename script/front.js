@@ -645,7 +645,7 @@ $(document).ready(function() {
 					alert(col + " column was successfully removed from database!");
 				};
 			} else if (col != "" && newcol != "" ){
-				if (confirm("WARNING!\nDid you really want to raplace the column "+col+" by "+newcol+"?\nThis process is NOT REVERSIBLE!") == true) {
+				if (confirm("WARNING!\nDid you really want to replace the column "+col+" by "+newcol+"?\nThis process is NOT REVERSIBLE!") == true) {
 					// temporary solution for synchronous get keys
 					fieldName[fieldName.indexOf(col)] = newcol;
 					$.post("/modifCol",{"old_column": col, "new_column": newcol});
