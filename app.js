@@ -54,12 +54,6 @@ if (arg.length > 2){
 
 
 
-
-var readJson=function(path) {
-  var dict = jsonfile.readFileSync(path,'utf8');
-  console.log(dict.data);
-}
-
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/html/index.html')
 })
@@ -71,7 +65,7 @@ app.get('/getKeys',function(req, res,next){
       	}
       	return(mongo.getallkeys(db)).then(function(items){
       			//res.send({"value":mongo.getallkeys(db)});
-      			console.log(items)
+      			//console.log(items)
       			res.send(items);
 
       	})
@@ -88,7 +82,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 */
-//readJson(__dirname+"/data/det.json")
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -190,9 +183,7 @@ app.post('/removeCol',function(req,res){
 });
 });
 
-
-/*
-app.post('/updateCol',function(req,res){
+app.post('/modifCol',function(req,res){
 	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
 	if (err) {
 		throw err;
@@ -204,7 +195,8 @@ app.post('/updateCol',function(req,res){
 
 });
 });
-*/
+
+
 /*
 var MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb://localhost:27017/detest', function(err, db) {
