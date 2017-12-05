@@ -97,7 +97,7 @@ app.use('/data', express.static(__dirname + '/data'));
 app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
 app.use('/pic', express.static(__dirname + '/images'));
 app.use('/img',express.static(__dirname + '/data/pdb_images'));
-
+app.use('/css', express.static(__dirname + '/style'));
 // Operations on the database
 
 
