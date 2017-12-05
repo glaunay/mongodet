@@ -82,6 +82,7 @@ Different operation are available on the web page.
 You can add a detergent into the database clicking on the "Add new" button.
 You can also update a detergent by clicking on the "Update one" button and then select a line.
 Finally, you can suppress a detergent by clicking on the button "Remove one" then select the line you want to delete.
+It is possible to manage the columns of the table. You can delete them by clicking first on the button "Manage column", then you choose the column you want to delete and confirm. You can also change a column name by clicking on the button "change a column name". Select the column you want to update and enter the new name you want, then confirm
 
 ### Security
 
@@ -105,5 +106,5 @@ If you are experiencing issues with the project, you can contact us: [S. Delolme
 
 Mongod continue to run after the closing of the program, this will be corrected in a next release. A test mode is in developpment, it will allow to use front end and backend separatly.
 The backup system currently is activated every day at the same hour, we will soon ensure that this feature work only the days a change has been done.
-It is currently possible to delete a characteristic of a detergent. The possibility to add a new one or to update one is also currently in developpement.
+Verifications still need to be done on the client side.
 Finally, on the next release, a HTML tutorial will be implemented. The webpage will also display tooltips so the user will be guided on how to use our application.
