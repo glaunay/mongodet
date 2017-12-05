@@ -1,104 +1,163 @@
-// Request the list of key names from server
 var fieldName = []
 var table = undefined;
 
+// Request the list of column names from server
 function getkeys(){
+
 	$.get("/getKeys", function(data){
 		fieldName = data;
-		console.log("key",fieldName);
 	});
+
 };
 
+
+
+// Build input field for each column's operations
 function attFields() {
+
 	let code = '<div id="fieldadd">';
 	for (i = 0; i < fieldName.length; i++) {
+
 		if (fieldName[i] != 'color') {
+
 			code += '<div class="w3-col l2 m4 w3-padding">'+ fieldName[i] +':<br>'+
-				'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ fieldName[i] +'">'+
-				'</div>';
+						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ fieldName[i] +'">'+
+					'</div>';
+
 		} else {
+
 			code += '<div class="w3-col l2 m4 w3-padding">'+ fieldName[i] +':<br>'+
-				'<input type="color" id="color" value=#808080 style="width:100%">'+
-				'</div>';
+						'<input type="color" id="color" value=#808080 style="width:100%">'+
+					'</div>';
+
 		}
 	};
+
 	code += '</div>';
 	return code;
 };
 
+
+
 // Contruct columns definition into a list of json for DataTable
 function colfunction(){
+
 	let colname = [];
 	for (i = 0; i < fieldName.length; i++) {
+
+		// Define 'ref' and 'image' manually for now
 		if (fieldName[i]==="ref"){
+
 			colname[colname.length] = { 
 				"data": null, 
-				"defaultContent": "<button class='w3-button w3-round-xxlarge'>"+
-									"<i class='fa fa-eye' aria-hidden='true'></i></button>" };
+				"defaultContent": 	"<button class='w3-button w3-round-xxlarge'>"+
+										"<i class='fa fa-eye' aria-hidden='true'></i>"+
+									"</button>"
+			};
+
 		} else if (fieldName[i]==="image"){
+
 			colname[colname.length] = { 
 				"data": "img.jpg", 
-				"defaultContent": "<p>See image</p>" };
+				"defaultContent": "<p>See image</p>"
+			};
+
 		} else {
+
 			colname[colname.length] = { "data": fieldName[i] };
+
 		};
 	};
+
 	return colname;
 };
 
+
+
 // From https://gist.github.com/lrvick/2080648
 function RGBToHex(r,g,b){
+
 	var bin = r << 16 | g << 8 | b;
 	return (function(h){
 		return new Array(7-h.length).join("0")+h
 	})(bin.toString(16).toUpperCase())
+
 };
 
 // From https://gist.github.com/lrvick/2080648
 function hexToRGB(hex){
+
 	var r = hex >> 16;
 	var g = hex >> 8 & 0xFF;
 	var b = hex & 0xFF;
 	return [r,g,b];
+
 };
 
-// Build JSON by getting values from input field
+
+
+// Build JSON for AJAX by getting values from input field
 function formToJSON(){
+
 	let jfile = {};
 	for (i = 0; i < fieldName.length; i++) {
+
 		let value = eval("$('#" + fieldName[i] + "').val()");
 		if (value == ""){
+
 			jfile[String(fieldName[i])] = null;
+
 		} else {
+
 			jfile[String(fieldName[i])] = value;
+
 		};
 	};
+
 	jfile.color = hexToRGB("0x"+jfile.color.slice(1));
 	return jfile;
 };
 
+
+
 // Build the HTML code for dataTable with column names
 function buildTabColumns(){
+
 	let HTML = "";
 	for (i = 0; i < fieldName.length; i++) {
+
 		HTML += "<th>" + fieldName[i] + "</th>";
+
 	};
+
 	return HTML;
 }
 
+
+
+// Fill input field by getting selected detergent's values
 function selectedToInput(sRow){
+
 	// Data of dertergent when selected
 	for (i = 0; i < fieldName.length; i++) {
+
 		let curField = fieldName[i];
 		if (curField != "color") {
+
 			$('#'+curField).val(eval('sRow.'+curField));
+
 		} else {
+
 			let curCol = sRow.color
 			$('#'+curField).val("#"+RGBToHex(curCol[0],curCol[1],curCol[2]));
+
 		};
 	};
 };
 
+
+
+// Function that combines operations necessary to construct DataTable on HTML
 function buildDataTable(){
 
 	// Logo which show the color of detergent
@@ -106,11 +165,13 @@ function buildDataTable(){
 	
 	// Build checkboxs
 	let cboxs = "<label id='dispar' class='w3-button w3-border w3-padding-small'>"+
-			"Select which columns to display: </label>"+
-			"<div id='cboxs' class='w3-border w3-padding w3-row'>";
+					"Select which columns to display: "+
+				"</label>"+
+				"<div id='cboxs' class='w3-border w3-padding w3-row'>";
 
 	// Initialise DataTables with column names
 	$("#table").empty();
+
 	//$("#parameters").empty();
 	$("#table").html(
 		"<div id='parameters' class='w3-padding w3-round'></div>"+
@@ -122,13 +183,16 @@ function buildDataTable(){
 	
 	// Build checkbox for display columns
 	for (i = 0; i < fieldName.length; i++) {
-		cboxs += '<div class="w3-col l2 m3 s6">'+
-				'<input type="checkbox" class="w3-check" id="chk' + fieldName[i] + '"> ' + fieldName[i] + "	"+
-				'</div>'
+
+		cboxs += 	'<div class="w3-col l2 m3 s6">'+
+						'<input type="checkbox" class="w3-check" id="chk' + fieldName[i] + '"> ' + fieldName[i] + "	"+
+					'</div>'
+
 	};
-	cboxs += "<div class='w3-col l2 m3 s6'><button class='w3-button w3-small' id='selall'><ins>Select all</ins></button>"+
-			"<button class='w3-button w3-small' id='dselall'><ins>Unselect all</ins></button></div>"+
-			"<div class='w3-col l2 m3 s6'><button id='hideCol' class='w3-button w3-margin w3-blue w3-small w3-round-xxlarge'>Apply</button></div></div>"
+	cboxs += 	"<div class='w3-col l2 m3 s6'>"+
+					"<button class='w3-button w3-small' id='selall'><ins>Select all</ins></button>"+
+					"<button class='w3-button w3-small' id='dselall'><ins>Unselect all</ins></button></div>"+
+				"<div class='w3-col l2 m3 s6'><button id='hideCol' class='w3-button w3-margin w3-blue w3-small w3-round-xxlarge'>Apply</button></div></div>"
 	
 	// Build checkboxs into HTML
 	$("#parameters").html(cboxs);
@@ -138,32 +202,46 @@ function buildDataTable(){
 
 	// Toggle the display parameters field
 	$("#dispar").click(function(){
+		
 		$("#cboxs").toggle();
+		
 		// Select the boxs correspoding to visible columns
 		for (i = 0; i < fieldName.length; i++) {
+
 			document.getElementById("chk"+fieldName[i]).checked = table.column(i).visible();
+
 		};
-		
 	});
 	
 	$("#selall").click(function(){
+
 		for (i = 0; i < fieldName.length; i++) {
+
 			document.getElementById("chk"+fieldName[i]).checked = true;
+
 		};
 	});
+
 	$("#dselall").click(function(){
+
 		for (i = 0; i < fieldName.length; i++) {
+
 			document.getElementById("chk"+fieldName[i]).checked = false;
+
 		};
 	});
 
 	// Hide selected columns
 	$("#hideCol").click(function(){
+
 		for (i = 0; i < fieldName.length; i++) {
+
 			table.column( i ).visible( $("#chk"+fieldName[i]).prop("checked") );
-			//table.column( i ).visible( document.getElementById("chk"+fieldName[i]).checked );
+
 		};
+
 		$("#cboxs").hide();
+
 	});
 
 	// DataTable construction
@@ -178,9 +256,11 @@ function buildDataTable(){
 		"aoColumnDefs": [ {
 			"aTargets": [fieldName.indexOf("color")],
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
 				let detColor = "rgb(" + String(sData) + ")"
 				$(nTd).html(colorLogo)
 				$(nTd).css('color', detColor)
+
 			}
 		} ]
 	} );
@@ -312,22 +392,39 @@ $(document).ready(function() {
 			'MongoDB<br>'+
 			'jQuery - DataTable<br>'+
 			'W3-CSS<br>'+
+			'Font Awesome'+
 		'</p>');
 	$("footer").css({"position": "relative", "right": "0", "bottom": "0", "left": "0", "padding": "1em"});
 
 	// Buttons for operations on database
 	$("#operationsbar").html(
-		'<div class="w3-col w3-padding w3-mobile l4 "><button id="btnbrowse" class="w3-btn w3-round-large w3-ripple w3-block w3-teal">'+
-			'<i class="fa fa-table" aria-hidden="true"></i> Browse only</button></div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnaddDet" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
-			'<i class="fa fa-plus-circle" aria-hidden="true"></i> Add new detergent</button></div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnrmCol" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
-			'<i class="fa fa-plus-square" aria-hidden="true"></i> Remove a column</button></div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnupdate" class="w3-btn w3-round-large w3-ripple w3-block w3-blue">'+
-			'<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update one</button></div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3"><button id="btnremove" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
-			'<i class="fa fa-trash" aria-hidden="true"></i> Remove one</button></div>'
+		'<div class="w3-col w3-padding w3-mobile l4 ">'+
+			'<button id="btnbrowse" class="w3-btn w3-round-large w3-ripple w3-block w3-teal">'+
+				'<i class="fa fa-table" aria-hidden="true"></i> Browse only'+
+			'</button>'+
+		'</div>'+
+		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
+			'<button id="btnaddDet" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
+				'<i class="fa fa-plus-circle" aria-hidden="true"></i> Add new detergent'+
+			'</button>'+
+		'</div>'+
+		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
+			'<button id="btnrmCol" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
+				'<i class="fa fa-plus-square" aria-hidden="true"></i> Manage columns'+
+			'</button>'+
+		'</div>'+
+		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
+			'<button id="btnupdate" class="w3-btn w3-round-large w3-ripple w3-block w3-blue">'+
+				'<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update detergent'+
+			'</button>'+
+		'</div>'+
+		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
+			'<button id="btnremove" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
+				'<i class="fa fa-trash" aria-hidden="true"></i> Remove detergent'+
+			'</button>'+
+		'</div>'
 	);
+
 	$("#btnaddDet").prop('disabled',true);
 	$("#btnrmCol").prop('disabled',true);
 	$("#btnupdate").prop('disabled',true);
@@ -345,13 +442,14 @@ $(document).ready(function() {
 			
 			buildDataTable();
 
-			// Enable other operation's buttons
+			// Enable other operation's buttons at the top
 			$("#btnaddDet").prop('disabled',false);
 			$("#btnrmCol").prop('disabled',false);
 			$("#btnupdate").prop('disabled',false);
 			$("#btnremove").prop('disabled',false);
 			
 		} else {
+
 			// When the table is already here
 			$("#modif").empty();
 			$('#detable').DataTable().ajax.reload();
@@ -367,7 +465,7 @@ $(document).ready(function() {
 			'</div>';
 		$("#modif").empty();
 		$("#modif").append(attFields());
-		$("#_id").attr('required',true); // to be improved into a function
+		//$("#_id").attr('required',true); // to be improved into a function
 		$("#modif").append('<div class="w3-col l2 m4 w3-padding"><br><button id="btnaddCol2" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
 			'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute</button></div>');
 		$("#btnaddCol2").click(function(){
@@ -484,49 +582,74 @@ $(document).ready(function() {
 	});
 
 	$("#btnrmCol").click(function(){
+
+		// function name will be change later
 		function rmcolclick(){
+
 			$("#modifupd1").hide();
-			let rmColbtn = '<div id="attrcontainer" class="w3-col w3-padding l2 m4"><button class="w3-button w3-small" id="modifattr">'+
-						'<ins>Update column name</ins></button></div><div class="w3-col w3-padding l2 m4"><br><button id="sendrmcol" '+
-						'class="w3-btn w3-round w3-red w3-ripple w3-padding-small">'+
-						'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i></button></div>';
 			
-			$("#modif").empty();
-			let code = '<h3>Choose one column name to remove: </h3><div class="w3-col w3-padding l2 m4">Column name:<br><select name="col">';
-			code += '<option value=""> </option>';
+			let code = 	'<h3>Choose one column name to remove or update: </h3>'+
+						'<div class="w3-col w3-padding l2 m4">'+
+							'Column name:<br>'+
+							'<select name="col">'+
+								'<option value=""> </option>';
+			
 			for (i = 0; i < fieldName.length; i++) {
+
 				if (["_id","category","color","volume"].indexOf(fieldName[i]) == -1){
+
 					code += '<option value="'+ fieldName[i] +'"> '+fieldName[i] + " </option>";
+
 				};
 			};
+
 			code += '</select></div>';
-			$("#modif").html(code);
-			$("#modif").removeClass();
+
+			$("#modif").empty()
+				.removeClass()
+				.addClass("w3-pale-red w3-row")
+				.html(code);
+
 			//$("#modif").addClass("w3-padding");
-			$("#modif").addClass("w3-pale-red w3-row");
+			
+
+			let rmColbtn = 	'<div id="attrcontainer" class="w3-col w3-padding l2 m4">'+
+								'<br>'+
+								'<button class="w3-button w3-small" id="modifattr"><ins>Update column name</ins></button>'+
+							'</div>'+
+							'<div class="w3-col w3-padding l2 m4">'+
+								'<br>'+
+								'<button id="sendrmcol" class="w3-btn w3-round w3-red w3-ripple w3-padding-small">'+
+									'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+								'</button>'+
+							'</div>';
+
 			$("#modif").append(rmColbtn);
 			$("#modifattr").click(function(){
 				$("#attrcontainer").html('New column name:<br><input type="text" autocomplete="on" class="w3-input w3-border" id="new_attr">');
 			});
 		};
+
 		rmcolclick();
 		
 		$("#sendrmcol").click(function(){
 			let col = $(":selected")[0].value;
 			let newcol = $("#new_attr").val();
-			if (col != "" && newcol == ""){
+			if (col != "" && (newcol == "" || newcol == undefined)){
 				if (confirm("WARNING!\nDid you really want to remove the column "+col+"?\nThis process is NOT REVERSIBLE!") == true) {
 					// temporary solution for synchronous get keys
 					fieldName.splice(fieldName.indexOf(col),1);
-					$.post("/removeCol",{"column": col},buildDataTable());
+					$.post("/removeCol",{"column": col});
+					buildDataTable();
 					rmcolclick();
 					alert(col + " column was successfully removed from database!");
 				};
-			} else if (col != "" && newcol != ""){
+			} else if (col != "" && newcol != "" ){
 				if (confirm("WARNING!\nDid you really want to raplace the column "+col+" by "+newcol+"?\nThis process is NOT REVERSIBLE!") == true) {
 					// temporary solution for synchronous get keys
 					fieldName[fieldName.indexOf(col)] = newcol;
-					$.post("/modifCol",{"old_column": col, "new_column": newcol},buildDataTable());
+					$.post("/modifCol",{"old_column": col, "new_column": newcol});
+					buildDataTable();
 					rmcolclick();
 					alert(col + " was successfully replaced by "+newcol+"!");
 				};
