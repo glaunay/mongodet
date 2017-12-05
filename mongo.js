@@ -178,7 +178,7 @@ var deleteData = function(db){
 			throw err;
 		}
 		else{
-			console.log('The database has been delete');
+			console.log('The database has been deleted');
 		}
 	});
 }
@@ -239,7 +239,7 @@ var modifyDet = function(db, id, det){
 						throw err;
 					}
 					else{
-						console.log('The database has been update');
+						console.log('The database has been updated');
 					}
 				});
 			}
@@ -262,7 +262,7 @@ var deleteCaract = function(db, caract){
 				throw err;
 			}
 			else{
-				console.log('The caracteristic has been delete for all detergents');
+				console.log('The caracteristic has been deleted for all detergents');
 			}
 	});
 }
@@ -278,7 +278,7 @@ var modifyCaract = function(db, caract1, caract2){ //caract1 : name in the datab
 			throw err;
 		}
 		else{
-			console.log('The database has been update');
+			console.log('The database has been updated');
 		}
 	});
 }
@@ -393,6 +393,7 @@ module.exports = {
   	deleteDet: deleteDet,
   	insertDet: insertDet,
   	modifyDet: modifyDet,
+	modifyCaract, modifyCaract,
   	deleteCaract: deleteCaract,
   	detCategory: detCategory
 };
