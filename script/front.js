@@ -573,7 +573,7 @@ $(document).ready(function() {
 		$("#sendupdate").click(function(){
 			let modifiedName = table.row('.selected').data()._id;
 			console.log(formToJSON());
-			//$.post("/updateDet", formToJSON() );
+			$.post("/updateDet", formToJSON() );
 			$('#detable').DataTable().ajax.reload();
 			$("[autocomplete]").val("");
 			alert(modifiedName + " is now up to date!");
