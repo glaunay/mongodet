@@ -30,7 +30,7 @@ Or, it is possible to clone the directory from the graphical interface of git by
 
 Get installation file from Node.js official [website](https://nodejs.org). To check if node is already installed, run `node -v` on your terminal. It will give you node version installed on your computer.
 
-### mongoDB
+### MongoDB
 
 Download installation file for your OS from mongoDB official [website](https://www.mongodb.com/download-center?jmp=nav#community). The Community edition is needed. You can find usefull tips [here](https://docs.mongodb.com/manual/administration/install-community/) 
 
@@ -45,13 +45,13 @@ Locate at root of project folder then run `npm install` on shell to automaticall
 
 #### Initialization of the database
 
-The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the Json file:
+The first time you use our program, you need to initialize the database. To import data into mongoDB, you must add an option to the previous command line with the path of the JSON file:
 
 ```
 node app.js -init [path]
 ```
 
-**Note** : the Json file must be in Det.belt format. The database now contains detergents of your file.
+**Note** : the JSON file must be in Det.belt format. The database now contains detergents of your file.
 If the database is already filled and you want to reset it, you can use 
 
 ```
@@ -92,7 +92,7 @@ For more security and to avoid loss of data, a backup system has been developped
 
 ### Format conversion
 
-Det.belt's Json file format needs to be converted to be integrated into the database. A function returns the format requested by the mongo database from the Det.belt file (Json_detBelt_mongo) ; a second can do the opposite (Json_mongo_detbelt).
+Det.belt's JSON file format needs to be converted to be integrated into the database. A function returns the format requested by the mongo database from the Det.belt file (Json_detBelt_mongo) ; a second can do the opposite (Json_mongo_detbelt).
 
 ### CSV_to_JSON converter
 

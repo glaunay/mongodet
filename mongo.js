@@ -3,11 +3,21 @@
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
-var mkdirp = require('mkdirp');
 
 
-global.CronJob = require('./cron.js');
+global.CronJob = require('./mongodb_backup.js');
 
+
+//Function test
+var mytest = function(){
+	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+		if (err) {
+			throw err;
+		}
+		//console.log(typeof(db));
+		//insertData(db, __dirname+"/data/res.json");
+	});
+}
 
 
 
@@ -211,10 +221,12 @@ var insertDet = function(db, det){
 			if(err){
 				if (err.code == 11000) {
 				console.log('The detergent name must be unique');
+				return false;
 				}
 			}
 			else{
 				console.log('The detergent has been added');
+				return true;
 			}
 		});
 	}
@@ -239,7 +251,7 @@ var modifyDet = function(db, id, det){
 						throw err;
 					}
 					else{
-						console.log('The database has been updated');
+						console.log('The detergent ' + id + ' has been updated');
 					}
 				});
 			}
@@ -262,7 +274,7 @@ var deleteCaract = function(db, caract){
 				throw err;
 			}
 			else{
-				console.log('The caracteristic has been deleted for all detergents');
+				console.log('The caracteristic ' + db + ' has been deleted for all detergents');
 			}
 	});
 }
@@ -278,7 +290,7 @@ var modifyCaract = function(db, caract1, caract2){ //caract1 : name in the datab
 			throw err;
 		}
 		else{
-			console.log('The database has been updated');
+			console.log('The caracteristic ' + caract1 + ' has been rename ' + caract2);
 		}
 	});
 }
@@ -319,6 +331,8 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	if (err) {
 		throw err;
 	}
+
+	//console.log(typeof(db));
 
 	//Insert the 'res.json' file in database
 	//insertData(db, __dirname+"/data/res.json");

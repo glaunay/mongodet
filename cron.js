@@ -2,7 +2,7 @@ var CronJob = require('cron').CronJob;
 var cron = require('./mongodb_backup.js');
 
  
-new CronJob('00 19 * * *', function() { //All days at 19h00
+new CronJob('00 19 * * *', function() { //Every day at 19h00
 	console.log('database');
     cron.dbAutoBackUp();
 }, null, true, 'Europe/Paris');

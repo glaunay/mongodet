@@ -1,13 +1,13 @@
 var jsonfile = require('jsonfile');
-var mkdirp = require('mkdirp');
 var spawn = require('child_process').spawn;
+var cronJob = require('cron').CronJob;
 
 
 //Function to create a new repertory
 var newDir = function(){
     currentDate = new Date(); // Current date
     var newBackupDir = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-    mkdirp('./backup/' + newBackupDir); //to create a repertory each day
+    fs.mkdir('./backup/' + newBackupDir); //to create a repertory each day
     var newBackupFile = './backup' + '/' + newBackupDir + '/' + newBackupDir ;
     return newBackupFile
 }
@@ -83,11 +83,36 @@ var Json_mongo_detBelt = function(path) {
 }
 
 
-//Json_mongo_detBelt('2017-12-2_mongo.json');
+
+
+//Function to execute a function automatically at a certain time
+
+var cron = function(hour, minute){
+    if(hour != '' && minute != ''){
+        let time = hour + ' ' + minute + ' * * *';
+        console.log(time);
+
+        new cronJob(time, function() { //Every day at 19h00
+        console.log('database');
+        dbAutoBackUp();
+        }, null, true, 'Europe/Paris');
+
+        new cronJob(time, function() {
+            var dir = cron.newDir() + '_database.json';
+            console.log('mongo');
+            Json_database_mongo(dir);
+        }, null, true, 'Europe/Paris');
+
+        new cronJob(time, function() {
+            var dir = cron.newDir() + '_mongo.json';
+            console.log('detBelt');
+            Json_mongo_detBelt(dir);
+        }, null, true, 'Europe/Paris');
+    } 
+}
+
+
     
 module.exports = {
-    newDir: newDir,
-    dbAutoBackUp: dbAutoBackUp,
-    Json_database_mongo: Json_database_mongo,
-    Json_mongo_detBelt: Json_mongo_detBelt
+    cron: cron
 }
