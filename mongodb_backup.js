@@ -95,24 +95,28 @@ var backup = function(){
     //if(hour != '' && minute != ''){
         //let time = hour + ' ' + minute + ' * * *';
         //console.log(time);
-
-       //if(b_backup){ 
-            new cronJob('25 19 * * *', function() { //Every day at 19h00
-                var dir_database = newDir() + '_database.json';
-                var dir_mongo = newDir() + '_mongo.json';
-                extractdb();
-                Json_database_mongo(dir_database);
-                Json_mongo_detBelt(dir_mongo);
-                console.log('The extraction of the database is finished !')
+        //console.log('function backup' + b_backup);
+       
+            new cronJob('29 20 * * *', function() { //Every day at 19h00
+                if(b_backup){ 
+                    var dir_database = newDir() + '_database.json';
+                    var dir_mongo = newDir() + '_mongo.json';
+                    extractdb();
+                    Json_database_mongo(dir_database);
+                    Json_mongo_detBelt(dir_mongo);
+                    console.log('The extraction of the database is finished !')
+                    b_backup = false;
+                }
             }, null, true, 'Europe/Paris');
 
-    //} 
+        
 }
 
 
 var control_backup = function(value){
     if(typeof(value) == 'boolean'){
         b_backup = value;
+        console.log(b_backup);
     }
     else{
         console.log('Warning : error in backup variable')
