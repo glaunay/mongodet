@@ -4,8 +4,9 @@ var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
 
-
-global.CronJob = require('./mongodb_backup.js');
+//var backupModule = require('./mongodb_backup.js');
+global.backupModule = require('./mongodb_backup.js');
+backupModule.backup();
 
 
 //Function test
@@ -150,6 +151,7 @@ var insertData = function(db, path) {
 		}
 	}
 	console.log('Insertion of detergents is finished !')
+	backupModule.control_backup(true);
 }
 
 
@@ -189,6 +191,7 @@ var deleteData = function(db){
 		}
 		else{
 			console.log('The database has been deleted');
+			backupModule.control_backup(true);
 		}
 	});
 }
@@ -204,7 +207,8 @@ var deleteDet = function(db, idDet){
 	    	throw err;
 	    }
 	    else{
-	    	console.log(idDet, ': The detergent has been removed');    
+	    	console.log(idDet, ': The detergent has been removed');
+	    	backupModule.control_backup(true);
 		}
     });
 }
@@ -226,6 +230,7 @@ var insertDet = function(db, det){
 			}
 			else{
 				console.log('The detergent has been added');
+				backupModule.control_backup(true);
 				return true;
 			}
 		});
@@ -252,6 +257,7 @@ var modifyDet = function(db, id, det){
 					}
 					else{
 						console.log('The detergent ' + id + ' has been updated');
+						backupModule.control_backup(true);
 					}
 				});
 			}
@@ -275,6 +281,7 @@ var deleteCaract = function(db, caract){
 			}
 			else{
 				console.log('The caracteristic ' + db + ' has been deleted for all detergents');
+				backupModule.control_backup(true);
 			}
 	});
 }
@@ -291,6 +298,7 @@ var modifyCaract = function(db, caract1, caract2){ //caract1 : name in the datab
 		}
 		else{
 			console.log('The caracteristic ' + caract1 + ' has been rename ' + caract2);
+			backupModule.control_backup(true);
 		}
 	});
 }

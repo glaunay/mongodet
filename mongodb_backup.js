@@ -1,22 +1,29 @@
 var jsonfile = require('jsonfile');
-var spawn = require('child_process').spawn;
-var cronJob = require('cron').CronJob;
+var spawn = require('child_process').spawnSync;
+var cronJob = require('cron').CronJob
+var fs = require('fs');
+
+//If variable b_backup = true : do backup
+var b_backup = false;
 
 
 //Function to create a new repertory
 var newDir = function(){
     currentDate = new Date(); // Current date
     var newBackupDir = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-    fs.mkdir('./backup/' + newBackupDir); //to create a repertory each day
+    path = './backup/' + newBackupDir;
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path);  //to create a repertory named with date
+    }
+    
     var newBackupFile = './backup' + '/' + newBackupDir + '/' + newBackupDir ;
     return newBackupFile
 }
 
 
 //function to extract the database
-var dbAutoBackUp = function () {
+var extractdb = function () {
     var newBackupFile = newDir() + '_database.json';
-    console.log(newBackupFile);
     spawn('mongoexport',['--db','det','--collection', 'det', '--out', newBackupFile, '--jsonArray']);
 }
 
@@ -25,14 +32,12 @@ var dbAutoBackUp = function () {
 var Json_database_mongo = function(path) {
     var dict = jsonfile.readFileSync(path,'utf8');
     var write = {"data":dict};
+    var newFile =  newDir() + '_mongo.json';
 
-    var newFile = newDir() + '_mongo.json';
-
-    jsonfile.writeFile(newFile, write, {spaces:2}, function(err) { //to write in a file
+    jsonfile.writeFileSync(newFile, write, {spaces:2}, function(err) { //to write in a file
         if(err) {
             return console.log(err);
         }
-        console.log("The file was saved!");
     });
 }
 
@@ -72,11 +77,10 @@ var Json_mongo_detBelt = function(path) {
     dict = {"data":write};
 
     var newFile = newDir() + '_detBelt.json';
-    jsonfile.writeFile(newFile, dict, {spaces:2}, function(err) { //to write in a file
+    jsonfile.writeFileSync(newFile, dict, {spaces:2}, function(err) { //to write in a file
         if(err) {
             return console.log(err);
         }
-        console.log("The file was saved!");
     });
     //console.log(dict);
     return dict;
@@ -87,32 +91,37 @@ var Json_mongo_detBelt = function(path) {
 
 //Function to execute a function automatically at a certain time
 
-var cron = function(hour, minute){
-    if(hour != '' && minute != ''){
-        let time = hour + ' ' + minute + ' * * *';
-        console.log(time);
+var backup = function(){
+    //if(hour != '' && minute != ''){
+        //let time = hour + ' ' + minute + ' * * *';
+        //console.log(time);
 
-        new cronJob(time, function() { //Every day at 19h00
-        console.log('database');
-        dbAutoBackUp();
-        }, null, true, 'Europe/Paris');
+       //if(b_backup){ 
+            new cronJob('25 19 * * *', function() { //Every day at 19h00
+                var dir_database = newDir() + '_database.json';
+                var dir_mongo = newDir() + '_mongo.json';
+                extractdb();
+                Json_database_mongo(dir_database);
+                Json_mongo_detBelt(dir_mongo);
+                console.log('The extraction of the database is finished !')
+            }, null, true, 'Europe/Paris');
 
-        new cronJob(time, function() {
-            var dir = cron.newDir() + '_database.json';
-            console.log('mongo');
-            Json_database_mongo(dir);
-        }, null, true, 'Europe/Paris');
+    //} 
+}
 
-        new cronJob(time, function() {
-            var dir = cron.newDir() + '_mongo.json';
-            console.log('detBelt');
-            Json_mongo_detBelt(dir);
-        }, null, true, 'Europe/Paris');
-    } 
+
+var control_backup = function(value){
+    if(typeof(value) == 'boolean'){
+        b_backup = value;
+    }
+    else{
+        console.log('Warning : error in backup variable')
+    }
 }
 
 
     
 module.exports = {
-    cron: cron
+    backup: backup,
+    control_backup: control_backup
 }
