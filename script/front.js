@@ -1,38 +1,33 @@
-var fieldName = []
+var NAME_LIST = [];
 var table = undefined;
-
-// Request the list of column names from server
-function getkeys(){
-
-	$.get("/getKeys", function(data){
-		fieldName = data;
-	});
-
-};
+var NECESSARY_VAL = ["_id","category","volume","color"]
+var selectedData;
 
 
+$.get("/getKeys", function(data){
+	
+	NAME_LIST = data;
+});
 
 // Build input field for each column's operations
 function attFields() {
 
 	let code = '<div id="fieldadd">';
-	for (i = 0; i < fieldName.length; i++) {
+	for (i = 0; i < NAME_LIST.length; i++) {
 
-		if (fieldName[i] != 'color') {
+		if (NAME_LIST[i] != 'color') {
 
-			code += '<div class="w3-col l2 m4 w3-padding">'+ fieldName[i] +':<br>'+
-						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ fieldName[i] +'">'+
+			code += '<div class="w3-col l2 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
+						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ NAME_LIST[i] +'">'+
 					'</div>';
-
 		} else {
 
-			code += '<div class="w3-col l2 m4 w3-padding">'+ fieldName[i] +':<br>'+
+			code += '<div class="w3-col l2 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
 						'<input type="color" id="color" value=#808080 style="width:100%">'+
 					'</div>';
-
 		}
 	};
-
+	
 	code += '</div>';
 	return code;
 };
@@ -40,13 +35,13 @@ function attFields() {
 
 
 // Contruct columns definition into a list of json for DataTable
-function colfunction(){
+function columnDef(){
 
 	let colname = [];
-	for (i = 0; i < fieldName.length; i++) {
+	for (i = 0; i < NAME_LIST.length; i++) {
 
 		// Define 'ref' and 'image' manually for now
-		if (fieldName[i]==="ref"){
+		if (NAME_LIST[i]==="ref"){
 
 			colname[colname.length] = { 
 				"data": null, 
@@ -54,21 +49,18 @@ function colfunction(){
 										"<i class='fa fa-eye' aria-hidden='true'></i>"+
 									"</button>"
 			};
-
-		} else if (fieldName[i]==="image"){
+		} else if (NAME_LIST[i]==="image"){
 
 			colname[colname.length] = { 
 				"data": "img.jpg", 
 				"defaultContent": "<p>See image</p>"
 			};
-
 		} else {
 
-			colname[colname.length] = { "data": fieldName[i] };
-
+			colname[colname.length] = { "data": NAME_LIST[i] };
 		};
 	};
-
+	
 	return colname;
 };
 
@@ -79,9 +71,9 @@ function RGBToHex(r,g,b){
 
 	var bin = r << 16 | g << 8 | b;
 	return (function(h){
+
 		return new Array(7-h.length).join("0")+h
 	})(bin.toString(16).toUpperCase())
-
 };
 
 // From https://gist.github.com/lrvick/2080648
@@ -91,7 +83,6 @@ function hexToRGB(hex){
 	var g = hex >> 8 & 0xFF;
 	var b = hex & 0xFF;
 	return [r,g,b];
-
 };
 
 
@@ -100,17 +91,15 @@ function hexToRGB(hex){
 function formToJSON(){
 
 	let jfile = {};
-	for (i = 0; i < fieldName.length; i++) {
+	for (i = 0; i < NAME_LIST.length; i++) {
 
-		let value = eval("$('#" + fieldName[i] + "').val()");
+		let value = eval("$('#" + NAME_LIST[i] + "').val()");
 		if (value == ""){
 
-			jfile[String(fieldName[i])] = null;
-
+			jfile[String(NAME_LIST[i])] = null;
 		} else {
 
-			jfile[String(fieldName[i])] = value;
-
+			jfile[String(NAME_LIST[i])] = value;
 		};
 	};
 
@@ -124,12 +113,11 @@ function formToJSON(){
 function buildTabColumns(){
 
 	let HTML = "";
-	for (i = 0; i < fieldName.length; i++) {
+	for (i = 0; i < NAME_LIST.length; i++) {
 
-		HTML += "<th>" + fieldName[i] + "</th>";
-
+		HTML += "<th>" + NAME_LIST[i] + "</th>";
 	};
-
+	
 	return HTML;
 }
 
@@ -139,9 +127,9 @@ function buildTabColumns(){
 function selectedToInput(sRow){
 
 	// Data of dertergent when selected
-	for (i = 0; i < fieldName.length; i++) {
+	for (i = 0; i < NAME_LIST.length; i++) {
 
-		let curField = fieldName[i];
+		let curField = NAME_LIST[i];
 		if (curField != "color") {
 
 			$('#'+curField).val(eval('sRow.'+curField));
@@ -150,9 +138,93 @@ function selectedToInput(sRow){
 
 			let curCol = sRow.color
 			$('#'+curField).val("#"+RGBToHex(curCol[0],curCol[1],curCol[2]));
-
 		};
 	};
+};
+
+
+
+function buildCheckbox(){
+
+	// Build checkbox for display columns
+	let cboxs = "<label id='dispar'>"+
+					"Select which columns to display: "+
+				"</label>"+
+				"<div id='cboxs'>";
+
+	for (i = 0; i < NAME_LIST.length; i++) {
+
+		cboxs += 	'<div class="w3-col l2 m3 s6">'+
+						'<input type="checkbox" id="chk' + NAME_LIST[i] + '"> ' + NAME_LIST[i] + "	"+
+					'</div>';
+	};
+
+	cboxs += 	"<div>"+
+					"<button id='selall'>"+
+						"<ins>Select all</ins>"+
+					"</button>"+
+					"<button id='dselall'>"+
+						"<ins>Unselect all</ins>"+
+					"</button></div>"+
+				"<div >"+
+					"<button id='hideCol'>Apply</button>"+
+				"</div>"+
+				"</div>"
+	
+	// Inject checkboxs into HTML
+	$("#parameters").html(cboxs);
+
+	// Set the checkboxsfield hidden by default
+	$("#cboxs").hide()
+
+	// CSS setting
+	$("#cboxs").addClass('w3-border w3-padding w3-row');
+	$("#dispar").addClass('w3-button w3-border w3-padding-small')
+	$("#cboxs div").addClass("w3-col l2 m3 s6");
+	$("#cboxs input").addClass("w3-check");
+	$("#cboxs button").addClass('w3-button w3-small');
+	$("#hideCol").addClass('w3-margin w3-blue w3-round-xxlarge');
+
+	// Toggle the display parameters field
+	$("#dispar").click(function(){
+		
+		$("#cboxs").toggle();
+		
+		// Select the boxs correspoding to visible columns
+		for (i = 0; i < NAME_LIST.length; i++) {
+
+			document.getElementById("chk"+NAME_LIST[i]).checked = table.column(i).visible();
+
+		};
+	});
+	
+	$("#selall").click(function(){
+
+		for (i = 0; i < NAME_LIST.length; i++) {
+
+			document.getElementById("chk"+NAME_LIST[i]).checked = true;
+
+		};
+	});
+
+	$("#dselall").click(function(){
+
+		for (i = 0; i < NAME_LIST.length; i++) {
+
+			document.getElementById("chk"+NAME_LIST[i]).checked = false;
+		};
+	});
+
+	// Hide selected columns
+	$("#hideCol").click(function(){
+
+		for (i = 0; i < NAME_LIST.length; i++) {
+
+			table.column( i ).visible( $("#chk"+NAME_LIST[i]).prop("checked") );
+		};
+
+		$("#cboxs").hide();
+	});
 };
 
 
@@ -162,15 +234,12 @@ function buildDataTable(){
 
 	// Logo which show the color of detergent
 	let colorLogo = '<i class="fa fa-square" aria-hidden="true"></i>';
-	
-	// Build checkboxs
-	let cboxs = "<label id='dispar' class='w3-button w3-border w3-padding-small'>"+
-					"Select which columns to display: "+
-				"</label>"+
-				"<div id='cboxs' class='w3-border w3-padding w3-row'>";
+
+	let state = typeof(table);
 
 	// Initialise DataTables with column names
 	$("#table").empty();
+	$("#table").addClass("w3-padding");
 
 	//$("#parameters").empty();
 	$("#table").html(
@@ -180,69 +249,6 @@ function buildDataTable(){
 			"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
 		"</table>"
 	);
-	
-	// Build checkbox for display columns
-	for (i = 0; i < fieldName.length; i++) {
-
-		cboxs += 	'<div class="w3-col l2 m3 s6">'+
-						'<input type="checkbox" class="w3-check" id="chk' + fieldName[i] + '"> ' + fieldName[i] + "	"+
-					'</div>'
-
-	};
-	cboxs += 	"<div class='w3-col l2 m3 s6'>"+
-					"<button class='w3-button w3-small' id='selall'><ins>Select all</ins></button>"+
-					"<button class='w3-button w3-small' id='dselall'><ins>Unselect all</ins></button></div>"+
-				"<div class='w3-col l2 m3 s6'><button id='hideCol' class='w3-button w3-margin w3-blue w3-small w3-round-xxlarge'>Apply</button></div></div>"
-	
-	// Build checkboxs into HTML
-	$("#parameters").html(cboxs);
-	
-	// Set the checkboxsfield hidden by default
-	$("#cboxs").hide();
-
-	// Toggle the display parameters field
-	$("#dispar").click(function(){
-		
-		$("#cboxs").toggle();
-		
-		// Select the boxs correspoding to visible columns
-		for (i = 0; i < fieldName.length; i++) {
-
-			document.getElementById("chk"+fieldName[i]).checked = table.column(i).visible();
-
-		};
-	});
-	
-	$("#selall").click(function(){
-
-		for (i = 0; i < fieldName.length; i++) {
-
-			document.getElementById("chk"+fieldName[i]).checked = true;
-
-		};
-	});
-
-	$("#dselall").click(function(){
-
-		for (i = 0; i < fieldName.length; i++) {
-
-			document.getElementById("chk"+fieldName[i]).checked = false;
-
-		};
-	});
-
-	// Hide selected columns
-	$("#hideCol").click(function(){
-
-		for (i = 0; i < fieldName.length; i++) {
-
-			table.column( i ).visible( $("#chk"+fieldName[i]).prop("checked") );
-
-		};
-
-		$("#cboxs").hide();
-
-	});
 
 	// DataTable construction
 	table = $('#detable').DataTable( {
@@ -252,55 +258,33 @@ function buildDataTable(){
 		"responsive": true,
 		"searchHighlight": true,
 		"ajax": { "url": "/loadTab" },
-		"columns": colfunction(),
+		"columns": columnDef(),
 		"aoColumnDefs": [ {
-			"aTargets": [fieldName.indexOf("color")],
+			"aTargets": [NAME_LIST.indexOf("color")],
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
 				let detColor = "rgb(" + String(sData) + ")"
 				$(nTd).html(colorLogo)
 				$(nTd).css('color', detColor)
-
 			}
 		} ]
 	} );
 
-	window.alert = function() {};
-
-	$('#detable tbody').on('mouseenter', 'p', function (event) {
-		//var browser = $(this).data();
-		//console.log(browser);
-
-		$(this).qtip({
-			overwrite: false,
-			content: '<img src="/img/img.jpg" alt="test"/>',
-			position: {
-				my: 'right center',
-				at: 'left center',
-				target: $('td:eq(3)', this),
-				viewport: $('#datatable')
-			},
-			show: {
-				event: event.type,
-				ready: true
-			},
-			hide: {
-				fixed: true
-			}
-		}, event); // Note we passed the event as the second argument. Always do this when binding within an event handler!
-	   
-	});
-
-	$("#table").addClass("w3-padding");
 
 	// When a row is selected...
 	$('#detable tbody').on( 'click', 'tr', function () {
+
 		if ( $(this).hasClass('selected') ) {
+
 			$(this).removeClass('selected');
 			// For removing
 			$("#sendremove").prop('disabled',true);
+			selectedData = undefined;
+			$("#modifupd1").show();
+			$("#modifupd2").hide();
 		}
 		else {
+
 			table.$('tr.selected').removeClass('selected');
 			$(this).addClass('selected');
 			// For removing
@@ -309,84 +293,125 @@ function buildDataTable(){
 			$("#modifupd1").hide();
 			$("#modifupd2").show();
 
-			// Data of dertergent when selected
-			var selectedData = table.row('.selected').data();
-			selectedToInput(selectedData);
+			// Unable autofill for Add new detergent
+			if ($("#sendnew")[0] === undefined){
+
+				// Data of dertergent when selected
+				selectedData = table.row('.selected').data();
+				selectedToInput(selectedData);
+			} else {
+
+				$("[autocomplete]").val("");
+				$("[type='color']").val("#808080");
+			};
 		}
 	} );
 
 	// Alert reference of detergent
 	$('#detable tbody').on( 'click', 'button', function () {
+
 		let data = table.row( $(this).parents('tr') ).data();
 		alert( data.ref );
 	} );
 
-	
+	// If table is already builded
+	if (state == "undefined"){
 
-	// Init the table with only 4 first columns, corresponding to Category,
-	// Name, Volume and Color
-	let visCol = ["category","_id","volume","color"]
-	for (i = 0; i < fieldName.length; i++) {
-		// if current field name is in visCol
-		if (visCol.indexOf(fieldName[i]) != -1){
-			table.column(i).visible(true);
-		} else {
-			table.column(i).visible(false);
+		// show only four main columns
+		for (i = 0; i < NAME_LIST.length; i++) {
+
+			// if current field name is in visCol
+			if (NECESSARY_VAL.indexOf(NAME_LIST[i]) != -1){
+
+				table.column(i).visible(true);
+			} else {
+
+				table.column(i).visible(false);
+			};
 		};
+	} else {
+
+		$('#detable').DataTable().ajax.reload();
 	};
-	console.log("tab builded");
 };
 
-getkeys()
-
 $(document).ready(function() {
-
-	
 
 ////////////////// INITIALIZE PAGE CONTENTS //////////////////
 
 	// Header content
-	$("header").html("<h1><br>Detergent Database CRUD Interface</h1>");
+	$("header").html(
+		"<h1>"+
+			"<br>Detergent Database CRUD Interface"+
+		"</h1>")
+		.addClass("w3-container w3-blue-grey w3-padding");
+
 
 	// Subtitle content
-	$("#text").html("User-friendly front-end for <a href='http://detbelt.ibcp.fr/' target='_blank'>Det.Belt</a> detergents database");
+	$("#text").html(
+		"User-friendly front-end for <a href='http://detbelt.ibcp.fr/' target='_blank'>"+
+		"Det.Belt</a> detergents database");
 
-	// Generate message card at openning
-	/*$("#message").html(
-		'<div class="w3-panel w3-red w3-display-container">'+
-			'<span onclick="this.parentElement.style.display='+"'none'"+'" class="w3-button w3-red w3-large w3-display-topright">&times;</span>'+
-			'<h3>Adblock detected!</h3>'+
-			'<p>Please disable Adblock to continue dealing with your favorite detergents ;)</p>'+
+
+	// Buttons for operations on database
+	$("#operationsbar").html(
+		'<div class="l4">'+
+			'<button id="btnbrowse" class="w3-teal">'+
+				'<i class="fa fa-table" aria-hidden="true"></i> Browse only'+
+			'</button>'+
 		'</div>'+
-		'<div class="w3-panel w3-blue w3-display-container">'+
-			'<span onclick="this.parentElement.style.display='+"'none'"+'" class="w3-button w3-blue w3-large w3-display-topright">&times;</span>'+
-			'<h3>Welcome!</h3>'+
-			'<p>Hello, you are using the database managing interface for Det.Belt. You have five buttons on the top of screen. '+
-			'They allow you swich between managing operations. Be careful with the red button on top right and have fun!</p>'+
-		'</div>'
-	);*/
-	
+		'<div class="l2 m3">'+
+			'<button id="btnaddDet" class="w3-green">'+
+				'<i class="fa fa-plus-circle" aria-hidden="true"></i> Add new detergent'+
+			'</button>'+
+		'</div>'+
+		'<div class="l2 m3">'+
+			'<button id="btnrmCol" class="w3-red">'+
+				'<i class="fa fa-plus-square" aria-hidden="true"></i> Manage columns'+
+			'</button>'+
+		'</div>'+
+		'<div class="l2 m3">'+
+			'<button id="btnupdate" class="w3-blue">'+
+				'<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update detergent'+
+			'</button>'+
+		'</div>'+
+		'<div class="l2 m3">'+
+			'<button id="btnremove" class="w3-red">'+
+				'<i class="fa fa-trash" aria-hidden="true"></i> Remove detergent'+
+			'</button>'+
+		'</div>')
+		.addClass("w3-container w3-blue-gray w3-row w3-top");
+	$("#operationsbar div").addClass("w3-col w3-padding w3-mobile")
+	$("#operationsbar button").addClass("w3-btn w3-round-large w3-ripple w3-block")
+
+	// Disable these buttons on page loading
+	$("#btnaddDet").prop('disabled',true);
+	$("#btnrmCol").prop('disabled',true);
+	$("#btnupdate").prop('disabled',true);
+	$("#btnremove").prop('disabled',true);
+
+
 	// Footer content
 	$("footer").html(
-		'<a href="https://www.bioinfo-lyon.fr/" target="_blank" class="w3-col w3-padding w3-center l2">'+
-			'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon" class="w3-hover-opacity" style="max-width:100%">'+
+		'<a href="https://www.bioinfo-lyon.fr/" target="_blank">'+
+			'<img src="/pic/logo_BI.png" alt="Bioinfo@Lyon" style="max-width:100%">'+
 		'</a>'+
-		'<a href="http://www.cnrs.fr/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
-			'<img src="/pic/logo_CNRS.png" alt="CNRS" class="w3-hover-opacity">'+
+		'<a href="http://www.cnrs.fr/" target="_blank" class="m4">'+
+			'<img src="/pic/logo_CNRS.png" alt="CNRS">'+
 		'</a>'+
-		'<a href="http://ww3.ibcp.fr/mmsb/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
-			'<img src="/pic/logo_MMSB.png" alt="MMSB" class="w3-hover-opacity">'+
+		'<a href="http://ww3.ibcp.fr/mmsb/?lang=en" target="_blank" class="m4">'+
+			'<img src="/pic/logo_MMSB.png" alt="MMSB">'+
 		'</a>'+
-		'<a href="https://www.univ-lyon1.fr/" target="_blank" class="w3-col w3-padding w3-center l2 m4">'+
-			'<img src="/pic/logo_UCBL.png" alt="UCBL" class="w3-hover-opacity">'+
+		'<a href="https://www.univ-lyon1.fr/" target="_blank" class="m4">'+
+			'<img src="/pic/logo_UCBL.png" alt="UCBL">'+
 		'</a>'+
-		'<p class="w3-col w3-padding w3-tiny w3-text-white l2 m6" style="vertical-align:middle;">'+
+		'<p style="vertical-align:middle;">'+
 			'Contact :<br>'+
 			'<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sébastien Delolme-Sabatier</a><br>'+
 			'<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a><br>'+
 			'<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a>'+
 		'</p>'+
-		'<p class="w3-col w3-padding w3-tiny w3-text-white l2 m6" style="vertical-align:middle;">'+
+		'<p style="vertical-align:middle;">'+
 			'Powered by :<br>'+
 			'Node.js - Express.js<br>'+
 			'MongoDB<br>'+
@@ -394,41 +419,18 @@ $(document).ready(function() {
 			'W3-CSS<br>'+
 			'Font Awesome'+
 		'</p>');
-	$("footer").css({"position": "relative", "right": "0", "bottom": "0", "left": "0", "padding": "1em"});
+	// CSS setting
+	$("footer").css({
+		"position": "relative",
+		"right": "0",
+		"bottom": "0",
+		"left": "0",
+		"padding": "1em"})
+		.addClass("w3-container w3-row w3-middle");
+	$("footer [target]").addClass("w3-col w3-padding w3-center l2");
+	$("footer p").addClass("w3-col w3-padding w3-tiny w3-text-white l2 m6");
+	$("footer img").addClass("w3-hover-opacity");
 
-	// Buttons for operations on database
-	$("#operationsbar").html(
-		'<div class="w3-col w3-padding w3-mobile l4 ">'+
-			'<button id="btnbrowse" class="w3-btn w3-round-large w3-ripple w3-block w3-teal">'+
-				'<i class="fa fa-table" aria-hidden="true"></i> Browse only'+
-			'</button>'+
-		'</div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
-			'<button id="btnaddDet" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
-				'<i class="fa fa-plus-circle" aria-hidden="true"></i> Add new detergent'+
-			'</button>'+
-		'</div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
-			'<button id="btnrmCol" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
-				'<i class="fa fa-plus-square" aria-hidden="true"></i> Manage columns'+
-			'</button>'+
-		'</div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
-			'<button id="btnupdate" class="w3-btn w3-round-large w3-ripple w3-block w3-blue">'+
-				'<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update detergent'+
-			'</button>'+
-		'</div>'+
-		'<div class="w3-col w3-padding w3-mobile l2 m3">'+
-			'<button id="btnremove" class="w3-btn w3-round-large w3-ripple w3-block w3-red">'+
-				'<i class="fa fa-trash" aria-hidden="true"></i> Remove detergent'+
-			'</button>'+
-		'</div>'
-	);
-
-	$("#btnaddDet").prop('disabled',true);
-	$("#btnrmCol").prop('disabled',true);
-	$("#btnupdate").prop('disabled',true);
-	$("#btnremove").prop('disabled',true);
 
 ////////////////// ACTIONS ON PAGE //////////////////
 
@@ -437,10 +439,13 @@ $(document).ready(function() {
 	// Display the table or reload it
 	$("#btnbrowse").click(function(){
 
+		$("#cboxs").hide();
+
 		// Check if the table is already build or not yet
 		if (table === undefined) {
 			
 			buildDataTable();
+			buildCheckbox();
 
 			// Enable other operation's buttons at the top
 			$("#btnaddDet").prop('disabled',false);
@@ -454,207 +459,322 @@ $(document).ready(function() {
 			$("#modif").empty();
 			$('#detable').DataTable().ajax.reload();
 		};
+		$("#modif").removeClass();
 	});
 
 	// Enable field for adding new detergent
 	$("#btnaddDet").click(function(){
-		document.getElementById("modif").className = "w3-pale-green";
-		let submitbtn = '<div class="w3-col l2 m4 w3-padding">'+
-			'<br><button id="sendnew" class="w3-btn w3-round w3-green w3-block w3-ripple">'+
-			'Add new detergent <i class="fa fa-arrow-right" aria-hidden="true"></i></button>'+
-			'</div>';
-		$("#modif").empty();
-		$("#modif").append(attFields());
-		//$("#_id").attr('required',true); // to be improved into a function
-		$("#modif").append('<div class="w3-col l2 m4 w3-padding"><br><button id="btnaddCol2" class="w3-btn w3-round-large w3-ripple w3-block w3-green">'+
-			'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute</button></div>');
-		$("#btnaddCol2").click(function(){
+
+		let submitbtn =	'<div class="w3-col l2 m4 w3-padding">'+
+							'<br>'+
+							'<button id="sendnew" class="w3-btn w3-round w3-green w3-block w3-ripple">'+
+								'Add new detergent <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+							'</button>'+
+						'</div>';
+		
+		$("#cboxs").hide()
+		$("#modif").empty()
+			.removeClass()
+			.addClass("w3-pale-green")
+			.append(
+				"Please fill fields on below to prepare your submission. "+
+				"Note that the values of <b>_id</b>, <b>volume</b>, <b>color</b> and <b>category</b> are necessary.")
+			.append(attFields())
+			.append(
+				'<div class="w3-col l2 m4 w3-padding">'+
+					'<br>'+
+					'<button id="btnAddNewAttr">'+
+						'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute'+
+					'</button>'+
+				'</div>')
+			.append(submitbtn);
+
+		$("#btnAddNewAttr").addClass("w3-btn w3-round-large w3-ripple w3-block w3-green");
+		$("#btnAddNewAttr").click(function(){
+
 			$(this).parents("div:first").empty()
-				.removeClass("l2 m4")
-				.addClass("l4 m8 w3-pale-blue")
-				.html('<div class="w3-col l6">New attribute name:<br>'+
-					'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col">'+
+				.removeClass("l2 m4 w3-padding")
+				.addClass("l4 m8 w3-border")
+				.html(
+					'<div class="w3-col l6 w3-padding">'+
+						'<b>New attribute name:</b><br>'+
+						'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col">'+
 					'</div>'+
-					'<div class="w3-col l6">Value for new attribute:<br>'+
-					'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col_value">'+
-					'</div>')
+					'<div class="w3-col l6 w3-padding">'+
+						'<b>Value for new attribute:</b><br>'+
+						'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col_value">'+
+					'</div>');
 		});
-		$("#modif").append(submitbtn);
-		var selectedData = table.row('.selected').data();
-		if (selectedData != undefined) {
-			selectedToInput(selectedData);
-		};
+
 		// Send POST request for new detergent
 		$("#sendnew").click(function(){
-			if ($("#new_col").val() == "" || $("#new_col_value").val() == ""){
-				$.post("/newDet", formToJSON() );
-				$('#detable').DataTable().ajax.reload();
+
+			let JSON_send = formToJSON();
+
+			// If no new attribute to add
+			if ($("#new_col").val() == undefined || $("#new_col").val() == "" || $("#new_col_value").val() == ""){
+
+				$.post("/newDet", JSON_send, function(data){
+
+					if (data === true){
+
+						$('#detable').DataTable().ajax.reload();
+						$("[autocomplete]").val("");
+						$("[type='color']").val("#808080");
+						alert(String(JSON_send._id) + " was successfully insert to database!");
+					} else {
+
+						alert(data);
+					};
+				});
 			} else {
-				let JSON_send = formToJSON();
+
 				JSON_send[$("#new_col").val()] = $("#new_col_value").val();
 				// temporary solution for synchronous get keys
-				fieldName.push($("#new_col").val());
-				$.post("/newDet", JSON_send, buildDataTable());
-			}
-			let alertName = formToJSON()._id;
-			$("[autocomplete]").val("");
-			$('#detable').DataTable().ajax.reload();
-			alert(String(alertName) + " was successfully insert to database!");
-			$("#cboxs").hide(); ///
+				NAME_LIST.push($("#new_col").val());
+				$.post("/newDet", JSON_send, function(data){
+
+					if (data === true){
+
+						$.get("/getKeys", function(data){
+	
+							NAME_LIST = data;
+							alert(
+								String(JSON_send._id) + " and the new attribute " +
+								String($("#new_col").val()) + " was successfully insert to database!"
+							);
+							buildDataTable();
+							buildCheckbox();
+							$("[autocomplete]").val("");
+							$("[type='color']").val("#808080");
+						});
+					} else {
+
+						alert(data);
+					};
+				});
+			};
 		});
-		$("#cboxs").hide();
 	});
 
 	// Enable field for removing detergent
 	$("#btnremove").click(function(){
+
+		$("#cboxs").hide()
 		$("#modifupd1").hide();
-		$("#modif").empty();
-		$("#modif").html('<h3>Please select one detergent on below to delete it:</h3><div class="w3-margin w3-padding w3-bottom w3-center">'+
-			'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round"><b>Remove selected!</b></button>'+
-			'</div>');
-		$("#modif").addClass("w3-pale-red");
-		var selectedData = table.row('.selected').data();
+		$("#modif").removeClass()
+			.addClass("w3-pale-red w3-padding")
+			.empty()
+			.html('<h3>Please select one detergent on below to delete it:</h3>'+
+			'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round w3-right"><b>Confirm removing</b></button>');
+
 		if (selectedData === undefined) {
+
 			$("#sendremove").prop('disabled',true);
 		} else {
+
 			$("#sendremove").prop('disabled',false);
 		};
-		//selectedToInput(selectedData);
-		// Send POST request for removing one detergent
 
+		// Send POST request for removing one detergent
 		$('#sendremove').click( function () {
+
 			let deletedName = table.row('.selected').data()._id;
+
 			if (confirm("WARNING!\nDid you really want to remove "+deletedName+"?\nThis process is NOT REVERSIBLE!") == true) {
-				$.post("/removeDet",table.row('.selected').data());
-				$('#detable').DataTable().ajax.reload();
-				$("#sendremove").prop('disabled',true);
-				alert(deletedName + " was successfully removed from database!");
+
+				$.post("/removeDet",table.row('.selected').data(), function(data){
+
+					if (data === true){
+
+						$('#detable').DataTable().ajax.reload();
+						$("#sendremove").prop('disabled',true);
+						alert(deletedName + " was successfully removed from database!");
+					} else {
+
+						alert(data);
+					};
+				});
 			} 
 		} );
-		$("#cboxs").hide();
 	});
 
 	// Enable field for updating a detergent
 	$("#btnupdate").click(function(){
-		document.getElementById("modif").className = "w3-pale-blue";
-		$("#modif").empty();
-		$("#modif").html("<div id='modifupd1'><h3 class='w3-margin'>Please choose your detergent: </h3><div>");
-		$("#modif").append("<div id='modifupd2'></div>");
-		$("#modifupd2").html(attFields());
+
+		let submitbtn =	'<div class="w3-col l2 m4 w3-padding">'+
+							'<br>'+
+							'<button id="sendupdate" class="w3-btn w3-round w3-blue w3-block w3-ripple">'+
+								'Update detergent <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+							'</button>'+
+						'</div>';
+
+		$("#cboxs").hide();
+		$("#modif").empty()
+			.removeClass()
+			.addClass("w3-pale-blue")
+			.html(
+				"<div id='modifupd1'>"+
+					"<h3 class='w3-margin'>Please choose your detergent: </h3>"+
+					"<div>")
+			.append("<div id='modifupd2'></div>");
+		
+		$("#modifupd2").html(attFields())
+			.append(submitbtn);
+		
 		$("#_id").attr("readonly",true);
-		let submitbtn = '<div class="w3-col l2 m4 w3-padding">'+
-			'<br><button id="sendupdate" class="w3-btn w3-round w3-blue w3-block w3-ripple">'+
-			'Update detergent <i class="fa fa-arrow-right" aria-hidden="true"></i></button>'+
-			'</div>';
-		$("#modifupd2").append(submitbtn);
-		
-		/*
-		// check number type
-		$("#volume").blur(function(){
-			if (this.value.search(/[^\d,\.]/g) != -1){
-				$(this).addClass('w3-red');
-			} else {
-				$(this).removeClass('w3-red');
-			};
-		});
-		*/
-		
-		var selectedData = table.row('.selected').data();
+
 		if (selectedData != undefined) {
+
 			$("#modifupd1").hide();
 			$("#modifupd2").show();
 			selectedToInput(selectedData);
 		} else {
+
 			$("#modifupd1").show();
 			$("#modifupd2").hide();
 		};
 
 		// Send POST request for update one detergent
 		$("#sendupdate").click(function(){
+
 			let modifiedName = table.row('.selected').data()._id;
-			console.log(formToJSON());
-			$.post("/updateDet", formToJSON() );
-			$('#detable').DataTable().ajax.reload();
-			$("[autocomplete]").val("");
-			alert(modifiedName + " is now up to date!");
+			$.post("/updateDet", formToJSON(),function(DATA){
+
+				$.get("/getKeys", function(data){
+
+					NAME_LIST = data;
+				}).done(function(){
+
+					$('#detable').DataTable().ajax.reload();
+					$("[autocomplete]").val("");
+					alert(modifiedName + " is now up to date!");
+				});
+			});
 		});
-		$("#cboxs").hide();
 	});
+
+
 
 	$("#btnrmCol").click(function(){
 
-		// function name will be change later
-		function rmcolclick(){
+		$("#cboxs").hide()
+		$("#modifupd1").hide();
+		
+		let code = 	'<h3>Choose one column name to remove or update: </h3>'+
+					'<div class="w3-col w3-padding l2 m4">'+
+						'Column name:<br>'+
+						'<select name="col">'+
+							'<option value=""> </option>';
+		
+		for (i = 0; i < NAME_LIST.length; i++) {
 
-			$("#modifupd1").hide();
-			
-			let code = 	'<h3>Choose one column name to remove or update: </h3>'+
-						'<div class="w3-col w3-padding l2 m4">'+
-							'Column name:<br>'+
-							'<select name="col">'+
-								'<option value=""> </option>';
-			
-			for (i = 0; i < fieldName.length; i++) {
+			if (["_id","category","color","volume"].indexOf(NAME_LIST[i]) == -1){
 
-				if (["_id","category","color","volume"].indexOf(fieldName[i]) == -1){
-
-					code += '<option value="'+ fieldName[i] +'"> '+fieldName[i] + " </option>";
-
-				};
+				code += '<option value="'+ NAME_LIST[i] +'"> '+NAME_LIST[i] + " </option>";
 			};
-
-			code += '</select></div>';
-
-			$("#modif").empty()
-				.removeClass()
-				.addClass("w3-pale-red w3-row")
-				.html(code);
-
-			//$("#modif").addClass("w3-padding");
-			
-
-			let rmColbtn = 	'<div id="attrcontainer" class="w3-col w3-padding l2 m4">'+
-								'<br>'+
-								'<button class="w3-button w3-small" id="modifattr"><ins>Update column name</ins></button>'+
-							'</div>'+
-							'<div class="w3-col w3-padding l2 m4">'+
-								'<br>'+
-								'<button id="sendrmcol" class="w3-btn w3-round w3-red w3-ripple w3-padding-small">'+
-									'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
-								'</button>'+
-							'</div>';
-
-			$("#modif").append(rmColbtn);
-			$("#modifattr").click(function(){
-				$("#attrcontainer").html('New column name:<br><input type="text" autocomplete="on" class="w3-input w3-border" id="new_attr">');
-			});
 		};
 
-		rmcolclick();
+		code += '</select></div>';
+
+		$("#modif").empty()
+			.removeClass()
+			.addClass("w3-pale-red w3-row")
+			.html(code);
 		
+
+		let rmColbtn = 	'<div id="attrcontainer" class="w3-col w3-padding l2 m4">'+
+							'<br>'+
+							'<button class="w3-button w3-small" id="modifattr"><ins>Update column name</ins></button>'+
+						'</div>'+
+						'<div class="w3-col w3-padding l2 m4">'+
+							'<br>'+
+							'<button id="sendrmcol" class="w3-btn w3-round w3-red w3-ripple w3-padding-small">'+
+								'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+							'</button>'+
+						'</div>';
+
+		$("#modif").append(rmColbtn);
+		$("#modifattr").click(function(){
+
+			$("#attrcontainer").html('New column name:<br><input type="text" autocomplete="on" class="w3-input w3-border" id="new_attr">');
+		});
+		
+
 		$("#sendrmcol").click(function(){
+
 			let col = $(":selected")[0].value;
 			let newcol = $("#new_attr").val();
+			
+			$("#cboxs").hide();
+
 			if (col != "" && (newcol == "" || newcol == undefined)){
+
 				if (confirm("WARNING!\nDid you really want to remove the column "+col+"?\nThis process is NOT REVERSIBLE!") == true) {
-					// temporary solution for synchronous get keys
-					fieldName.splice(fieldName.indexOf(col),1);
-					$.post("/removeCol",{"column": col});
-					buildDataTable();
-					rmcolclick();
-					alert(col + " column was successfully removed from database!");
+
+					$.post("/removeCol",{"column": col},function(DATA){
+
+						$.get("/getKeys", function(data){
+
+							NAME_LIST = data;
+						}).done(function(){
+
+							buildDataTable();
+							buildCheckbox();
+							let code = '<option value=""> </option>';
+							
+							for (i = 0; i < NAME_LIST.length; i++) {
+
+								if (["_id","category","color","volume"].indexOf(NAME_LIST[i]) == -1){
+
+									code += '<option value="'+ NAME_LIST[i] +'"> '+NAME_LIST[i] + " </option>";
+								};
+							};
+
+							$("select").html(code);
+							alert(col + " column was successfully removed from database!");
+						});
+					});	
 				};
 			} else if (col != "" && newcol != "" ){
-				if (confirm("WARNING!\nDid you really want to replace the column "+col+" by "+newcol+"?\nThis process is NOT REVERSIBLE!") == true) {
-					// temporary solution for synchronous get keys
-					fieldName[fieldName.indexOf(col)] = newcol;
-					$.post("/modifCol",{"old_column": col, "new_column": newcol});
-					buildDataTable();
-					rmcolclick();
-					alert(col + " was successfully replaced by "+newcol+"!");
+
+				if (confirm(
+						"WARNING!\nDid you really want to replace the column "+col+
+						" by "+newcol+"?\nThis process is NOT REVERSIBLE!") == true) {
+
+					$.post("/modifCol",{"old_column": col, "new_column": newcol}, function(DATA){
+
+						if (DATA === true){
+
+							$.get("/getKeys", function(data){
+
+								NAME_LIST = data;
+							}).done(function(){
+
+								buildDataTable();
+								buildCheckbox();
+
+								let code = '<option value=""> </option>';
+								
+								for (i = 0; i < NAME_LIST.length; i++) {
+
+									if (["_id","category","color","volume"].indexOf(NAME_LIST[i]) == -1){
+
+										code += '<option value="'+ NAME_LIST[i] +'"> '+NAME_LIST[i] + " </option>";
+									};
+								};
+
+								$("select").html(code);
+								$("#new_attr").val("");
+								alert(col + " was successfully replaced by "+newcol+"!");
+							});
+						} else {
+
+							alert(DATA);
+						};
+					});
 				};
 			};
-			$("#cboxs").hide();
 		});
 	});
 } );
