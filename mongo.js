@@ -75,7 +75,9 @@ var Json_detBelt_mongo = function(path) {
 		for(j=0; j<values[i].length; j++){ //for each detergent
 			var det = values[i][j];
 			det.category = Object.keys(dict.data)[i];
-			det['_id'] = det['name']; //Rename key 'name' to '_id'
+			if(det['name']){
+				det['_id'] = det['name']; //Rename key 'name' to '_id'
+			}
 			delete det['name'];
 			modifyColor(det.color); //Normalization of colors
 			write.push(det);
@@ -162,6 +164,7 @@ var FindinDet =  function() {
   		var collection = db.collection('det');
 		return collection.find().toArray();
 	}).then(function(items) {
+		console.log(items);
  		return items;
 	});
 }
@@ -350,6 +353,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 
 	//Insert the 'res.json' file in database
 	//insertData(db, __dirname+"/data/res.json");
+	insertData(db, __dirname+"/2017-12-11_detBelt.json");
 
 	//Delete the 'OM' detergent
 	//deleteDet(db,'OM');
