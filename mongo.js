@@ -225,15 +225,15 @@ var insertDet = function(db, det){
 			if(err){
 				if (err.code == 11000) {
 				console.log('The detergent name must be unique');
-				return false;
+				return 'Error';
 				}
 			}
 			else{
 				console.log('The detergent has been added');
 				backupModule.control_backup(true);
-				return true;
 			}
 		});
+		return 'The detergent has been added';
 	}
 }
 
@@ -254,10 +254,12 @@ var modifyDet = function(db, id, det){
 				db.collection('det').update({'_id' : id},{$set: det}, function(err,result){
 					if(err){
 						throw err;
+						return 'Error';
 					}
 					else{
 						console.log('The detergent ' + id + ' has been updated');
 						backupModule.control_backup(true);
+						return 'The detergent ' + id + ' has been updated';
 					}
 				});
 			}
@@ -278,10 +280,12 @@ var deleteCaract = function(db, caract){
 	db.collection('det').update({}, {$unset: todelete} , {multi: true}, function(err,result){
 			if(err){
 				throw err;
+				return 'Error';
 			}
 			else{
 				console.log('The caracteristic ' + db + ' has been deleted for all detergents');
 				backupModule.control_backup(true);
+				return 'The caracteristic ' + db + ' has been deleted for all detergents';
 			}
 	});
 }
@@ -295,10 +299,12 @@ var modifyCaract = function(db, caract1, caract2){ //caract1 : name in the datab
 	db.collection('det').update({}, {$rename: rename}, {multi: true}, function(err,result){
 		if(err){
 			throw err;
+			return 'Error';
 		}
 		else{
 			console.log('The caracteristic ' + caract1 + ' has been rename ' + caract2);
 			backupModule.control_backup(true);
+			return 'The caracteristic ' + caract1 + ' has been rename ' + caract2
 		}
 	});
 }
