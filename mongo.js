@@ -4,7 +4,8 @@ var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
 
-//var backupModule = require('./mongodb_backup.js');
+var MongoClient = require('mongodb').MongoClient;
+
 global.backupModule = require('./mongodb_backup.js');
 backupModule.backup();
 
@@ -61,7 +62,7 @@ var modifyColor = function(detergent){
 
 	
 
-//Function to modify JSON file in a new format 
+//Function to modify 'detBelt' format in 'mongo' format
 var Json_detBelt_mongo = function(path) {
 	var dict = jsonfile.readFileSync(path,'utf8');
 	var write = [];
@@ -86,43 +87,6 @@ var Json_detBelt_mongo = function(path) {
 	dict.data = write; //replace "data" values
 	return dict;
 }
-
-
-
-//Function to modify new JSON file in the old format 
-/*var Json_mongo_detBelt = function(path) {
-	var dict = jsonfile.readFileSync(path,'utf8');
-	var write = {};
-	var category = [];
-	var counter = 0;
-	var tempo = '';
-	
-
-	var values = Object.keys(dict.data).map(function(key) {
-    	return dict.data[key];
-	});
-	
-	for(i=0; i<values.length; i++){ //for each detergent
-		if(category.includes(dict.data[i].category) == false){ //if it's a new detergent class (1)
-			category.push(dict.data[i].category);
-			delete dict.data[i].category
-			write[category[counter]] = [dict.data[i]];
-			counter += 1;
-		}
-		else{
-			for(j=0; j<Object.keys(write).length; j++){
-				if(dict.data[i].category == Object.keys(write)[j]){ //else (2)
-					tempo = dict.data[i].category;
-					delete dict.data[i].category;
-					write[tempo].push(dict.data[i]);
-				}
-			}
-		}
-	}
-	
-	dict = {"data":write};
-	return dict;
-}*/
 
 
 
@@ -167,6 +131,19 @@ var FindinDet =  function() {
  		return items;
 	});
 }
+
+
+
+var test = function(){
+	var allKeys = {};
+	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
+		var collection = db.collection('det');
+		return collection.find().toArray();
+	}).then(function(items) {
+		//console.log(items);
+	});
+}
+
 
 
 
@@ -339,6 +316,15 @@ var detCategory = function(db){
 
 
 
+var db_for_detbelt = function(){
+    var allKeys = {};
+    FindinDet().then(function(items) {
+        backupModule.Json_mongo_detBelt_format(items);
+    });
+}
+
+
+
 
 //MONGODB
 
@@ -349,6 +335,9 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 	if (err) {
 		throw err;
 	}
+
+	test(db);
+
 
 	//console.log(typeof(db));
 
@@ -427,7 +416,8 @@ module.exports = {
   	modifyDet: modifyDet,
 	modifyCaract, modifyCaract,
   	deleteCaract: deleteCaract,
-  	detCategory: detCategory
+  	detCategory: detCategory,
+  	db_for_detbelt: db_for_detbelt
 };
 
 
