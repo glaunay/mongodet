@@ -439,7 +439,7 @@ $(document).ready(function() {
 		'<a id="btnrmCol" class="w3-button w3-ripple">'+
 			'<i class="fa fa-hand-scissors-o" aria-hidden="true"></i> Manage columns'+
 		'</a>'+
-		'<a id="help" href="/help.html" target="_blank" class="w3-button w3-ripple w3-right">'+
+		'<a id="help" href="/help" target="_blank" class="w3-button w3-ripple w3-right">'+
 			'<i class="fa fa-life-ring" aria-hidden="true"></i> Help'+
 		'</a>');
 
