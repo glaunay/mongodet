@@ -413,7 +413,7 @@ $(document).ready(function() {
 
 	// Buttons for operations on database
 	$(".navbar").append(
-		'<a id="home">Detergent Database CRUD Interface</a>'+
+		'<a id="home" title="Reload page">Detergent Database CRUD Interface</a>'+
 		'<a id="btnbrowse" class="w3-button w3-ripple">'+
 			'<i class="fa fa-table" aria-hidden="true"></i> '+
 			'Load database'+
@@ -439,7 +439,7 @@ $(document).ready(function() {
 		'<a id="btnrmCol" class="w3-button w3-ripple">'+
 			'<i class="fa fa-hand-scissors-o" aria-hidden="true"></i> Manage columns'+
 		'</a>'+
-		'<a id="help" href="#" target="_blank" class="w3-button w3-ripple w3-right">'+
+		'<a id="help" href="/help.html" target="_blank" class="w3-button w3-ripple w3-right">'+
 			'<i class="fa fa-life-ring" aria-hidden="true"></i> Help'+
 		'</a>');
 
@@ -644,7 +644,9 @@ $(document).ready(function() {
 			.empty()
 			.html('<h3>Remove detergent</h3>'+
 				'Please select one detergent on below to delete it:'+
-				'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round w3-right"><b>Confirm </b></button>');
+				'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round w3-right">'+
+					'<b>Confirm</b> <i class="fa fa-times" aria-hidden="true"></i>'+
+				'</button>');
 
 		if (selectedData === undefined) {
 
