@@ -73,7 +73,9 @@ app.get('/getKeys',function(req, res,next){
          
     })
 
-
+app.get('/help', function(req, res) {
+  res.sendFile(__dirname + '/html/help.html')
+})
 // catch 404 and forward to error handler
 /*
 app.use(function(req, res, next) {
@@ -139,7 +141,9 @@ app.post('/newDet',function (req, res) {
   	to_insert.category = null
   }
   to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
-  res.send({"status":mongo.insertDet(db,to_insert)[0],"data":mongo.insertDet(db,to_insert)[1]} )
+  a = mongo.insertDet(db,to_insert)
+  console.log(a[0],a[1])
+  res.send({"status":a[0],"data":a[1]} )
 
 //mongo.insertDet(db,to_insert)
 });
@@ -164,7 +168,7 @@ app.post('/updateDet',function (req, res) {
 	var to_update = req.body;
 	to_update.volume = Number(to_update.volume)
 	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
-	if (to_update.MM != ''){
+	/*if (to_update.MM != ''){
 		to_update.MM = Number(to_update.MM)
 	}
 	if (to_update.CMC != ''){
@@ -173,8 +177,8 @@ app.post('/updateDet',function (req, res) {
 	if (to_update.Aggregation_number != ''){
 		to_update.Aggregation_number = Number(to_update.Aggregation_number)
 	}
-	
-	mongo.modifyDet(db,to_update._id,to_update);
+	*/
+	res.send(mongo.modifyDet(db,to_update._id,to_update));
 	
 
 
@@ -186,7 +190,7 @@ app.post('/removeCol',function(req,res){
 		throw err;
 	}
 	var col = req.body.column;
-	mongo.deleteCaract(db,col);
+	res.send(mongo.deleteCaract(db,col));
 	//console.log(col)
 
 });
