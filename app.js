@@ -129,10 +129,19 @@ app.post('/newDet',function (req, res) {
   }
   var to_insert = req.body;
   to_insert.volume=Number(to_insert.volume,10)
+  if (to_insert._id==''){
+  	to_insert._id = null
+  }
+  if (isNaN(to_insert.volume)) {
+  		to_insert.volume = null
+  }
+  if (to_insert.category == ''){
+  	to_insert.category = null
+  }
   to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
-  mongo.insertDet(db,to_insert);
+  res.send({"status":mongo.insertDet(db,to_insert)[0],"data":mongo.insertDet(db,to_insert)[1]} )
 
-
+//mongo.insertDet(db,to_insert)
 });
 });
 app.post('/removeDet',function (req, res) {
@@ -222,7 +231,12 @@ mongo.FindinDet().then(function(items) {
 */
 
 //console.log(mongo.FindinDet())
-
+/*process.on('SIGINT', function() {
+    console.log("Caught interrupt signal");
+    console.log(process.getegid())
+    process.exit();
+});
+*/
 app.listen(3000, function () {
   console.log('mongodet server listening on port 3000!')
 })
