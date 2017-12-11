@@ -164,7 +164,6 @@ var FindinDet =  function() {
   		var collection = db.collection('det');
 		return collection.find().toArray();
 	}).then(function(items) {
-		console.log(items);
  		return items;
 	});
 }
