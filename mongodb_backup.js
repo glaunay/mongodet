@@ -28,7 +28,7 @@ var extractdb = function () {
 }
 
 
-//Function to convert the database in 'mongo' format
+//Function to convert the database in 'mongo' format and save document
 var Json_database_mongo = function(path) {
     var dict = jsonfile.readFileSync(path,'utf8');
     var write = {"data":dict};
@@ -44,7 +44,7 @@ var Json_database_mongo = function(path) {
 
 
 //Function to convert the 'mongo' format in 'detbelt' format 
-var Json_mongo_detBelt = function(path) {
+var Json_mongo_detBelt_format = function(path) {
     var dict = jsonfile.readFileSync(path,'utf8');
     var write = {};
     var category = [];
@@ -75,17 +75,21 @@ var Json_mongo_detBelt = function(path) {
     }
     
     dict = {"data":write};
+    return dict;
+}
 
+
+
+//Function to save 'detBelt' format in a file
+var Json_mongo_detBelt = function(path) {
+    dict = Json_mongo_detBelt_format(path)
     var newFile = newDir() + '_detBelt.json';
     jsonfile.writeFileSync(newFile, dict, {spaces:2}, function(err) { //to write in a file
         if(err) {
             return console.log(err);
         }
     });
-    //console.log(dict);
-    return dict;
 }
-
 
 
 
@@ -97,19 +101,17 @@ var backup = function(){
         //console.log(time);
         //console.log('function backup' + b_backup);
        
-            new cronJob('29 20 * * *', function() { //Every day at 19h00
+            new cronJob('16 13 * * *', function() { //Every day at 19h00
                 if(b_backup){ 
                     var dir_database = newDir() + '_database.json';
                     var dir_mongo = newDir() + '_mongo.json';
-                    extractdb();
-                    Json_database_mongo(dir_database);
+                    //extractdb();
+                    //Json_database_mongo(dir_database);
                     Json_mongo_detBelt(dir_mongo);
                     console.log('The extraction of the database is finished !')
                     b_backup = false;
                 }
-            }, null, true, 'Europe/Paris');
-
-        
+            }, null, true, 'Europe/Paris');        
 }
 
 
