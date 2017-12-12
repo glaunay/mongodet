@@ -47,9 +47,12 @@ var Json_database_mongo = function(path) {
 
 
 //Function to convert the 'mongo' format in 'detbelt' format 
-var Json_mongo_detBelt_format = function(path) {
+var Json_mongo_detBelt_format = function(path) { //remplacer path par data (data json qui doit contenir item ou... qui doit être...)
+   // if(data.hasOwnProperty('items')) {}
+     //   else if(if(data.hasOwnProperty('items')) {})
+       //     else console..
     if(path.includes('.') == true){
-        var dict = jsonfile.readFileSync(path,'utf8'); //if path is a file
+        var dict = jsonfile.readFileSync(path,'utf8'); //if path is a file (.json)
     }else{
         var dict = {"data": path};
     }
