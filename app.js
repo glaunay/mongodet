@@ -9,32 +9,35 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var app = express();
 
-const child = spawn('mongod'); // find a way to shut it when out of the program
+const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
 
-// Init the database
+// Init the database with options
 
+//boolean default values
+
+var b_mongo_t = false;
 
 arg = process.argv;
-if (arg.length > 2){
-  if (arg[2]=="-init"){
+if (arg.indexOf("-init") in arg ){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-      if (err) {
-        throw err;
-      }
-      mongo.insertData(db, __dirname+'/'+arg[3]); 
+    if (err) {
+    throw err;
+    }
+    mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]); 
     })
   }
-  else if (arg[2]=="-reinit"){
+else if (arg.indexOf("-reinit") in arg ){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
       if (err) {
         throw err;
       }
       mongo.deleteData(db);
-      mongo.insertData(db, __dirname+'/'+arg[3]); // message not on the right order but work actually
+      mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-reinit")+1]); // message not on the right order but work actually
     })  	
   }
-  else if (arg[2]=="--testfront"){
-      return 0;
+else if (arg.indexOf("--testmongo") in arg ){
+	b_mongo_t = true
+      mongo.testFront();
   }
   /*else if (arg[2]=="--testmongo"){
     var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
@@ -47,7 +50,7 @@ if (arg.length > 2){
     }) 
       return 0;
   }}*/
-}
+
 
 
 //Partie HTML
@@ -242,9 +245,15 @@ mongo.FindinDet().then(function(items) {
     process.exit();
 });
 */
+
+if(b_mongo_t === false){
+
 app.listen(3000, function () {
   console.log('mongodet server listening on port 3000!')
 })
+
+}
+
 
 
 module.exports = app;
