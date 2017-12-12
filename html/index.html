@@ -33,6 +33,17 @@
 	<!--div id="text" class="w3-container w3-padding"></div-->
 	<div id="message"></div>
 
+	<div id="detimage" class="w3-modal">
+		<div class="w3-modal-content w3-animate-top w3-card-4">
+			<header class="w3-container w3-teal"> 
+				<span onclick="document.getElementById('detimage').style.display='none'" 
+				class="w3-button w3-display-topright">&times;</span>
+				<h2 id="modalheader"></h2>
+			</header>
+			<div id="image" class="w3-center"></div>
+		</div>
+	</div>
+
 	<!-- here is the fild for input -->
 	<div id="modif" class="w3-container w3-row"></div>
 
@@ -49,7 +60,7 @@
 
 <style type="text/css">
 	table.dataTable span.highlight {
-	  background-color: #FFFF88;
+		background-color: #FFFF88;
 	}
 </style>
 

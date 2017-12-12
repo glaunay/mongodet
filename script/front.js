@@ -15,15 +15,26 @@ function attFields() {
 	let code = '<div id="fieldadd">';
 	for (i = 0; i < NAME_LIST.length; i++) {
 
-		if (NAME_LIST[i] != 'color') {
+		if (NAME_LIST[i] == 'color') {
 
-			code += '<div class="w3-col l2 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
+			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<a class="w3-text-red">*</a><br>'+
+						'<input type="color" id="color" value=#808080 style="width:100%">'+
+					'</div>';
+
+		} else if (NECESSARY_VAL.indexOf(NAME_LIST[i]) != -1){
+
+			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<a class="w3-text-red">*</a><br>'+
 						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ NAME_LIST[i] +'">'+
+					'</div>';
+		} else if (["PDB_file","image"].indexOf(NAME_LIST[i]) != -1){
+
+			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
+						'<input type="file" autocomplete="on" id="'+ NAME_LIST[i] +'">'+
 					'</div>';
 		} else {
 
-			code += '<div class="w3-col l2 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
-						'<input type="color" id="color" value=#808080 style="width:100%">'+
+			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
+						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ NAME_LIST[i] +'">'+
 					'</div>';
 		}
 	};
@@ -45,7 +56,7 @@ function columnDef(){
 
 			colname[colname.length] = { 
 				"data": null, 
-				"defaultContent": 	"<button class='w3-button w3-round-xxlarge'>"+
+				"defaultContent": 	"<button class='ref w3-button w3-round-xxlarge'>"+
 										"<i class='fa fa-eye' aria-hidden='true'></i>"+
 									"</button>"
 			};
@@ -53,7 +64,13 @@ function columnDef(){
 
 			colname[colname.length] = { 
 				"data": "img.jpg", 
-				"defaultContent": "<a href='/img/img.jpg' target='_blank'>See image</a>"
+				"defaultContent": "<a class='w3-button image'>See image</a>"
+			};
+		} else if (NAME_LIST[i]==="PDB_file"){
+
+			colname[colname.length] = { 
+				"data": null, 
+				"defaultContent": "<a class='w3-button pdb'>See PDB file</a>"
 			};
 		} else {
 
@@ -152,6 +169,16 @@ function buildCheckbox(){
 				"</label>"+
 				"<div id='cboxs'>";
 
+	cboxs += 	"<div class='w3-col l12 m12 w3-row w3-padding'>"+
+					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small' id='selall'>"+
+						"Select all"+
+					"</button>"+
+					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small' id='dselall'>"+
+						"Unselect all"+
+					"</button>"+
+					
+				"</div>"
+
 	for (i = 0; i < NAME_LIST.length; i++) {
 
 		cboxs += 	'<div class="w3-col l2 m3 s6">'+
@@ -159,14 +186,7 @@ function buildCheckbox(){
 					'</div>';
 	};
 
-	cboxs += 	"<div>"+
-					"<button id='selall'>"+
-						"<ins>Select all</ins>"+
-					"</button>"+
-					"<button id='dselall'>"+
-						"<ins>Unselect all</ins>"+
-					"</button></div>"+
-				"<div >"+
+	cboxs +=	"<div class='w3-col l12 m12 w3-padding'>"+
 					"<button id='hideCol'>Apply</button>"+
 				"</div>"+
 				"</div>"
@@ -182,8 +202,8 @@ function buildCheckbox(){
 	$("#dispar").addClass('w3-button w3-border w3-padding-small')
 	$("#cboxs div").addClass("w3-col l2 m3 s6");
 	$("#cboxs input").addClass("w3-check");
-	$("#cboxs button").addClass('w3-button w3-small');
-	$("#hideCol").addClass('w3-margin w3-blue w3-round-xxlarge');
+	$("#cboxs button").addClass('w3-button w3-block');
+	$("#hideCol").addClass('w3-blue w3-round');
 
 	// Toggle the display parameters field
 	$("#dispar").click(function(){
@@ -243,7 +263,7 @@ function buildDataTable(){
 		.addClass("w3-padding")
 		.html(
 			"<div id='parameters' class='w3-padding w3-round'></div>"+
-			"<table id='detable' class='hover cell-border' cellspacing='0' width='100%''>"+
+			"<table id='detable' class='hover cell-border' cellspacing='0' width='100%'>"+
 				"<thead><tr>" + buildTabColumns() + "</tr></thead>"+
 				"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
 			"</table>"
@@ -293,24 +313,38 @@ function buildDataTable(){
 			$("#modifupd2").show();
 
 			// Unable autofill for Add new detergent
-			if ($("#sendnew")[0] === undefined){
+			if (! $("#sendnew").hasClass("firstEntry")){
 
-				// Data of dertergent when selected
-				selectedData = table.row('.selected').data();
-				selectedToInput(selectedData);
-			} else {
-
+				$("#sendnew").addClass("firstEntry")
 				$("[autocomplete]").val("");
 				$("[type='color']").val("#808080");
+				selectedData = table.row('.selected').data();
 			};
 		}
 	} );
 
 	// Alert reference of detergent
-	$('#detable tbody').on( 'click', 'button', function () {
+	$('#detable tbody').on( 'click', '.ref', function () {
 
 		let data = table.row( $(this).parents('tr') ).data();
 		alert( data.ref );
+	} );
+
+	// Alert image of detergent
+	$('#detable tbody').on( 'click', '.image', function () {
+
+		let data = table.row( $(this).parents('tr') ).data();
+		//$("#image").html('<img src="/pic/'+data.image+'" alt="'+data.image+'">');
+		$("#image").html('<img src="/img/img.jpg" alt="'+data.image+'">');
+		//$("#modalheader").html(data.image);
+		$("#modalheader").html("image test");
+		document.getElementById('detimage').style.display='block'
+	} );
+
+	$('#detable tbody').on( 'click', '.pdb', function () {
+
+		let data = table.row( $(this).parents('tr') ).data();
+		window.open("/pdb/3lPt.pdb", "_blank", "width=600,height=500");
 	} );
 
 	// If table is already builded
@@ -361,7 +395,7 @@ function mandatoryInputCheck(){
 
 		let id = "#"+NECESSARY_VAL[i];
 
-			if ($(id).val()=="") {
+			if ($(id).val()=="" || $(id).hasClass("w3-red")==true) {
 
 				$(id).addClass("w3-red");
 				filled = false;
@@ -425,33 +459,36 @@ $(document).ready(function() {
 				'<i class="fa fa-chevron-down"></i>'+
 			'</button>'+
 			'<div class="dropdown-content">'+
-				'<a id="btnaddDet" class="w3-btn w3-block w3-ripple">'+
+				'<a id="navNewDet" class="w3-btn w3-block w3-ripple">'+
 					'<i class="fa fa-plus" aria-hidden="true"></i> Insert new detergent'+
 				'</a>'+
-				'<a id="btnupdate" class="w3-btn w3-block w3-ripple">'+
+				'<a id="navUpdDet" class="w3-btn w3-block w3-ripple">'+
 					'<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update detergent'+
 				'</a>'+
-				'<a id="btnremove" class="w3-btn w3-block w3-ripple">'+
+				'<a id="navRmvDet" class="w3-btn w3-block w3-ripple">'+
 					'<i class="fa fa-trash" aria-hidden="true"></i> Remove detergent'+
 				'</a>'+
 			'</div>'+
 		'</div>'+
-		'<a id="btnrmCol" class="w3-button w3-ripple">'+
+		'<a id="navRmvCol" class="w3-button w3-ripple">'+
 			'<i class="fa fa-hand-scissors-o" aria-hidden="true"></i> Manage columns'+
 		'</a>'+
 		'<a id="help" href="/help" target="_blank" class="w3-button w3-ripple w3-right">'+
 			'<i class="fa fa-life-ring" aria-hidden="true"></i> Help'+
+		'</a>'+
+		'<a id="help" href="http://detbelt.ibcp.fr/" target="_blank" class="w3-button w3-ripple w3-right">'+
+			'<i class="fa fa-desktop" aria-hidden="true"></i> Det.Belt'+
 		'</a>');
 
 	// Disable these buttons on page loading
-	$("#btnaddDet").addClass('w3-disabled');
-	$("#btnrmCol").addClass('w3-disabled');
-	$("#btnupdate").addClass('w3-disabled');
-	$("#btnremove").addClass('w3-disabled');
+	$("#navNewDet").addClass('w3-disabled');
+	$("#navRmvCol").addClass('w3-disabled');
+	$("#navUpdDet").addClass('w3-disabled');
+	$("#navRmvDet").addClass('w3-disabled');
 
 
 	$("#table").html(
-		"<h1>Welcome to Detergent Database CRUD Interface</h1>"+
+		"<h1>Welcome to Detergent Database CRUD Interface!</h1>"+
 		"<p>Here is a user-friendly front-end for <a href='http://detbelt.ibcp.fr/' target='_blank'>"+
 		"Det.Belt</a> detergents database. You can browse and manage your favorites detergents.</p>"+
 		"<p>To begin, please click on the button <b>Load database</b> on the top. Enjoy!</p>"
@@ -519,11 +556,219 @@ $(document).ready(function() {
 			buildDataTable();
 			buildCheckbox();
 
-			$("#btnaddDet").removeClass('w3-disabled');
-			//$("#btnrmCol").removeClass('w3-disabled');
-			$("#btnupdate").removeClass('w3-disabled');
-			$("#btnremove").removeClass('w3-disabled');
+			$("#navNewDet").removeClass('w3-disabled');
+			//$("#navRmvCol").removeClass('w3-disabled');
+			$("#navUpdDet").removeClass('w3-disabled');
+			$("#navRmvDet").removeClass('w3-disabled');
+
+			//////// Enable field for adding new detergent ////////
+			$("#navNewDet").click(function(){
+
+				let submitbtn =	'<div class="w3-col l3 m4 w3-padding">'+
+									'<br>'+
+									'<button id="sendnew" class="w3-btn w3-round w3-green w3-block w3-ripple">'+
+										'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+									'</button>'+
+								'</div>';
+				
+				$("#cboxs").hide()
+				$("#modif").empty()
+					.removeClass()
+					.addClass("w3-pale-green w3-padding")
+					.append(
+						"<h3>Insert new detergent</h3>"+
+						"Please fill fields on below to prepare your submission. "+
+						"Note that the values of <b>_id</b>, <b>volume</b>, <b>color</b> and <b>category</b> are necessary.")
+					.append(attFields())
+					.append(
+						'<div class="w3-col l3 m4 w3-padding">'+
+							'<br>'+
+							'<button id="btnAddNewAttr" disabled>'+
+								'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute'+
+							'</button>'+
+						'</div>')
+					.append(submitbtn);
+
+				$("#btnAddNewAttr").addClass("w3-btn w3-round w3-ripple w3-block w3-green");
+				$("#btnAddNewAttr").click(function(){
+
+					$(this).parents("div:first").empty()
+						.removeClass("l2 m4 w3-padding")
+						.addClass("l4 m8 w3-border")
+						.html(
+							'<div class="w3-col l6 w3-padding">'+
+								'<b>New attribute name:</b><br>'+
+								'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col">'+
+							'</div>'+
+							'<div class="w3-col l6 w3-padding">'+
+								'<b>Value for new attribute:</b><br>'+
+								'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col_value">'+
+							'</div>');
+				});
+
+				inputCheck();
+
+				// Send POST request for new detergent
+				$("#sendnew").click(function(){
+
+					if (mandatoryInputCheck()){
+
+						let JSON_send = formToJSON();
+
+						// If no new attribute to add
+						if ($("#new_col").val() == undefined || $("#new_col").val() == "" || $("#new_col_value").val() == ""){
+
+							$.post("/newDet", JSON_send, function(data){
+
+								if (data["status"] == "OK_insert"){
+
+									$('#detable').DataTable().ajax.reload();
+									$("[autocomplete]").val("");
+									$("[type='color']").val("#808080");
+									alert(String(JSON_send._id) + " was successfully inserted to database!");
+								} else {
+
+									alert(data);
+								};
+							});
+						} else {
+
+							JSON_send[$("#new_col").val()] = $("#new_col_value").val();
+							// temporary solution for synchronous get keys
+							NAME_LIST.push($("#new_col").val());
+							$.post("/newDet", JSON_send, function(data){
+
+								if (data["status"] == "OK_insert"){
+
+									$.get("/getKeys", function(data){
+				
+										NAME_LIST = data;
+										alert(
+											String(JSON_send._id) + " and the new attribute " +
+											String($("#new_col").val()) + " was successfully insert to database!"
+										);
+										buildDataTable();
+										buildCheckbox();
+										$("[autocomplete]").val("");
+										$("[type='color']").val("#808080");
+									});
+								} else {
+
+									alert(data[data]);
+								};
+							});
+						};
+					};
+				});
+			});
 			
+			//////// Enable field for updating a detergent ////////
+			$("#navUpdDet").click(function(){
+
+				let submitbtn =	'<div class="w3-col l3 m4 w3-padding">'+
+									'<br>'+
+									'<button id="sendupdate" class="w3-btn w3-round w3-blue w3-block w3-ripple">'+
+										'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
+									'</button>'+
+								'</div>';
+
+				$("#cboxs").hide();
+				$("#modif").empty()
+					.removeClass()
+					.addClass("w3-pale-blue")
+					.html(
+						"<div id='modifupd1'>"+
+							"<h3>Please choose your detergent: </h3>"+
+							"<div>")
+					.append("<div id='modifupd2'></div>");
+				$("#modifupd1").addClass("w3-padding")
+				$("#modifupd2").addClass("w3-padding")
+					.html("<h3>Update detergent</h3>")
+					.append(attFields())
+					.append(submitbtn);
+				
+				$("#_id").attr("readonly",true);
+
+				if (selectedData != undefined) {
+
+					$("#modifupd1").hide();
+					$("#modifupd2").show();
+					selectedToInput(selectedData);
+				} else {
+
+					$("#modifupd1").show();
+					$("#modifupd2").hide();
+				};
+
+				inputCheck();
+
+				// Send POST request for update one detergent
+				$("#sendupdate").click(function(){
+
+					if (mandatoryInputCheck()){
+
+						let modifiedName = table.row('.selected').data()._id;
+						$.post("/updateDet", formToJSON(),function(DATA){
+
+							$.get("/getKeys", function(data){
+
+								NAME_LIST = data;
+							}).done(function(){
+
+								$('#detable').DataTable().ajax.reload();
+								$("[autocomplete]").val("");
+								alert(modifiedName + " is now up to date!");
+							});
+						});
+					};
+				});
+			});
+
+			//////// Enable field for removing detergent ////////
+			$("#navRmvDet").click(function(){
+
+				$("#cboxs").hide()
+				$("#modifupd1").hide();
+				$("#modif").removeClass()
+					.addClass("w3-pale-red w3-padding")
+					.empty()
+					.html('<h3>Remove detergent</h3>'+
+						'Please select one detergent on below to delete it:'+
+						'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round w3-right">'+
+							'<b>Confirm</b> <i class="fa fa-times" aria-hidden="true"></i>'+
+						'</button>');
+
+				if (selectedData === undefined) {
+
+					$("#sendremove").prop('disabled',true);
+				} else {
+
+					$("#sendremove").prop('disabled',false);
+				};
+
+				// Send POST request for removing one detergent
+				$('#sendremove').click( function () {
+
+					let deletedName = table.row('.selected').data()._id;
+
+					if (confirm("WARNING!\nDid you really want to remove "+deletedName+"?\nThis process is NOT REVERSIBLE!") == true) {
+
+						$.post("/removeDet",table.row('.selected').data(), function(data){
+
+							if (data === true){
+
+								$('#detable').DataTable().ajax.reload();
+								$("#sendremove").prop('disabled',true);
+								alert(deletedName + " was successfully removed from database!");
+							} else {
+
+								alert(data);
+							};
+						});
+					} 
+				} );
+			});
+
 		} else {
 
 			// When the table is already here
@@ -533,223 +778,14 @@ $(document).ready(function() {
 		$("#modif").removeClass();
 	});
 
-	// Enable field for adding new detergent
-	$("#btnaddDet").click(function(){
-
-		let submitbtn =	'<div class="w3-col l2 m4 w3-padding">'+
-							'<br>'+
-							'<button id="sendnew" class="w3-btn w3-round w3-green w3-block w3-ripple">'+
-								'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
-							'</button>'+
-						'</div>';
-		
-		$("#cboxs").hide()
-		$("#modif").empty()
-			.removeClass()
-			.addClass("w3-pale-green w3-padding")
-			.append(
-				"<h3>Insert new detergent</h3>"+
-				"Please fill fields on below to prepare your submission. "+
-				"Note that the values of <b>_id</b>, <b>volume</b>, <b>color</b> and <b>category</b> are necessary.")
-			.append(attFields())
-			.append(
-				'<div class="w3-col l2 m4 w3-padding">'+
-					'<br>'+
-					'<button id="btnAddNewAttr">'+
-						'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute'+
-					'</button>'+
-				'</div>')
-			.append(submitbtn);
-
-		$("#btnAddNewAttr").addClass("w3-btn w3-round w3-ripple w3-block w3-green");
-		$("#btnAddNewAttr").click(function(){
-
-			$(this).parents("div:first").empty()
-				.removeClass("l2 m4 w3-padding")
-				.addClass("l4 m8 w3-border")
-				.html(
-					'<div class="w3-col l6 w3-padding">'+
-						'<b>New attribute name:</b><br>'+
-						'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col">'+
-					'</div>'+
-					'<div class="w3-col l6 w3-padding">'+
-						'<b>Value for new attribute:</b><br>'+
-						'<input type="text" autocomplete="on" class="w3-input w3-border" id="new_col_value">'+
-					'</div>');
-		});
-
-		inputCheck();
-
-		// Send POST request for new detergent
-		$("#sendnew").click(function(){
-
-			if (mandatoryInputCheck()){
-
-				let JSON_send = formToJSON();
-
-				// If no new attribute to add
-				if ($("#new_col").val() == undefined || $("#new_col").val() == "" || $("#new_col_value").val() == ""){
-
-					$.post("/newDet", JSON_send, function(data){
-
-						if (data === true){
-
-							$('#detable').DataTable().ajax.reload();
-							$("[autocomplete]").val("");
-							$("[type='color']").val("#808080");
-							alert(String(JSON_send._id) + " was successfully inserted to database!");
-						} else {
-
-							alert(data);
-						};
-					});
-				} else {
-
-					JSON_send[$("#new_col").val()] = $("#new_col_value").val();
-					// temporary solution for synchronous get keys
-					NAME_LIST.push($("#new_col").val());
-					$.post("/newDet", JSON_send, function(data){
-
-						if (data["status"] == "OK_insert"){
-
-							$.get("/getKeys", function(data){
-		
-								NAME_LIST = data;
-								alert(
-									String(JSON_send._id) + " and the new attribute " +
-									String($("#new_col").val()) + " was successfully insert to database!"
-								);
-								buildDataTable();
-								buildCheckbox();
-								$("[autocomplete]").val("");
-								$("[type='color']").val("#808080");
-							});
-						} else {
-
-							alert(data[data]);
-						};
-					});
-				};
-			};
-		});
-	});
-
-	// Enable field for removing detergent
-	$("#btnremove").click(function(){
-
-		$("#cboxs").hide()
-		$("#modifupd1").hide();
-		$("#modif").removeClass()
-			.addClass("w3-pale-red w3-padding")
-			.empty()
-			.html('<h3>Remove detergent</h3>'+
-				'Please select one detergent on below to delete it:'+
-				'<button id="sendremove" class="w3-btn w3-red w3-ripple w3-round w3-right">'+
-					'<b>Confirm</b> <i class="fa fa-times" aria-hidden="true"></i>'+
-				'</button>');
-
-		if (selectedData === undefined) {
-
-			$("#sendremove").prop('disabled',true);
-		} else {
-
-			$("#sendremove").prop('disabled',false);
-		};
-
-		// Send POST request for removing one detergent
-		$('#sendremove').click( function () {
-
-			let deletedName = table.row('.selected').data()._id;
-
-			if (confirm("WARNING!\nDid you really want to remove "+deletedName+"?\nThis process is NOT REVERSIBLE!") == true) {
-
-				$.post("/removeDet",table.row('.selected').data(), function(data){
-
-					if (data === true){
-
-						$('#detable').DataTable().ajax.reload();
-						$("#sendremove").prop('disabled',true);
-						alert(deletedName + " was successfully removed from database!");
-					} else {
-
-						alert(data);
-					};
-				});
-			} 
-		} );
-	});
-
-	// Enable field for updating a detergent
-	$("#btnupdate").click(function(){
-
-		let submitbtn =	'<div class="w3-col l2 m4 w3-padding">'+
-							'<br>'+
-							'<button id="sendupdate" class="w3-btn w3-round w3-blue w3-block w3-ripple">'+
-								'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
-							'</button>'+
-						'</div>';
-
-		$("#cboxs").hide();
-		$("#modif").empty()
-			.removeClass()
-			.addClass("w3-pale-blue")
-			.html(
-				"<div id='modifupd1'>"+
-					"<h3>Please choose your detergent: </h3>"+
-					"<div>")
-			.append("<div id='modifupd2'></div>");
-		$("#modifupd1").addClass("w3-padding")
-		$("#modifupd2").addClass("w3-padding")
-			.html("<h3>Update detergent</h3>")
-			.append(attFields())
-			.append(submitbtn);
-		
-		$("#_id").attr("readonly",true);
-
-		if (selectedData != undefined) {
-
-			$("#modifupd1").hide();
-			$("#modifupd2").show();
-			selectedToInput(selectedData);
-		} else {
-
-			$("#modifupd1").show();
-			$("#modifupd2").hide();
-		};
-
-		inputCheck();
-
-		// Send POST request for update one detergent
-		$("#sendupdate").click(function(){
-
-			if (mandatoryInputCheck()){
-
-				let modifiedName = table.row('.selected').data()._id;
-				$.post("/updateDet", formToJSON(),function(DATA){
-
-					$.get("/getKeys", function(data){
-
-						NAME_LIST = data;
-					}).done(function(){
-
-						$('#detable').DataTable().ajax.reload();
-						$("[autocomplete]").val("");
-						alert(modifiedName + " is now up to date!");
-					});
-				});
-			};
-		});
-	});
-
-
-
-	$("#btnrmCol").click(function(){
+/*	// To be improved
+	$("#navRmvCol").click(function(){
 
 		$("#cboxs").hide()
 		$("#modifupd1").hide();
 		
 		let code = 	'<h3>Choose one column name to remove or update: </h3>'+
-					'<div class="w3-col w3-padding l2 m4">'+
+					'<div class="w3-col w3-padding l3 m4">'+
 						'Column name:<br>'+
 						'<select name="col">'+
 							'<option value=""> </option>';
@@ -770,11 +806,11 @@ $(document).ready(function() {
 			.html(code);
 		
 
-		let rmColbtn = 	'<div id="attrcontainer" class="w3-col w3-padding l2 m4">'+
+		let rmColbtn = 	'<div id="attrcontainer" class="w3-col w3-padding l3 m4">'+
 							'<br>'+
 							'<button class="w3-button w3-small" id="modifattr"><ins>Update column name</ins></button>'+
 						'</div>'+
-						'<div class="w3-col w3-padding l2 m4">'+
+						'<div class="w3-col w3-padding l3 m4">'+
 							'<br>'+
 							'<button id="sendrmcol" class="w3-btn w3-round w3-red w3-ripple w3-padding-small">'+
 								'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
@@ -864,4 +900,5 @@ $(document).ready(function() {
 			};
 		});
 	});
+*/
 } );
