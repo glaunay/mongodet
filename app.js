@@ -7,6 +7,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var fs = require('fs')
 var app = express();
 
 const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
@@ -16,6 +17,9 @@ const child = spawn('mongod'); // find a way to shut it when out of the program 
 //boolean default values
 
 var b_mongo_t = false;
+var b_history = false;
+
+// test parameters
 
 arg = process.argv;
 if (arg.indexOf("-init") in arg ){
@@ -39,6 +43,10 @@ else if (arg.indexOf("--testmongo") in arg ){
 	b_mongo_t = true
       mongo.testFront();
   }
+if(arg.indexOf("--history") in arg ){
+
+	b_history = true;
+}
   /*else if (arg[2]=="--testmongo"){
     var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
       if (arg[3]=="--insert"){
@@ -51,7 +59,30 @@ else if (arg.indexOf("--testmongo") in arg ){
       return 0;
   }}*/
 
+// usefull functions
 
+var write_history = function(state,data){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+    dd = '0'+dd
+	} 
+
+	if(mm<10) {
+    mm = '0'+mm
+	} 
+
+	today = mm + '/' + dd + '/' + yyyy;
+	fs.appendFileSync("./history.csv", state+";"+data+";"+today+"\n") 
+
+
+
+
+	//return 0;
+}
 
 //Partie HTML
 
@@ -148,10 +179,15 @@ app.post('/newDet',function (req, res) {
   a = mongo.insertDet(db,to_insert)
   console.log(a[0],a[1])
   res.send({"status":a[0],"data":a[1]} )
+  if(b_history==true){
+  	write_history("added",to_insert._id)
+  }
 
 //mongo.insertDet(db,to_insert)
 });
 });
+
+
 app.post('/removeDet',function (req, res) {
   MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
   if (err) {
@@ -160,6 +196,9 @@ app.post('/removeDet',function (req, res) {
   var to_delete = req.body;
   //console.log(to_delete._id);
   mongo.deleteDet(db,to_delete._id);
+  if(b_history==true){
+  	write_history("deleted",to_delete._id)
+  }
 
 });
 });
@@ -183,6 +222,9 @@ app.post('/updateDet',function (req, res) {
 	}
 	*/
 	res.send(mongo.modifyDet(db,to_update._id,to_update));
+	if(b_history==true){
+  	write_history("updated",to_update._id)
+  }
 	
 
 
