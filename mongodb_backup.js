@@ -7,6 +7,9 @@ var fs = require('fs');
 var b_backup = false;
 
 
+var app = require('./app');
+
+
 //Function to create a new repertory
 var newDir = function(){
     currentDate = new Date(); // Current date
@@ -45,7 +48,12 @@ var Json_database_mongo = function(path) {
 
 //Function to convert the 'mongo' format in 'detbelt' format 
 var Json_mongo_detBelt_format = function(path) {
-    var dict = jsonfile.readFileSync(path,'utf8');
+    if(path.includes('.') == true){
+        var dict = jsonfile.readFileSync(path,'utf8'); //if path is a file
+    }else{
+        var dict = {"data": path};
+    }
+    
     var write = {};
     var category = [];
     var counter = 0;
@@ -93,20 +101,16 @@ var Json_mongo_detBelt = function(path) {
 
 
 
-//Function to execute a function automatically at a certain time
 
+//Function to execute a function automatically at a certain time
 var backup = function(){
-    //if(hour != '' && minute != ''){
-        //let time = hour + ' ' + minute + ' * * *';
-        //console.log(time);
-        //console.log('function backup' + b_backup);
        
             new cronJob('16 13 * * *', function() { //Every day at 19h00
                 if(b_backup){ 
                     var dir_database = newDir() + '_database.json';
                     var dir_mongo = newDir() + '_mongo.json';
-                    //extractdb();
-                    //Json_database_mongo(dir_database);
+                    extractdb();
+                    Json_database_mongo(dir_database);
                     Json_mongo_detBelt(dir_mongo);
                     console.log('The extraction of the database is finished !')
                     b_backup = false;
@@ -118,7 +122,6 @@ var backup = function(){
 var control_backup = function(value){
     if(typeof(value) == 'boolean'){
         b_backup = value;
-        console.log(b_backup);
     }
     else{
         console.log('Warning : error in backup variable')
@@ -128,6 +131,7 @@ var control_backup = function(value){
 
     
 module.exports = {
+    Json_mongo_detBelt_format: Json_mongo_detBelt_format,
     backup: backup,
     control_backup: control_backup
 }
