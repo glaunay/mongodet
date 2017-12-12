@@ -336,7 +336,7 @@ MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To co
 		throw err;
 	}
 
-	test(db);
+	//test(db);
 
 
 	//console.log(typeof(db));
