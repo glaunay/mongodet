@@ -51,8 +51,10 @@ The first time you use our program, you need to initialize the database. To impo
 node app.js -init [path]
 ```
 
-**Note** : the JSON file must be in Det.belt format. The database now contains detergents of your file.
-If the database is already filled and you want to reset it, you can use 
+To test, the res.json file is available in the data folder ([path]: ./data/res.json)
+
+**Note**: the JSON file must be in Det.belt format. The database now contains detergents of your file.
+If the database is already filled and you want to reset it, you can use:
 
 ```
 node app.js -reinit [path]
