@@ -9,6 +9,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs')
 var app = express();
+var events = require('events')
 
 const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
 
@@ -22,31 +23,42 @@ var b_history = false;
 // test parameters
 
 arg = process.argv;
-if (arg.indexOf("-init") in arg ){
+
+
+process.argv.forEach(function(val,index,array){
+	if (val == "-init"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-    if (err) {
-    throw err;
-    }
-    mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]); 
-    })
+		if (err) {
+    		throw err;
+    	}
+    	else {
+    		mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]); 
+    	}
+        })
   }
-else if (arg.indexOf("-reinit") in arg ){
+	else if(val == "-reinit"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
       if (err) {
         throw err;
       }
-      mongo.deleteData(db);
-      mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-reinit")+1]); // message not on the right order but work actually
-    })  	
-  }
-else if (arg.indexOf("--testmongo") in arg ){
+      let deleteRes = mongo.deleteData(db); //emetteur
+      deleteRes.on('deleteOK',function(msg,result){
+      	mongo.insertData(db, __dirname+'/'+array[index+1]); //the emitter is used to force the execution's order
+      })
+    })
+    }
+    else if (arg.indexOf("--testmongo") in arg ){
 	b_mongo_t = true
       mongo.testFront();
   }
-if(arg.indexOf("--history") in arg ){
+
+    if(arg.indexOf("--history") in arg ){
 
 	b_history = true;
 }
+})
+
+
   /*else if (arg[2]=="--testmongo"){
     var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
       if (arg[3]=="--insert"){
@@ -176,9 +188,23 @@ app.post('/newDet',function (req, res) {
   	to_insert.category = null
   }
   to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
-  a = mongo.insertDet(db,to_insert)
-  console.log(a[0],a[1])
-  res.send({"status":a[0],"data":a[1]} )
+  let insertDet = mongo.insertDet(db,to_insert)
+  //console.log(a[0],a[1])
+  insertDet.on('insertOK',function(msg,result){
+      	res.send({"status":msg[0],"data":msg[1]} ) 
+
+      })
+  insertDet.on('nameNotUnique',function(msg,result){
+      	//ici insertion, on a imposé un ordre
+      	res.send({"status":msg[0],"data":msg[1]} ) 
+
+      })
+  insertDet.on('errorCode',function(msg,result){
+
+      	res.send({"status":msg[0],"data":msg[1]} ) 
+
+      })
+  
   if(b_history==true){
   	write_history("added",to_insert._id)
   }
@@ -195,7 +221,12 @@ app.post('/removeDet',function (req, res) {
   }
   var to_delete = req.body;
   //console.log(to_delete._id);
-  mongo.deleteDet(db,to_delete._id);
+  let deleteDet = mongo.deleteDet(db,to_delete._id);
+  deleteDet.on('deleteOK',function(msg,result){
+      	//ici insertion, on a imposé un ordre
+      	res.send({"status":msg[0],"data":msg[1]} )
+
+      })  
   if(b_history==true){
   	write_history("deleted",to_delete._id)
   }
@@ -211,6 +242,9 @@ app.post('/updateDet',function (req, res) {
 	var to_update = req.body;
 	to_update.volume = Number(to_update.volume)
 	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
+	if (isNaN(to_update.volume)) {
+  		to_insert.update = null
+  }
 	/*if (to_update.MM != ''){
 		to_update.MM = Number(to_update.MM)
 	}
@@ -221,7 +255,22 @@ app.post('/updateDet',function (req, res) {
 		to_update.Aggregation_number = Number(to_update.Aggregation_number)
 	}
 	*/
-	res.send(mongo.modifyDet(db,to_update._id,to_update));
+  	let updatedet = mongo.modifyDet(db,to_delete._id);
+  	updatedet.on('modifOK',function(msg,result){
+      	//ici insertion, on a imposé un ordre
+      	res.send({"status":msg[0],"data":msg[1]} ) 
+
+    })
+    updatedet.on('errorCode',function(msg,result){
+      	//ici insertion, on a imposé un ordre
+      	res.send({"status":msg[0],"data":msg[1]} ) 
+
+    })
+    updatedet.on('error',function(msg,result){
+      	//ici insertion, on a imposé un ordre
+      	res.send({"status":msg[0],"data":msg[1]} )
+
+    })  
 	if(b_history==true){
   	write_history("updated",to_update._id)
   }
