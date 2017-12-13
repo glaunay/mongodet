@@ -255,7 +255,7 @@ app.post('/updateDet',function (req, res) {
 		to_update.Aggregation_number = Number(to_update.Aggregation_number)
 	}
 	*/
-  	let updatedet = mongo.modifyDet(db,to_delete._id);
+  	let updatedet = mongo.modifyDet(db,to_update._id);
   	updatedet.on('modifOK',function(msg,result){
       	//ici insertion, on a imposé un ordre
       	res.send({"status":msg[0],"data":msg[1]} ) 
