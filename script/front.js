@@ -147,14 +147,17 @@ function selectedToInput(sRow){
 	for (i = 0; i < NAME_LIST.length; i++) {
 
 		let curField = NAME_LIST[i];
-		if (curField != "color") {
-
-			$('#'+curField).val(eval('sRow.'+curField));
-
-		} else {
+		if (curField === "color") {
 
 			let curCol = sRow.color
-			$('#'+curField).val("#"+RGBToHex(curCol[0],curCol[1],curCol[2]));
+			curField = '#'+curField
+			$(curField).val("#"+RGBToHex(curCol[0],curCol[1],curCol[2]));
+
+		} else if (!(curField === "PDB_file" || curField === "image")){
+
+			//curField = "#"+curField
+			//document.getElementById(curField).value = String(); 
+			$("#"+curField).val(sRow[curField]);
 		};
 	};
 };
@@ -164,16 +167,18 @@ function selectedToInput(sRow){
 function buildCheckbox(){
 
 	// Build checkbox for display columns
-	let cboxs = "<label id='dispar'>"+
-					"Select which columns to display: "+
-				"</label>"+
-				"<div id='cboxs'>";
+	let cboxs = "<div style='position:relative;left:35%'>"+
+					"<button id='dispar' class='w3-button w3-blue w3-hover-dark-gray w3-ripple w3-round w3-padding-small'>"+
+						"Hide/Show columns <i class='fa fa-toggle-on' aria-hidden='true'></i>"+
+					"</button>"+
+				"</div>"+
+				"<div id='cboxs' style='position:absolute;z-index:3'>";
 
 	cboxs += 	"<div class='w3-col l12 m12 w3-row w3-padding'>"+
-					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small' id='selall'>"+
+					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small w3-round' id='selall'>"+
 						"Select all"+
 					"</button>"+
-					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small' id='dselall'>"+
+					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small w3-round' id='dselall'>"+
 						"Unselect all"+
 					"</button>"+
 					
@@ -192,13 +197,14 @@ function buildCheckbox(){
 				"</div>"
 	
 	// Inject checkboxs into HTML
-	$("#parameters").html(cboxs);
+	//$("#detable_wrapper").prepend(cboxs);
+	$(cboxs).insertAfter("#detable_length");
 
 	// Set the checkboxsfield hidden by default
 	$("#cboxs").hide()
 
 	// CSS setting
-	$("#cboxs").addClass('w3-border w3-padding w3-row');
+	$("#cboxs").addClass('w3-padding w3-row w3-white w3-card-4 w3-round-large');
 	$("#dispar").addClass('w3-button w3-border w3-padding-small')
 	$("#cboxs div").addClass("w3-col l2 m3 s6");
 	$("#cboxs input").addClass("w3-check");
@@ -262,7 +268,7 @@ function buildDataTable(){
 		.removeClass()
 		.addClass("w3-padding")
 		.html(
-			"<div id='parameters' class='w3-padding w3-round'></div>"+
+			//"<div id='parameters' class='w3-padding w3-round'></div>"+
 			"<table id='detable' class='hover cell-border' cellspacing='0' width='100%'>"+
 				"<thead><tr>" + buildTabColumns() + "</tr></thead>"+
 				"<tfoot><tr>" +	buildTabColumns() +	"</tr></tfoot>"+
@@ -313,7 +319,11 @@ function buildDataTable(){
 			$("#modifupd2").show();
 
 			// Unable autofill for Add new detergent
-			if (! $("#sendnew").hasClass("firstEntry")){
+			if ($("#sendupdate")[0] != undefined){
+
+				selectedData = table.row('.selected').data();
+				selectedToInput(selectedData);
+			} else if (! $("#sendnew").hasClass("firstEntry")){
 
 				$("#sendnew").addClass("firstEntry")
 				$("[autocomplete]").val("");
@@ -447,7 +457,7 @@ $(document).ready(function() {
 
 	// Buttons for operations on database
 	$(".navbar").append(
-		'<a id="home" title="Reload page">Detergent Database CRUD Interface</a>'+
+		'<a id="home" title="Reload page"><b>Detergent Database CRUD Interface</b></a>'+
 		'<a id="btnbrowse" class="w3-button w3-ripple">'+
 			'<i class="fa fa-table" aria-hidden="true"></i> '+
 			'Load database'+
@@ -549,6 +559,7 @@ $(document).ready(function() {
 	$("#btnbrowse").click(function(){
 
 		$("#cboxs").hide();
+		selectedData = undefined;
 
 		// Check if the table is already build or not yet
 		if (table === undefined) {
@@ -577,8 +588,7 @@ $(document).ready(function() {
 					.addClass("w3-pale-green w3-padding")
 					.append(
 						"<h3>Insert new detergent</h3>"+
-						"Please fill fields on below to prepare your submission. "+
-						"Note that the values of <b>_id</b>, <b>volume</b>, <b>color</b> and <b>category</b> are necessary.")
+						"Please fill fields on below to prepare your submission. ")
 					.append(attFields())
 					.append(
 						'<div class="w3-col l3 m4 w3-padding">'+
@@ -587,7 +597,11 @@ $(document).ready(function() {
 								'<i class="fa fa-plus-square" aria-hidden="true"></i> Add new attribute'+
 							'</button>'+
 						'</div>')
-					.append(submitbtn);
+					.append(submitbtn)
+					.append("<div class='w3-col l3 m4 w3-padding w3-small'>"+
+								"<br><br>"+
+								"<a class='w3-text-red'>*</a> Mandatory values"+
+							"</div>");
 
 				$("#btnAddNewAttr").addClass("w3-btn w3-round w3-ripple w3-block w3-green");
 				$("#btnAddNewAttr").click(function(){
@@ -637,7 +651,7 @@ $(document).ready(function() {
 							// temporary solution for synchronous get keys
 							NAME_LIST.push($("#new_col").val());
 							$.post("/newDet", JSON_send, function(data){
-
+								console.log(data);
 								if (data["status"] == "OK_insert"){
 
 									$.get("/getKeys", function(data){
@@ -654,7 +668,7 @@ $(document).ready(function() {
 									});
 								} else {
 
-									alert(data[data]);
+									alert(data);
 								};
 							});
 						};
@@ -671,6 +685,7 @@ $(document).ready(function() {
 										'Confirm <i class="fa fa-arrow-right" aria-hidden="true"></i>'+
 									'</button>'+
 								'</div>';
+				selectedData = table.row('.selected').data();
 
 				$("#cboxs").hide();
 				$("#modif").empty()
@@ -685,7 +700,11 @@ $(document).ready(function() {
 				$("#modifupd2").addClass("w3-padding")
 					.html("<h3>Update detergent</h3>")
 					.append(attFields())
-					.append(submitbtn);
+					.append(submitbtn)
+					.append("<div class='w3-col l3 m4 w3-padding w3-small'>"+
+								"<br><br>"+
+								"<a class='w3-text-red'>*</a> Mandatory values"+
+							"</div>");
 				
 				$("#_id").attr("readonly",true);
 
@@ -700,6 +719,7 @@ $(document).ready(function() {
 					$("#modifupd2").hide();
 				};
 
+				// Start listenning on the right js object
 				inputCheck();
 
 				// Send POST request for update one detergent
@@ -717,7 +737,7 @@ $(document).ready(function() {
 
 								$('#detable').DataTable().ajax.reload();
 								$("[autocomplete]").val("");
-								alert(modifiedName + " is now up to date!");
+								alert(modifiedName + " has been up to date!");
 							});
 						});
 					};
@@ -738,6 +758,7 @@ $(document).ready(function() {
 							'<b>Confirm</b> <i class="fa fa-times" aria-hidden="true"></i>'+
 						'</button>');
 
+				selectedData = table.row('.selected').data();
 				if (selectedData === undefined) {
 
 					$("#sendremove").prop('disabled',true);
