@@ -642,7 +642,7 @@ $(document).ready(function() {
 									alert(String(JSON_send._id) + " was successfully inserted to database!");
 								} else {
 
-									alert(data);
+									alert("ERROR!\b"+data.data);
 								};
 							});
 						} else {
@@ -651,7 +651,7 @@ $(document).ready(function() {
 							// temporary solution for synchronous get keys
 							NAME_LIST.push($("#new_col").val());
 							$.post("/newDet", JSON_send, function(data){
-								console.log(data);
+
 								if (data["status"] == "OK_insert"){
 
 									$.get("/getKeys", function(data){
@@ -668,7 +668,7 @@ $(document).ready(function() {
 									});
 								} else {
 
-									alert(data);
+									alert("ERROR!\b"+data.data);
 								};
 							});
 						};
@@ -730,15 +730,21 @@ $(document).ready(function() {
 						let modifiedName = table.row('.selected').data()._id;
 						$.post("/updateDet", formToJSON(),function(DATA){
 
-							$.get("/getKeys", function(data){
+							if (DATA["status"] == "OK_modif"){
+								
+								$.get("/getKeys", function(data){
 
-								NAME_LIST = data;
-							}).done(function(){
+									NAME_LIST = data;
+								}).done(function(){
 
-								$('#detable').DataTable().ajax.reload();
-								$("[autocomplete]").val("");
-								alert(modifiedName + " has been up to date!");
-							});
+									$('#detable').DataTable().ajax.reload();
+									$("[autocomplete]").val("");
+									alert(modifiedName + " has been up to date!");
+								});
+							} else {
+
+								alert("ERROR!\b"+DATA.data);
+							};
 						});
 					};
 				});
@@ -776,14 +782,14 @@ $(document).ready(function() {
 
 						$.post("/removeDet",table.row('.selected').data(), function(data){
 
-							if (data === true){
+							if (data["status"] == "OK_delete"){
 
 								$('#detable').DataTable().ajax.reload();
 								$("#sendremove").prop('disabled',true);
 								alert(deletedName + " was successfully removed from database!");
 							} else {
 
-								alert(data);
+								alert("ERROR!\b"+data.data);
 							};
 						});
 					} 
