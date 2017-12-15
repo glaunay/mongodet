@@ -2,23 +2,31 @@ var express = require('express');
 var jsonfile = require('jsonfile')
 var mongo = require('./mongo');
 var MongoClient = require('mongodb').MongoClient;
-var {spawn} = require('child_process')
+var {spawn} = require('child_process');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var fs = require('fs')
+var fs = require('fs');
 var app = express();
-var events = require('events')
+var events = require('events');
 
 const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
 
+
+
+// User
+
+var User="random_user";
+
+//
 // Init the database with options
 
 //boolean default values
 
 var b_mongo_t = false;
 var b_history = false;
+var b_backup = false;
 
 // test parameters
 
@@ -26,13 +34,20 @@ arg = process.argv;
 
 
 process.argv.forEach(function(val,index,array){
+    if(arg.indexOf("--history") in arg ){
+		b_history = true;
+}
 	if (val == "-init"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		if (err) {
     		throw err;
     	}
     	else {
-    		mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]); 
+
+    		mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]);
+    		if(b_history ===true){
+    			write_history("init",__dirname+'/'+arg[arg.indexOf("-init")+1])
+    		} 
     	}
         })
   }
@@ -44,6 +59,10 @@ process.argv.forEach(function(val,index,array){
       let deleteRes = mongo.deleteData(db); //emetteur
       deleteRes.on('deleteOK',function(msg,result){
       	mongo.insertData(db, __dirname+'/'+array[index+1]); //the emitter is used to force the execution's order
+      	if(b_history ===true){
+    		write_history("reinit",__dirname+'/'+arg[arg.indexOf("-reinit")+1])
+    	} 
+ 
       })
     })
     }
@@ -52,10 +71,7 @@ process.argv.forEach(function(val,index,array){
       mongo.testFront();
   }
 
-    if(arg.indexOf("--history") in arg ){
 
-	b_history = true;
-}
 })
 
 
@@ -73,10 +89,16 @@ process.argv.forEach(function(val,index,array){
 
 // usefull functions
 
+/* This function was made to write the history of the project
+*  It's purpose was to see the modifications of the database 
+*  in a csv file that will be accessible on a web page in the
+*  future. Note that the hour diplayed is the one from London.
+*/ 
 var write_history = function(state,data){
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth()+1; //January is 0!
+	let hh = today.getHours()
 	var yyyy = today.getFullYear();
 
 	if(dd<10) {
@@ -87,13 +109,30 @@ var write_history = function(state,data){
     mm = '0'+mm
 	} 
 
-	today = mm + '/' + dd + '/' + yyyy;
-	fs.appendFileSync("./history.csv", state+";"+data+";"+today+"\n") 
-
-
-
+	//today = mm + '/' + dd + '/' + yyyy;
+	fs.appendFileSync("./history.csv", today + ";" + state + ";" + data + ";"+ User + "\n") 
 
 	//return 0;
+}
+
+
+var get_data = function(object){
+	let to_return = [];
+	let keys = Object.keys(object);
+	let values = Object.values(object);
+	console.log(keys.length)
+	for(var i = 0 ; i<keys.length; i++){
+		if(keys[i]==="color"){
+			to_return.push(keys[i]+" : ["+values[i]+"]")
+		}
+		else{
+			if (values[i]===""){
+				to_return.push(keys[i]+" : "+null)
+			}
+			to_return.push(keys[i]+" : "+values[i])	
+		}
+	}
+	return(to_return);
 }
 
 //Partie HTML
@@ -191,8 +230,10 @@ app.post('/newDet',function (req, res) {
   let insertDet = mongo.insertDet(db,to_insert)
   //console.log(a[0],a[1])
   insertDet.on('insertOK',function(msg,result){
-      	res.send({"status":msg[0],"data":msg[1]} ) 
-
+      	res.send({"status":msg[0],"data":msg[1]})
+      	if(b_history==true){
+ 		write_history("added",get_data(to_insert))
+  		} 
       })
   insertDet.on('nameNotUnique',function(msg,result){
       	//ici insertion, on a imposé un ordre
@@ -205,9 +246,7 @@ app.post('/newDet',function (req, res) {
 
       })
   
-  if(b_history==true){
-  	write_history("added",to_insert._id)
-  }
+
 
 //mongo.insertDet(db,to_insert)
 });
@@ -228,7 +267,7 @@ app.post('/removeDet',function (req, res) {
 
       })  
   if(b_history==true){
-  	write_history("deleted",to_delete._id)
+  	write_history("deleted",get_data(to_delete))
   }
 
 });
@@ -243,7 +282,7 @@ app.post('/updateDet',function (req, res) {
 	to_update.volume = Number(to_update.volume)
 	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
 	if (isNaN(to_update.volume)) {
-  		to_insert.update = null
+  		to_udate.volume = null
   }
 	/*if (to_update.MM != ''){
 		to_update.MM = Number(to_update.MM)
@@ -272,7 +311,7 @@ app.post('/updateDet',function (req, res) {
 
     })  
 	if(b_history==true){
-  	write_history("updated",to_update._id)
+		write_history("updated",get_data(to_update))
   }
 	
 
