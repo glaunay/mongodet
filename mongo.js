@@ -40,19 +40,19 @@ var mytest = function(){
 */
 var checkConditionsInsert = function(detergent){
 	let check = true;
-	if(typeof(detergent.category) != 'string' || detergent.category == 'null'){
+	if(typeof(detergent.category) !== 'string' || detergent.category === 'null'){
 		check = 'The detergent category must be filled with string type';
 		return check;
 	}
-	if (typeof(detergent._id) != 'string' || detergent.name == 'null'){
+	if (typeof(detergent._id) !== 'string' || detergent.name === 'null'){
 		check = 'The detergent name must be filled with string type';
 		return check;
 	}
-	if (typeof(detergent.volume) != 'number' || detergent.volume == 'null'){
+	if (typeof(detergent.volume) !== 'number' || detergent.volume === 'null'){
 		check = 'The detergent volume must be filled with number type';
 		return check;
 	}
-	if (typeof(detergent.color) != 'object' || detergent.color.length != 3) {
+	if (typeof(detergent.color) !== 'object' || detergent.color.length !== 3) {
 		check = 'The detergent color must be a list of 3 values';
 		return check;
 	}
@@ -85,9 +85,9 @@ var Json_detBelt_mongo = function(path) {
     	return dict.data[key];
 	});
 	
-	for(i=0; i<values.length; i++){ //for each class of detergent (eg: maltoside)
+	for(let i=0; i<values.length; i++){ //for each class of detergent (eg: maltoside)
 	
-		for(j=0; j<values[i].length; j++){ //for each detergent
+		for(let j=0; j<values[i].length; j++){ //for each detergent
 			let det = values[i][j];
 			det.category = Object.keys(dict.data)[i];
 			if(det['name']){
@@ -114,10 +114,10 @@ var insertData = function(db, path) {
 		let detergent = dict.data[i];
 		let check = checkConditionsInsert(detergent);
 
-		if(check == true){ //if conditions are check
+		if(check === true){ //if conditions are check
 			db.collection('det').insert(detergent, function(err,result){
 				if(err){
-					if (err.code == 11000) { //if _id is not unique
+					if (err.code === 11000) { //if _id is not unique
 						let nameDet = err.errmsg.split('"')[1]; //id of the detergent error
 						console.log(nameDet, ': The detergent name must be unique');
 					}
@@ -229,7 +229,7 @@ var insertDet = function(db, det){
 	modifyColor(det);
 	console.log(det);
 	let check = checkConditionsInsert(det); //verification of conditions
-	if(check == true){ //if the conditions are verified
+	if(check === true){ //if the conditions are verified
 		db.collection('det').insert(det, function(err,result){
 			if(err){
 				if (err.code == 11000) { //11000 : error code for an already existing identifier
@@ -261,12 +261,12 @@ var modifyDet = function(db, id, det){
 	modifyColor(det.color);
 	let check = checkConditionsInsert(det);
 		
-	if(check == true){
+	if(check === true){
 		db.collection('det').find({'_id' : id}).toArray((err, result) => {
 			if(err){
 				emitter.emit('errorCode', ['Error', 'Error in the modification of ' + id]); 
 			}
-			if(result.length == 1){
+			if(result.length === 1){
 				db.collection('det').update({'_id' : id},{$set: det}, function(err,result){
 					if(err){
 						emitter.emit('errorCode', ['Error', 'Error in the modification of ' + id]); 
