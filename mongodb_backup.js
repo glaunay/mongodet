@@ -106,19 +106,19 @@ var Json_mongo_detBelt = function(path) {
 
 
 //Function to execute a function automatically at a certain time
-var backup = function(){
-       
-            new cronJob('49 15 * * *', function() { //Every day at 19h00
-                if(b_backup){ 
-                    var dir_database = newDir() + '_database.json';
-                    var dir_mongo = newDir() + '_mongo.json';
-                    extractdb();
-                    Json_database_mongo(dir_database);
-                    Json_mongo_detBelt(dir_mongo);
-                    console.log('The extraction of the database is finished !')
-                    b_backup = false;
-                }
-            }, null, true, 'Europe/Paris');        
+var backup = function(time){
+    backup_time = time.minutes + ' ' + time.hours + ' * * *';
+    new cronJob(backup_time, function() { //Every day at 19h00
+        if(b_backup){ 
+            var dir_database = newDir() + '_database.json';
+            var dir_mongo = newDir() + '_mongo.json';
+            extractdb();
+            Json_database_mongo(dir_database);
+            Json_mongo_detBelt(dir_mongo);
+            console.log('The extraction of the database is finished !')
+            b_backup = false;
+        }
+    }, null, true, 'Europe/Paris');        
 }
 
 
