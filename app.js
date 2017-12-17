@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 var {spawn} = require('child_process');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+//var logger = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var app = express();
@@ -34,10 +34,10 @@ arg = process.argv;
 
 
 process.argv.forEach(function(val,index,array){
-    if(arg.indexOf("--history") in arg ){
+    if(val === "--history") {
 		b_history = true;
 }
-	if (val == "-init"){
+	if (val === "-init"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
 		if (err) {
     		throw err;
@@ -51,7 +51,7 @@ process.argv.forEach(function(val,index,array){
     	}
         })
   }
-	else if(val == "-reinit"){
+	else if(val === "-reinit"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
       if (err) {
         throw err;
@@ -66,13 +66,40 @@ process.argv.forEach(function(val,index,array){
       })
     })
     }
-    else if (arg.indexOf("--testmongo") in arg ){
-	b_mongo_t = true
-      mongo.testFront();
-  }
+    if (val === "--testmongo"){
+		b_mongo_t = true;
+		mongo.testFront(); // not the good function
+	}
+
+	if (val === "-backup"){
+		let backup_hour = arg[arg.indexOf("-backup")+1];
+		let backup_minutes = arg[arg.indexOf("-backup")+2];
+		backup_hour = Number(backup_hour);
+		backup_minutes = Number(backup_minutes);
+		if (Number.isInteger(backup_hour) && Number.isInteger(backup_minutes)){
+			if(backup_hour <= 23 && backup_hour >= 0 && backup_minutes <=59 && backup_minutes >= 0 ){
+				let backup_time = {"hours":backup_hour,"minutes":backup_minutes};
+				b_backup = true; // à déplacer
+				// here I call the backup function
+				console.log(backup_time)
+			}
+			else{
+				throw("the time you chose for the backup is incorrect");
+			}
+			
+		}
+		else{
+			//console.log("the time you chose for the backup is incorrect");
+			throw("the time you chose for the backup is incorrect");
+		}
+		}
 
 
-})
+		//console.log({"hours":typeof(backup_hour),"minutes":backup_minutes})
+	})
+
+
+
 
 
   /*else if (arg[2]=="--testmongo"){
@@ -95,11 +122,11 @@ process.argv.forEach(function(val,index,array){
 *  future. Note that the hour diplayed is the one from London.
 */ 
 var write_history = function(state,data){
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
+	let today = new Date();
+	let dd = today.getDate();
+	let mm = today.getMonth()+1; //January is 0!
 	let hh = today.getHours()
-	var yyyy = today.getFullYear();
+	let yyyy = today.getFullYear();
 
 	if(dd<10) {
     dd = '0'+dd
@@ -120,7 +147,6 @@ var get_data = function(object){
 	let to_return = [];
 	let keys = Object.keys(object);
 	let values = Object.values(object);
-	console.log(keys.length)
 	for(var i = 0 ; i<keys.length; i++){
 		if(keys[i]==="color"){
 			to_return.push(keys[i]+" : ["+values[i]+"]")
@@ -191,7 +217,7 @@ app.use('/pdb',express.static(__dirname + '/data/pdb_files'));
 
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
   mongo.FindinDet().then(function(items) {
-  var test = items;
+  let test = items;
     //console.log(items.length) 
     res.send({"data":test});
     next();
@@ -215,7 +241,7 @@ app.post('/newDet',function (req, res) {
   if (err) {
     throw err;
   }
-  var to_insert = req.body;
+  let to_insert = req.body;
   to_insert.volume=Number(to_insert.volume,10)
   if (to_insert._id==''){
   	to_insert._id = null
@@ -258,7 +284,7 @@ app.post('/removeDet',function (req, res) {
   if (err) {
     throw err;
   }
-  var to_delete = req.body;
+  let to_delete = req.body;
   //console.log(to_delete._id);
   let deleteDet = mongo.deleteDet(db,to_delete._id);
   deleteDet.on('deleteOK',function(msg,result){
@@ -278,7 +304,7 @@ app.post('/updateDet',function (req, res) {
 	if (err) {
 		throw err;
 	}
-	var to_update = req.body;
+	let to_update = req.body;
 	to_update.volume = Number(to_update.volume)
 	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
 	if (isNaN(to_update.volume)) {
@@ -323,7 +349,7 @@ app.post('/removeCol',function(req,res){
 	if (err) {
 		throw err;
 	}
-	var col = req.body.column;
+	let col = req.body.column;
 	res.send(mongo.deleteCaract(db,col));
 	//console.log(col)
 
@@ -335,8 +361,8 @@ app.post('/modifCol',function(req,res){
 	if (err) {
 		throw err;
 	}
-	var old_col = req.body.old_column;
-	var new_col = req.body.new_column;
+	let old_col = req.body.old_column;
+	let new_col = req.body.new_column;
 	mongo.modifyCaract(db,old_col,new_col);
 	//console.log(col)
 
@@ -386,6 +412,6 @@ app.listen(3000, function () {
 
 
 
-module.exports = app;
+module.exports = app; //mongodb_backup.js needs it
 
 
