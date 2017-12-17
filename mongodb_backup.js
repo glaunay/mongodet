@@ -13,29 +13,29 @@ var app = require('./app');
 //Function to create a new repertory
 var newDir = function(){
     currentDate = new Date(); // Current date
-    var newBackupDir = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+    let newBackupDir = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
     path = './backup/' + newBackupDir;
     if (!fs.existsSync(path)) {
         fs.mkdirSync(path);  //to create a repertory named with date
     }
     
-    var newBackupFile = './backup' + '/' + newBackupDir + '/' + newBackupDir ;
+    let newBackupFile = './backup' + '/' + newBackupDir + '/' + newBackupDir ;
     return newBackupFile
 }
 
 
 //function to extract the database
 var extractdb = function () {
-    var newBackupFile = newDir() + '_database.json';
+    let newBackupFile = newDir() + '_database.json';
     spawn('mongoexport',['--db','det','--collection', 'det', '--out', newBackupFile, '--jsonArray']);
 }
 
 
 //Function to convert the database in 'mongo' format and save document
 var Json_database_mongo = function(path) {
-    var dict = jsonfile.readFileSync(path,'utf8');
-    var write = {"data":dict};
-    var newFile =  newDir() + '_mongo.json';
+    let dict = jsonfile.readFileSync(path,'utf8');
+    let write = {"data":dict};
+    let newFile =  newDir() + '_mongo.json';
 
     jsonfile.writeFileSync(newFile, write, {spaces:2}, function(err) { //to write in a file
         if(err) {
@@ -53,10 +53,10 @@ var Json_database_mongo = function(path) {
 */
 var Json_mongo_detBelt_format = function(data) { 
     if(data.hasOwnProperty('items')) {
-        var dict = {"data": data.items};
+        let dict = {"data": data.items};
     }
     else if(data.hasOwnProperty('path')) {
-        var dict = jsonfile.readFileSync(data.path,'utf8'); //if path is a file (.json)
+        let dict = jsonfile.readFileSync(data.path,'utf8'); //if path is a file (.json)
     }
     else{
         console.log('Input is not an item or a file');
@@ -69,17 +69,17 @@ var Json_mongo_detBelt_format = function(data) {
         var dict = {"data": path};
     }*/
     
-    var write = {};
-    var category = [];
-    var counter = 0;
-    var tempo = '';
+    let write = {};
+    let category = [];
+    let counter = 0;
+    let tempo = '';
     
 
-    var values = Object.keys(dict.data).map(function(key) {
+    let values = Object.keys(dict.data).map(function(key) {
         return dict.data[key];
     });
     
-    for(i=0; i<values.length; i++){ //for each detergent
+    for(let i=0; i<values.length; i++){ //for each detergent
         if(category.includes(dict.data[i].category) == false){ //if it's a new detergent class (1)
             category.push(dict.data[i].category);
             delete dict.data[i].category
@@ -106,7 +106,7 @@ var Json_mongo_detBelt_format = function(data) {
 //Function to save 'detBelt' format in a file
 var Json_mongo_detBelt = function(path) {
     dict = Json_mongo_detBelt_format({'path' : path});
-    var newFile = newDir() + '_detBelt.json';
+    let newFile = newDir() + '_detBelt.json';
     jsonfile.writeFileSync(newFile, dict, {spaces:2}, function(err) { //to write in a file
         if(err) {
             return console.log(err);
@@ -120,10 +120,10 @@ var Json_mongo_detBelt = function(path) {
 //Function to execute a function automatically at a certain time
 var backup = function(time){
     backup_time = time.minutes + ' ' + time.hours + ' * * *';
-    new cronJob(backup_time, function() { //Every day at 19h00
+    new cronJob(backup_time, function() { 
         if(b_backup){ 
-            var dir_database = newDir() + '_database.json';
-            var dir_mongo = newDir() + '_mongo.json';
+            let dir_database = newDir() + '_database.json';
+            let dir_mongo = newDir() + '_mongo.json';
             extractdb();
             Json_database_mongo(dir_database);
             Json_mongo_detBelt(dir_mongo);
@@ -134,6 +134,7 @@ var backup = function(time){
 }
 
 
+//Function to controle the backup_time
 var control_backup = function(value){
     if(typeof(value) == 'boolean'){
         b_backup = value;
