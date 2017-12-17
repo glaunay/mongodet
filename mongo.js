@@ -418,14 +418,16 @@ var detCategory = function(db){
 
 
 
+//Function to return the database
 var db_for_detbelt = function(){
-    FindinDet().then(function(items) {
-        return backupModule.Json_mongo_detBelt_format({'items' : items});
+    FindinDet().then(function(items) { //items contain all the detergents
+    	items = {'items' : items};
+        return backupModule.Json_mongo_detBelt_format(items);
     });
 }
 
 
-
+db_for_detbelt();
 
 //MONGODB
 

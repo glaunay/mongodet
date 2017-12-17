@@ -47,15 +47,27 @@ var Json_database_mongo = function(path) {
 
 
 //Function to convert the 'mongo' format in 'detbelt' format 
-var Json_mongo_detBelt_format = function(path) { //remplacer path par data (data json qui doit contenir item ou... qui doit être...)
-   // if(data.hasOwnProperty('items')) {}
+/* Input : data contains
+* - 'path' if it is a file
+* - 'items' if it is a variable
+*/
+var Json_mongo_detBelt_format = function(data) { 
+    if(data.hasOwnProperty('items')) {
+        var dict = {"data": data.items};
+    }
+    if(data.hasOwnProperty('path')) {
+        var dict = jsonfile.readFileSync(data.path,'utf8'); //if path is a file (.json)
+    }
+    else{
+        console.log('Input is not an item or a file');
+    }
      //   else if(if(data.hasOwnProperty('items')) {})
        //     else console..
-    if(path.includes('.') == true){
+    /*if(path.includes('.') == true){
         var dict = jsonfile.readFileSync(path,'utf8'); //if path is a file (.json)
     }else{
         var dict = {"data": path};
-    }
+    }*/
     
     var write = {};
     var category = [];
@@ -93,7 +105,7 @@ var Json_mongo_detBelt_format = function(path) { //remplacer path par data (data
 
 //Function to save 'detBelt' format in a file
 var Json_mongo_detBelt = function(path) {
-    dict = Json_mongo_detBelt_format(path)
+    dict = Json_mongo_detBelt_format({'path' : path});
     var newFile = newDir() + '_detBelt.json';
     jsonfile.writeFileSync(newFile, dict, {spaces:2}, function(err) { //to write in a file
         if(err) {
