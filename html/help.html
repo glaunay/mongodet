@@ -30,7 +30,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Header -->
 <header class="w3-container w3-red w3-center" style="padding:128px 16px">
 	<h1 class="w3-margin w3-jumbo">How To Use The Detergent Database CRUD Interface</h1>
-	<p class="w3-xlarge">Last modified: 11 dec. 2017</p>
+	<p class="w3-large">Last modified: 17 dec. 2017</p>
 </header>
 
 <!-- First Grid -->
@@ -45,7 +45,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 			<h5 class="w3-padding-16">
 				<h3>Load database</h3>
 				<p>The <code class="w3-codespan">Load database</code> button only displays the table containing detergents. Click again will reload the table from database.</p>
-				<p>The table displays 4 columns: <code class="w3-codespan">_id</code>, <code class="w3-codespan">volume</code>, <code class="w3-codespan">color</code>, and <code class="w3-codespan">category</code>. The other available columns can be displayed with the <code class="w3-codespan">Select which columns to display</code> button.</p>
+				<p>The table displays 4 columns by default: <code class="w3-codespan">_id</code>, <code class="w3-codespan">volume</code>, <code class="w3-codespan">color</code>, and <code class="w3-codespan">category</code>. The other available columns can be displayed with the <code class="w3-codespan">Hide/Show columns</code> button.</p>
 
 			</h5>
 			<h5 class="w3-padding-16">
@@ -56,11 +56,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 					<p class="w3-text-grey">
 						This button adds a new detergent to the database. When clicked, an insert form appears, with fields to fill.
 						It is important to note that:
+					</p>
 						<ul class="w3-text-grey">
 							<li><code class="w3-codespan">_id</code> fields correspond to the name of the detergent.</li>
 							<li>The values of <code class="w3-codespan">_id</code>, <code class="w3-codespan">volume</code>, <code class="w3-codespan">color</code> and <code class="w3-codespan">category</code> fields are mandatory: insertion will not be possible without them!</li>
 							<li>The value of <code class="w3-codespan">volume</code> must contain <b>one</b> <code class="w3-codespan">.</code>	and not a <code class="w3-codespan">,</code> if it has decimal values</li>
 						</ul>
+					<p class="w3-text-grey">
 						The <code class="w3-codespan">Add new attribute</code> button adds two input fields corresponding to the name of new attribute and his value for current detergent. To submit a new attribute, you must fill these two fields.
 					</p>
 
@@ -94,39 +96,47 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 	<div class="w3-twothird">
 		<h1>Table of data</h1>
-		<h5 class="w3-padding-32">The data table is available from the Load database tab. It displays all the detergents stored in the database at the moment the user looks at it. That is, if a new detergent is added to the base then it will be displayed; similarly, a detergent that has been removed will no longer be present.</h5>
-
-		<p class="w3-text-grey">
-			<ul>
-				<li>Sorting</li>
-				<p class="w3-text-grey">
-					The database is initially sorted in alphabetical order on the names of detergents (_id). It is possible to sort on another column by clicking on its name. By default, the table displays the first 10 detergents ('Show 10 entries') and it is possible to modify this field to display up to 100 detergents per page. The others are in the following pages accessed by the numbers at the bottom right of the table. 
+		<h5 class="w3-padding-16">
+			<p>
+				The data table is available from the Load database tab. It displays all the detergents stored in the database at the moment the user looks at it. That is, if a new detergent is added to the base then it will be displayed; similarly, a detergent that has been removed will no longer be present.
+			</p>
+		</h5>
+		<h5 class="w3-padding-16">
+				<h3>Sorting</h3>
+				<p>
+					The database is initially sorted in alphabetical order on the names of detergents (<code class="w3-codespan">_id</code>). It is possible to sort on another column by clicking on its name. By default, the table displays the first 10 detergents ('Show 10 entries') and it is possible to modify this field to display up to 100 detergents per page. The others are in the following pages accessed by the numbers at the bottom right of the table.
 				</p>
-				<li>Search</li>
-				<p class="w3-text-grey">
+		</h5>
+		<h5 class="w3-padding-16">
+				<h3>Search</h3>
+				<p>
 					It is possible to search for an element in the table with the search bar at the top right of the 'Search' table.
 				</p>
-			</ul>
-		</p>
+		</h5>
+		<h5 class="w3-padding-16">
+				<h3>Hide/Show columns</h3>
+				<p>
+					Through this button you can toggle columns display panel. Check the names of columns you want see and press <code class="w3-codespan">Apply</code> to validate.
+				</p>
+		</h5>
+		
 	</div>
 	</div>
 </div>
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-	<h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+	<h1 class="w3-margin w3-xlarge">Still under development...</h1>
 </div>
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">  
-	<div class="w3-xlarge w3-padding-32">
-	<i class="fa fa-facebook-official w3-hover-opacity"></i>
-	<i class="fa fa-instagram w3-hover-opacity"></i>
-	<i class="fa fa-snapchat w3-hover-opacity"></i>
-	<i class="fa fa-pinterest-p w3-hover-opacity"></i>
-	<i class="fa fa-twitter w3-hover-opacity"></i>
-	<i class="fa fa-linkedin w3-hover-opacity"></i>
- </div>
- <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+	<div class="w3-large w3-padding-32">
+		Developed by 
+		<a href="mailto:sebastien.delolme-sabatier@etu.univ-lyon1.fr">Sébastien Delolme-Sabatier</a>, 
+		<a href="mailto:caroline.gaud@etu.univ-lyon1.fr">Caroline Gaud</a> and 
+		<a href="mailto:shangnong.hu@etu.univ-lyon1.fr">Shangnong Hu</a><br>during their 3-month-project for <a href="https://www.bioinfo-lyon.fr/" target="_blank">Master 2 of Bioinformatics</a>.
+	 </div>
+	 <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
 </body>

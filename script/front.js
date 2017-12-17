@@ -56,9 +56,7 @@ function columnDef(){
 
 			colname[colname.length] = { 
 				"data": null, 
-				"defaultContent": 	"<button class='ref w3-button w3-round-xxlarge'>"+
-										"<i class='fa fa-eye' aria-hidden='true'></i>"+
-									"</button>"
+				"defaultContent": 	"<a class='w3-button ref'>See ref.</a>"
 			};
 		} else if (NAME_LIST[i]==="image"){
 
@@ -164,6 +162,7 @@ function selectedToInput(sRow){
 
 
 
+// Build checkbox for Hide/Show columns pannel
 function buildCheckbox(){
 
 	// Build checkbox for display columns
@@ -220,7 +219,6 @@ function buildCheckbox(){
 		for (i = 0; i < NAME_LIST.length; i++) {
 
 			document.getElementById("chk"+NAME_LIST[i]).checked = table.column(i).visible();
-
 		};
 	});
 	
@@ -229,7 +227,6 @@ function buildCheckbox(){
 		for (i = 0; i < NAME_LIST.length; i++) {
 
 			document.getElementById("chk"+NAME_LIST[i]).checked = true;
-
 		};
 	});
 
@@ -248,7 +245,6 @@ function buildCheckbox(){
 
 			table.column( i ).visible( $("#chk"+NAME_LIST[i]).prop("checked") );
 		};
-
 		$("#cboxs").hide();
 	});
 };
@@ -299,6 +295,7 @@ function buildDataTable(){
 	// When a row is selected...
 	$('#detable tbody').on( 'click', 'tr', function () {
 
+		// If already has detergent selected
 		if ( $(this).hasClass('selected') ) {
 
 			$(this).removeClass('selected');
@@ -337,18 +334,21 @@ function buildDataTable(){
 	$('#detable tbody').on( 'click', '.ref', function () {
 
 		let data = table.row( $(this).parents('tr') ).data();
-		alert( data.ref );
+		$("#modalheader").html("Reference");
+		$("#image").html('<p>'+data.ref+'</p>');
+		
+		document.getElementById('detInfo').style.display='block'
+		//alert( data.ref );
 	} );
 
 	// Alert image of detergent
 	$('#detable tbody').on( 'click', '.image', function () {
 
 		let data = table.row( $(this).parents('tr') ).data();
-		//$("#image").html('<img src="/pic/'+data.image+'" alt="'+data.image+'">');
-		$("#image").html('<img src="/img/img.jpg" alt="'+data.image+'">');
-		//$("#modalheader").html(data.image);
 		$("#modalheader").html("image test");
-		document.getElementById('detimage').style.display='block'
+		$("#image").html('<img src="/img/img.jpg" alt="'+data.image+'">');
+		
+		document.getElementById('detInfo').style.display='block'
 	} );
 
 	$('#detable tbody').on( 'click', '.pdb', function () {
@@ -528,11 +528,11 @@ $(document).ready(function() {
 		'</p>'+
 		'<p style="vertical-align:middle;">'+
 			'Powered by :<br>'+
-			'Node.js - Express.js<br>'+
-			'MongoDB<br>'+
-			'jQuery - DataTable<br>'+
-			'W3-CSS<br>'+
-			'Font Awesome'+
+			'<a href="https://nodejs.org/">Node.js</a> - <a href="http://expressjs.com/">Express.js</a><br>'+
+			'<a href="https://www.mongodb.com/">MongoDB</a><br>'+
+			'<a href="https://jquery.com/">jQuery</a> - <a href="https://datatables.net/">DataTable</a><br>'+
+			'<a href="https://www.w3schools.com/w3css/default.asp">W3.CSS</a><br>'+
+			'<a href="http://fontawesome.io/">Font Awesome</a>'+
 		'</p>');
 
 	// CSS setting
@@ -731,7 +731,7 @@ $(document).ready(function() {
 						$.post("/updateDet", formToJSON(),function(DATA){
 
 							if (DATA["status"] == "OK_modif"){
-								
+
 								$.get("/getKeys", function(data){
 
 									NAME_LIST = data;
