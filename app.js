@@ -11,7 +11,7 @@ var fs = require('fs');
 var app = express();
 var events = require('events');
 const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
-
+var backupModule = require('./mongodb_backup'); 
 
 
 // User
@@ -34,69 +34,71 @@ arg = process.argv;
 
 process.argv.forEach(function(val,index,array){
     if(val === "--history") {
-		b_history = true;
+    b_history = true;
 }
-	if (val === "-init"){
+  if (val === "-init"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-		if (err) {
-    		throw err;
-    	}
-    	else {
+    if (err) {
+        throw err;
+      }
+      else {
 
-    		mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]);
-    		if(b_history ===true){
-    			write_history("init",__dirname+'/'+arg[arg.indexOf("-init")+1])
-    		} 
-    	}
+        mongo.insertData(db, __dirname+'/'+arg[arg.indexOf("-init")+1]);
+        if(b_history ===true){
+          write_history("init",__dirname+'/'+arg[arg.indexOf("-init")+1])
+        } 
+      }
         })
   }
-	else if(val === "-reinit"){
+  else if(val === "-reinit"){
     MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
       if (err) {
         throw err;
       }
       let deleteRes = mongo.deleteData(db); //emetteur
       deleteRes.on('deleteOK',function(msg,result){
-      	mongo.insertData(db, __dirname+'/'+array[index+1]); //the emitter is used to force the execution's order
-      	if(b_history ===true){
-    		write_history("reinit",__dirname+'/'+arg[arg.indexOf("-reinit")+1])
-    	} 
+        mongo.insertData(db, __dirname+'/'+array[index+1]); //the emitter is used to force the execution's order
+        if(b_history ===true){
+        write_history("reinit",__dirname+'/'+arg[arg.indexOf("-reinit")+1])
+      } 
  
       })
     })
     }
     if (val === "--testmongo"){
-		b_mongo_t = true;
-		mongo.testFront(); // not the good function
-	}
+    b_mongo_t = true;
+    mongo.testmongo(); // not the good function
+  }
 
-	if (val === "-backup"){
-		let backup_hour = arg[arg.indexOf("-backup")+1];
-		let backup_minutes = arg[arg.indexOf("-backup")+2];
-		backup_hour = Number(backup_hour);
-		backup_minutes = Number(backup_minutes);
-		if (Number.isInteger(backup_hour) && Number.isInteger(backup_minutes)){
-			if(backup_hour <= 23 && backup_hour >= 0 && backup_minutes <=59 && backup_minutes >= 0 ){
-				let backup_time = {"hours":backup_hour,"minutes":backup_minutes};
-				b_backup = true; // à déplacer
-				// here I call the backup function
-				mongo.runBackup(backup_time);
-				console.log(backup_time);
-			}
-			else{
-				throw("the time you chose for the backup is incorrect");
-			}
-			
-		}
-		else{
-			//console.log("the time you chose for the backup is incorrect");
-			throw("the time you chose for the backup is incorrect");
-		}
-		}
+  if (val === "-backup"){
+    let backup_hour = arg[arg.indexOf("-backup")+1];
+    let backup_minutes = arg[arg.indexOf("-backup")+2];
+    backup_hour = Number(backup_hour);
+    backup_minutes = Number(backup_minutes);
+    if (Number.isInteger(backup_hour) && Number.isInteger(backup_minutes)){
+      if(backup_hour <= 23 && backup_hour >= 0 && backup_minutes <=59 && backup_minutes >= 0 ){
+        let backup_time = {"hours":backup_hour,"minutes":backup_minutes};
+        //b_backup = true;
+        // here I call the backup function
+        backupModule.control_backup(false)
+        mongo.runBackup(backup_time);
+
+        //console.log(backup_time);
+      }
+      else{
+        throw("the time you chose for the backup is incorrect");
+      }
+      
+    }
+    else{
+      //console.log("the time you chose for the backup is incorrect");
+      throw("the time you chose for the backup is incorrect");
+    }
+    }
 
 
-		//console.log({"hours":typeof(backup_hour),"minutes":backup_minutes})
-	})
+    //console.log({"hours":typeof(backup_hour),"minutes":backup_minutes})
+  })
 
 
 
@@ -122,43 +124,43 @@ process.argv.forEach(function(val,index,array){
 *  future. Note that the hour diplayed is the one from London.
 */ 
 var write_history = function(state,data){
-	let today = new Date();
-	let dd = today.getDate();
-	let mm = today.getMonth()+1; //January is 0!
-	let hh = today.getHours()
-	let yyyy = today.getFullYear();
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth()+1; //January is 0!
+  let hh = today.getHours()
+  let yyyy = today.getFullYear();
 
-	if(dd<10) {
+  if(dd<10) {
     dd = '0'+dd
-	} 
+  } 
 
-	if(mm<10) {
+  if(mm<10) {
     mm = '0'+mm
-	} 
+  } 
 
-	//today = mm + '/' + dd + '/' + yyyy;
-	fs.appendFileSync("./history.csv", today + ";" + state + ";" + data + ";"+ User + "\n") 
+  //today = mm + '/' + dd + '/' + yyyy;
+  fs.appendFileSync("./history.csv", today + ";" + state + ";" + data + ";"+ User + "\n") 
 
-	//return 0;
+  //return 0;
 }
 
 
 var get_data = function(object){
-	let to_return = [];
-	let keys = Object.keys(object);
-	let values = Object.values(object);
-	for(var i = 0 ; i<keys.length; i++){
-		if(keys[i]==="color"){
-			to_return.push(keys[i]+" : ["+values[i]+"]")
-		}
-		else{
-			if (values[i]===""){
-				to_return.push(keys[i]+" : "+null)
-			}
-			to_return.push(keys[i]+" : "+values[i])	
-		}
-	}
-	return(to_return);
+  let to_return = [];
+  let keys = Object.keys(object);
+  let values = Object.values(object);
+  for(var i = 0 ; i<keys.length; i++){
+    if(keys[i]==="color"){
+      to_return.push(keys[i]+" : ["+values[i]+"]")
+    }
+    else{
+      if (values[i]===""){
+        to_return.push(keys[i]+" : "+null)
+      }
+      to_return.push(keys[i]+" : "+values[i]) 
+    }
+  }
+  return(to_return);
 }
 
 //Partie HTML
@@ -170,17 +172,17 @@ app.get('/', function(req, res) {
 })
 
 app.get('/getKeys',function(req, res,next){
-	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-    	if (err) {
-    		throw err;
-      	}
-      	return(mongo.getallkeys(db)).then(function(items){
-      			//res.send({"value":mongo.getallkeys(db)});
-      			//console.log(items)
-      			res.send(items);
+  MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
+      if (err) {
+        throw err;
+        }
+        return(mongo.getallkeys(db)).then(function(items){
+            //res.send({"value":mongo.getallkeys(db)});
+            //console.log(items)
+            res.send(items);
 
-      	})
-      	})
+        })
+        })
          
     })
 
@@ -223,7 +225,7 @@ app.get('/pdb/:file', function (req, res, next) {
 });
 app.use('/css', express.static(__dirname + '/style'));
 // Operations on the database
-
+app.use('/data', express.static(__dirname + '/data'));
 
 app.use('/loadTab',function (req, res, next) {   /// to load the data in the database
   mongo.FindinDet().then(function(items) {
@@ -254,31 +256,31 @@ app.post('/newDet',function (req, res) {
   let to_insert = req.body;
   to_insert.volume=Number(to_insert.volume,10)
   if (to_insert._id==''){
-  	to_insert._id = null
+    to_insert._id = null
   }
   if (isNaN(to_insert.volume)) {
-  		to_insert.volume = null
+      to_insert.volume = null
   }
   if (to_insert.category == ''){
-  	to_insert.category = null
+    to_insert.category = null
   }
   to_insert.color=[Number(to_insert.color[0]),Number(to_insert.color[1]),Number(to_insert.color[2])]
   let insertDet = mongo.insertDet(db,to_insert)
   //console.log(a[0],a[1])
   insertDet.on('insertOK',function(msg,result){
-      	res.send({"status":msg[0],"data":msg[1]})
-      	if(b_history==true){
- 		write_history("added",get_data(to_insert))
-  		} 
+        res.send({"status":msg[0],"data":msg[1]})
+        if(b_history==true){
+    write_history("added",get_data(to_insert))
+      } 
       })
   insertDet.on('nameNotUnique',function(msg,result){
-      	//ici insertion, on a imposé un ordre
-      	res.send({"status":msg[0],"data":msg[1]} ) 
+        //ici insertion, on a imposé un ordre
+        res.send({"status":msg[0],"data":msg[1]} ) 
 
       })
   insertDet.on('errorCode',function(msg,result){
 
-      	res.send({"status":msg[0],"data":msg[1]} ) 
+        res.send({"status":msg[0],"data":msg[1]} ) 
 
       })
   
@@ -298,83 +300,83 @@ app.post('/removeDet',function (req, res) {
   //console.log(to_delete._id);
   let deleteDet = mongo.deleteDet(db,to_delete._id);
   deleteDet.on('deleteOK',function(msg,result){
-      	//ici insertion, on a imposé un ordre
-      	res.send({"status":msg[0],"data":msg[1]} )
+        //ici insertion, on a imposé un ordre
+        res.send({"status":msg[0],"data":msg[1]} )
 
       })  
   if(b_history==true){
-  	write_history("deleted",get_data(to_delete))
+    write_history("deleted",get_data(to_delete))
   }
 
 });
 });
 
 app.post('/updateDet',function (req, res) {
-	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-	if (err) {
-		throw err;
-	}
-	let to_update = req.body;
-	to_update.volume = Number(to_update.volume)
-	to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
-	if (isNaN(to_update.volume)) {
-  		to_udate.volume = null
+  MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+  if (err) {
+    throw err;
   }
-	/*if (to_update.MM != ''){
-		to_update.MM = Number(to_update.MM)
-	}
-	if (to_update.CMC != ''){
-		to_update.CMC = Number(to_update.CMC)
-	}
-	if (to_update.Aggregation_number != ''){
-		to_update.Aggregation_number = Number(to_update.Aggregation_number)
-	}
-	*/
-  	let updatedet = mongo.modifyDet(db,to_update._id,to_update);
-  	updatedet.on('modifOK',function(msg,result){
-      	//ici insertion, on a imposé un ordre
-      	res.send({"status":msg[0],"data":msg[1]} ) 
+  let to_update = req.body;
+  to_update.volume = Number(to_update.volume)
+  to_update.color=[Number(to_update.color[0]),Number(to_update.color[1]),Number(to_update.color[2])]
+  if (isNaN(to_update.volume)) {
+      to_udate.volume = null
+  }
+  /*if (to_update.MM != ''){
+    to_update.MM = Number(to_update.MM)
+  }
+  if (to_update.CMC != ''){
+    to_update.CMC = Number(to_update.CMC)
+  }
+  if (to_update.Aggregation_number != ''){
+    to_update.Aggregation_number = Number(to_update.Aggregation_number)
+  }
+  */
+    let updatedet = mongo.modifyDet(db,to_update._id,to_update);
+    updatedet.on('modifOK',function(msg,result){
+        //ici insertion, on a imposé un ordre
+        res.send({"status":msg[0],"data":msg[1]} ) 
 
     })
     updatedet.on('errorCode',function(msg,result){
-      	//ici insertion, on a imposé un ordre
-      	res.send({"status":msg[0],"data":msg[1]} ) 
+        //ici insertion, on a imposé un ordre
+        res.send({"status":msg[0],"data":msg[1]} ) 
 
     })
     updatedet.on('error',function(msg,result){
-      	//ici insertion, on a imposé un ordre
-      	res.send({"status":msg[0],"data":msg[1]} )
+        //ici insertion, on a imposé un ordre
+        res.send({"status":msg[0],"data":msg[1]} )
 
     })  
-	if(b_history==true){
-		write_history("updated",get_data(to_update))
+  if(b_history==true){
+    write_history("updated",get_data(to_update))
   }
-	
+  
 
 
 });
 });
 app.post('/removeCol',function(req,res){
-	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-	if (err) {
-		throw err;
-	}
-	let col = req.body.column;
-	res.send(mongo.deleteCaract(db,col));
-	//console.log(col)
+  MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+  if (err) {
+    throw err;
+  }
+  let col = req.body.column;
+  res.send(mongo.deleteCaract(db,col));
+  //console.log(col)
 
 });
 });
 
 app.post('/modifCol',function(req,res){
-	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-	if (err) {
-		throw err;
-	}
-	let old_col = req.body.old_column;
-	let new_col = req.body.new_column;
-	mongo.modifyCaract(db,old_col,new_col);
-	//console.log(col)
+  MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
+  if (err) {
+    throw err;
+  }
+  let old_col = req.body.old_column;
+  let new_col = req.body.new_column;
+  mongo.modifyCaract(db,old_col,new_col);
+  //console.log(col)
 
 });
 });
