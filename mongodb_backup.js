@@ -55,7 +55,7 @@ var Json_mongo_detBelt_format = function(data) {
     if(data.hasOwnProperty('items')) {
         var dict = {"data": data.items};
     }
-    if(data.hasOwnProperty('path')) {
+    else if(data.hasOwnProperty('path')) {
         var dict = jsonfile.readFileSync(data.path,'utf8'); //if path is a file (.json)
     }
     else{
