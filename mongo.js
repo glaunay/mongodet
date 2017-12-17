@@ -10,8 +10,8 @@ var backupModule = require('./mongodb_backup.js');
 
 
 //Function to run the backup
-var runBackup = function(){
-	backupModule.backup();
+var runBackup = function(time){
+	backupModule.backup(time);
 }
 
 
