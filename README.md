@@ -76,6 +76,17 @@ mongodet server listening on port 3000!
 
 Now you can access the web inteface by entering `localhost:3000` on your favorite web browser (Google Chrome recommended ) and enjoy!
 
+#### Additional options
+
+* Security
+For more security and to avoid loss of data, a backup system has been developped. It's main purpose is to make a copy of the database at it's current state everyday at the same hour. To define the time at which the backup will take place, an option must be used. For example, if you want the system to run every day at 9:30 pm, use the following command:
+```
+node app.js -backup 21 30
+```
+Note that the application mustn't be off during this process. 
+
+* Historical
+
 
 
 ### Interact with the web page
@@ -86,9 +97,6 @@ You can also update a detergent by clicking on the "Update one" button and then 
 Finally, you can suppress a detergent by clicking on the button "Remove one" then select the line you want to delete.
 It is possible to manage the columns of the table. You can delete them by clicking first on the button "Manage column", then you choose the column you want to delete and confirm. You can also change a column name by clicking on the button "change a column name". Select the column you want to update and enter the new name you want, then confirm
 
-### Security
-
-For more security and to avoid loss of data, a backup system has been developped. It's main purpose is to make a copy of the database at it's current state everyday at the same hour (currently at 19.00, 19.10 and 19.20). Note that the application mustn't be off during this process. 
 
 ## Additional programs
 
