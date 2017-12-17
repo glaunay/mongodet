@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var app = express();
 var events = require('events');
-
 const child = spawn('mongod'); // find a way to shut it when out of the program // sudo service mongod start seems not to work
 
 
@@ -81,6 +80,7 @@ process.argv.forEach(function(val,index,array){
 				let backup_time = {"hours":backup_hour,"minutes":backup_minutes};
 				b_backup = true; // à déplacer
 				// here I call the backup function
+				mongo.runBackup()
 				console.log(backup_time)
 			}
 			else{
