@@ -80,8 +80,8 @@ process.argv.forEach(function(val,index,array){
 				let backup_time = {"hours":backup_hour,"minutes":backup_minutes};
 				b_backup = true; // à déplacer
 				// here I call the backup function
-				mongo.runBackup()
-				console.log(backup_time)
+				mongo.runBackup(backup_time);
+				console.log(backup_time);
 			}
 			else{
 				throw("the time you chose for the backup is incorrect");
