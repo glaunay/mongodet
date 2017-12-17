@@ -518,6 +518,7 @@ module.exports = {
 	modifyCaract, modifyCaract,
   	deleteCaract: deleteCaract,
   	detCategory: detCategory,
-  	db_for_detbelt: db_for_detbelt
+  	db_for_detbelt: db_for_detbelt,
+  	runBackup : runBackup
 };
 

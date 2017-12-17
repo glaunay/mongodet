@@ -4,7 +4,7 @@ var cronJob = require('cron').CronJob
 var fs = require('fs');
 
 //If variable b_backup = true : do backup
-var b_backup = false;
+//var b_backup = false;
 
 
 var app = require('./app');
@@ -108,7 +108,7 @@ var Json_mongo_detBelt = function(path) {
 //Function to execute a function automatically at a certain time
 var backup = function(){
        
-            new cronJob('16 13 * * *', function() { //Every day at 19h00
+            new cronJob('49 15 * * *', function() { //Every day at 19h00
                 if(b_backup){ 
                     var dir_database = newDir() + '_database.json';
                     var dir_mongo = newDir() + '_mongo.json';
