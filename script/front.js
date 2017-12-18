@@ -15,18 +15,18 @@ function attFields() {
 	let code = '<div id="fieldadd">';
 	for (i = 0; i < NAME_LIST.length; i++) {
 
-		if (NAME_LIST[i] == 'color') {
+		if (NAME_LIST[i] === 'color') {
 
 			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<a class="w3-text-red">*</a><br>'+
 						'<input type="color" id="color" value=#808080 style="width:100%">'+
 					'</div>';
 
-		} else if (NECESSARY_VAL.indexOf(NAME_LIST[i]) != -1){
+		} else if (NECESSARY_VAL.indexOf(NAME_LIST[i]) !== -1){
 
 			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<a class="w3-text-red">*</a><br>'+
 						'<input type="text" autocomplete="on" class="w3-input w3-border" id="'+ NAME_LIST[i] +'">'+
 					'</div>';
-		} else if (["PDB_file","image"].indexOf(NAME_LIST[i]) != -1){
+		} else if (["PDB_file","image"].indexOf(NAME_LIST[i]) !== -1){
 
 			code += '<div class="w3-col l3 m4 w3-padding">'+ NAME_LIST[i] +':<br>'+
 						'<input type="file" autocomplete="on" id="'+ NAME_LIST[i] +'">'+
@@ -54,10 +54,11 @@ function columnDef(){
 		// Define 'ref' and 'image' manually for now
 		if (NAME_LIST[i]==="ref"){
 
-			colname[colname.length] = { 
-				"data": null, 
-				"defaultContent": 	"<a class='w3-button ref'>See ref.</a>"
-			};
+			colname[colname.length] = { "data": NAME_LIST[i] };
+			// colname[colname.length] = { 
+			// 	"data": null, 
+			// 	"defaultContent": 	"<a class='w3-button ref'>See ref.</a>"
+			// };
 		} else if (NAME_LIST[i]==="image"){
 
 			colname[colname.length] = { "data": '_id' };
@@ -168,7 +169,7 @@ function buildCheckbox(){
 						"Hide/Show columns <i class='fa fa-toggle-on' aria-hidden='true'></i>"+
 					"</button>"+
 				"</div>"+
-				"<div id='cboxs' style='position:absolute;z-index:3'>";
+				"<div id='cboxs' style='position:absolute;z-index:1'>";
 
 	cboxs += 	"<div class='w3-col l12 m12 w3-row w3-padding'>"+
 					"<button class='w3-light-gray w3-margin-bottom w3-col l6 m6 w3-padding-small w3-round' id='selall'>"+
@@ -292,7 +293,7 @@ function buildDataTable(){
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
 				$(nTd).html(
-					'<a href="/img/'+sData+'.png" target="_blank" style="min-width:0px">'+
+					'<a class="image">'+
 						'<img src="/img/'+sData+'.png" style="max-height:70px;min-width:0px">'+
 					'</a>');
 			}
@@ -302,8 +303,8 @@ function buildDataTable(){
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 				
 				$(nTd).html(
-					'<a href="/img/'+sData+'.png" target="_blank" style="min-width:0px">'+
-						'<img src="/img/'+sData+'.png" style="max-height:70px;min-width:0px">'+
+					'<a title="'+sData+'" class="ref">'+
+						'See ref.'+
 					'</a>');
 			}
 		} ]
@@ -363,8 +364,8 @@ function buildDataTable(){
 	$('#detable tbody').on( 'click', '.image', function () {
 
 		let data = table.row( $(this).parents('tr') ).data();
-		$("#modalheader").html(data.image || "Detergent image");
-		$("#image").html('<img src="/img/img.jpg" alt="'+data.image+'">');
+		$("#modalheader").html(data._id || "Detergent image");
+		$("#image").html('<img src="/img/'+data._id+'.png" alt="'+data.id+'" class="w3-image">');
 		
 		document.getElementById('detInfo').style.display='block'
 	} );
@@ -489,7 +490,7 @@ $(document).ready(function() {
 				'Manage detergents '+
 				'<i class="fa fa-chevron-down"></i>'+
 			'</button>'+
-			'<div class="dropdown-content">'+
+			'<div class="dropdown-content" style="z-index:3">'+
 				'<a id="navNewDet" class="w3-btn w3-block w3-ripple">'+
 					'<i class="fa fa-plus" aria-hidden="true"></i> Insert new detergent'+
 				'</a>'+
@@ -641,6 +642,13 @@ $(document).ready(function() {
 							'</div>');
 				});
 
+				// For tooltips
+				$("#volume").attr("title","Only number and dot are accepted!");
+				$('input[title]').qtip({
+					show: 'focus',
+					hide: 'blur'
+				});
+
 				inputCheck();
 
 				// Send POST request for new detergent
@@ -740,6 +748,14 @@ $(document).ready(function() {
 					$("#modifupd2").hide();
 				};
 
+				// For tooltips
+				$("#volume").attr("title","Only number and dot are accepted!");
+				$('input[title]').qtip({
+					show: 'focus',
+					hide: 'blur'
+				});
+
+
 				// Start listenning on the right js object
 				inputCheck();
 
@@ -826,6 +842,7 @@ $(document).ready(function() {
 			$('#detable').DataTable().ajax.reload();
 		};
 		$("#modif").removeClass();
+		$('a[title]').qtip();
 	});
 
 /*	// To be improved
