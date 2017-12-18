@@ -121,5 +121,11 @@ If you are experiencing issues with the project, you can contact us: [S. Delolme
 	
 ## Improvements to be done
 
-Mongod continue to run after the closing of the program, this will be corrected in a next release. A test mode is in developpment, it will allow to use front end and backend separatly. Other features still need to be implemented, for example it's currently not possible to download files or images on the application. Another feature that's need to be added is a correction of the fact that the reinit command doesn't work if the database is empty. 
-All these features will be available in the next releases.
+Here is a list of the features that still needs to be done:
+* It is actually not possible to add files to the database
+* Mongod continue to run after the closing of the program, this will be corrected in a next release.
+* A test mode is in developpment, it will allow to use front end and backend separatly.
+* Other features still need to be implemented, for example it's currently not possible to download files or images on the application. 
+* Another feature that's need to be added is a correction of the fact that the reinit command doesn't work if the database is empty. 
+* Modification history will be available in a specific HTML page
+* During an update, pdb_file and image fields will contain an inidication if there is a file or not in the database.
