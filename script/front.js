@@ -60,10 +60,7 @@ function columnDef(){
 			};
 		} else if (NAME_LIST[i]==="image"){
 
-			colname[colname.length] = { 
-				"data": "img.jpg", 
-				"defaultContent": "<a class='w3-button image'>See image</a>"
-			};
+			colname[colname.length] = { "data": '_id' };
 		} else if (NAME_LIST[i]==="PDB_file"){
 
 			colname[colname.length] = { 
@@ -280,13 +277,34 @@ function buildDataTable(){
 		"searchHighlight": true,
 		"ajax": { "url": "/loadTab" },
 		"columns": columnDef(),
-		"aoColumnDefs": [ {
+		"aoColumnDefs": [ 
+		{
 			"aTargets": [NAME_LIST.indexOf("color")],
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
 				let detColor = "rgb(" + String(sData) + ")"
 				$(nTd).html(colorLogo)
 				$(nTd).css('color', detColor)
+			}
+		},
+		{
+			"aTargets": [NAME_LIST.indexOf("image")],
+			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+				$(nTd).html(
+					'<a href="/img/'+sData+'.png" target="_blank" style="min-width:0px">'+
+						'<img src="/img/'+sData+'.png" style="max-height:70px;min-width:0px">'+
+					'</a>');
+			}
+		},
+		{
+			"aTargets": [NAME_LIST.indexOf("ref")],
+			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				
+				$(nTd).html(
+					'<a href="/img/'+sData+'.png" target="_blank" style="min-width:0px">'+
+						'<img src="/img/'+sData+'.png" style="max-height:70px;min-width:0px">'+
+					'</a>');
 			}
 		} ]
 	} );
@@ -345,7 +363,7 @@ function buildDataTable(){
 	$('#detable tbody').on( 'click', '.image', function () {
 
 		let data = table.row( $(this).parents('tr') ).data();
-		$("#modalheader").html("image test");
+		$("#modalheader").html(data.image || "Detergent image");
 		$("#image").html('<img src="/img/img.jpg" alt="'+data.image+'">');
 		
 		document.getElementById('detInfo').style.display='block'
@@ -378,6 +396,7 @@ function buildDataTable(){
 	};
 };
 
+// Check if has other character than dot and digit
 function isFloat(str){
 
 	let out = true;
@@ -388,6 +407,7 @@ function isFloat(str){
 	return out
 }
 
+// Allow only space and alphanumeric characters
 function isWord(str){
 
 	let out = true;
@@ -398,6 +418,7 @@ function isWord(str){
 	return out
 }
 
+// Check if all mandatory field are filled and valid
 function mandatoryInputCheck(){
 
 	let filled = true;
@@ -496,7 +517,7 @@ $(document).ready(function() {
 	$("#navUpdDet").addClass('w3-disabled');
 	$("#navRmvDet").addClass('w3-disabled');
 
-
+	// Welcome message
 	$("#table").html(
 		"<h1>Welcome to Detergent Database CRUD Interface!</h1>"+
 		"<p>Here is a user-friendly front-end for <a href='http://detbelt.ibcp.fr/' target='_blank'>"+
@@ -504,7 +525,6 @@ $(document).ready(function() {
 		"<p>To begin, please click on the button <b>Load database</b> on the top. Enjoy!</p>"
 		).
 		addClass("w3-center w3-padding-large w3-padding-64");
-
 
 	// Footer content
 	$("footer").html(
@@ -552,6 +572,7 @@ $(document).ready(function() {
 
 
 	$("#home").click(function(){
+
 		location.reload();
 	});	
 
@@ -738,6 +759,8 @@ $(document).ready(function() {
 								}).done(function(){
 
 									$('#detable').DataTable().ajax.reload();
+									$("#modifupd1").show();
+									$("#modifupd2").hide();
 									$("[autocomplete]").val("");
 									alert(modifiedName + " has been up to date!");
 								});
