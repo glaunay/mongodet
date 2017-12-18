@@ -16,12 +16,12 @@ var runBackup = function(time){
 
 
 //Function test
-var mytest = function(){
+var testmongo = function(){
 	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
 		if (err) {
 			throw err;
 		}
-		//console.log(typeof(db));
+		console.log("connection done");
 		//insertData(db, __dirname+"/data/res.json");
 	});
 }
@@ -521,6 +521,7 @@ module.exports = {
   	deleteCaract: deleteCaract,
   	detCategory: detCategory,
   	db_for_detbelt: db_for_detbelt,
-  	runBackup : runBackup
+  	runBackup : runBackup,
+  	testmongo : testmongo
 };
 
