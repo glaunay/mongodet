@@ -122,6 +122,7 @@ If you are experiencing issues with the project, you can contact us: [S. Delolme
 ## Improvements to be done
 
 Here is a list of the features that still needs to be done:
+* Column management needs to be improved
 * It is actually not possible to add files to the database
 * Mongod continue to run after the closing of the program, this will be corrected in a next release.
 * A test mode is in developpment, it will allow to use front end and backend separatly.
