@@ -183,14 +183,14 @@ app.use('/script', express.static(__dirname + '/script'));
 app.use('/favicon.ico', express.static(__dirname + '/images/favicon.ico'));
 app.use('/pic', express.static(__dirname + '/images'));
 app.get('/img/:file', function (req, res, next) {
-  console.log('Detergent image request:', req.params.file);
+  //console.log('Detergent image request:', req.params.file);
   next();
 }, function (req, res, next) {
   res.sendFile(__dirname + '/data/pdb_images/'+req.params.file);
 });
 
 app.get('/pdb/:file', function (req, res, next) {
-  console.log('Detergent PDB file request:', req.params.file);
+  //console.log('Detergent PDB file request:', req.params.file);
   next();
 }, function (req, res, next) {
   res.sendFile(__dirname + '/data/pdb_files/'+req.params.file);

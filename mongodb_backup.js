@@ -3,8 +3,8 @@ var spawn = require('child_process').spawnSync;
 var cronJob = require('cron').CronJob
 var fs = require('fs');
 
-//If variable b_backup = true : do backup
-//var b_backup = false;
+
+var b_backup = false;
 
 
 var app = require('./app');
@@ -56,18 +56,11 @@ var Json_mongo_detBelt_format = function(data) {
         var dict = {"data": data.items};
     }
     else if(data.hasOwnProperty('path')) {
-        var dict = jsonfile.readFileSync(data.path,'utf8'); //if path is a file (.json)
+        var dict = jsonfile.readFileSync(data.path,'utf8'); //if data is a file (.json)
     }
     else{
         console.log('Input is not an item or a file');
     }
-     //   else if(if(data.hasOwnProperty('items')) {})
-       //     else console..
-    /*if(path.includes('.') == true){
-        var dict = jsonfile.readFileSync(path,'utf8'); //if path is a file (.json)
-    }else{
-        var dict = {"data": path};
-    }*/
     
     var write = {};
     var category = [];

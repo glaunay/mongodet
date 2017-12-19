@@ -206,20 +206,6 @@ var deleteDet = function(db, idDet){
 }
 
 
-/*var deleteDet = function(db, idDet){
-	db.collection('det').deleteOne({'_id' : idDet}, function(err, result) {
-	    if (err){
-	    	return ['Error', 'Err'];
-	    }
-	    else{
-	    	console.log(idDet, ': The detergent has been removed');
-	    	backupModule.control_backup(true);
-		}
-    });
-    return ['OK_delete', idDet + ': The detergent has been removed'];
-}*/
-
-
 
 //Function to add a new detergent 
 /*det : variable like { "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
@@ -295,41 +281,6 @@ var modifyDet = function(db, id, det){
 
 
 
-/*var modifyDet = function(db, id, det){
-	var check = true
-	modifyColor(det.color);
-	check = checkConditionsInsert(det);
-		
-	if(check == true){
-		db.collection('det').find({'_id' : id}).toArray((err, result) => {
-			if(err){
-				throw err;
-				return ['Error', 'Err'];
-			}
-			if(result.length == 1){
-				db.collection('det').update({'_id' : id},{$set: det}, function(err,result){
-					if(err){
-						throw err;
-						return ['Error', 'Err'];
-					}
-					else{
-						console.log('The detergent ' + id + ' has been updated');
-						backupModule.control_backup(true);
-						return ['OK_modif', 'The detergent ' + id + ' has been updated'];
-					}
-				});
-			}
-		})
-	}
-	else{
-		console.log(check);
-		return['Err', check];
-	}
-	
-}*/
-
-
-
 //Function to delete a caracteristic of detergents
 /*caract : caracteristic to delete
 the characteristic will be removed from all detergents containing it
@@ -349,26 +300,6 @@ var deleteCaract = function(db, caract){
 			}
 	});
 }
-
-
-
-
-
-/*var deleteCaract = function(db, caract){
-	var todelete = {};
-	todelete[caract] = 1;
-	db.collection('det').update({}, {$unset: todelete} , {multi: true}, function(err,result){
-			if(err){
-				throw err;
-				return ['Error', 'Err'];
-			}
-			else{
-				console.log('The caracteristic ' + db + ' has been deleted for all detergents');
-				backupModule.control_backup(true);
-				return ['OK_delete', 'The caracteristic ' + db + ' has been deleted for all detergents'];
-			}
-	});
-}*/
 
 
 
@@ -425,83 +356,6 @@ var db_for_detbelt = function(){
         return backupModule.Json_mongo_detBelt_format(items);
     });
 }
-
-
-db_for_detbelt();
-
-//MONGODB
-
-var MongoClient = require('mongodb').MongoClient;
-
-//For do some tests
-MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-	if (err) {
-		throw err;
-	}
-
-	//test(db);
-
-
-	//console.log(typeof(db));
-
-	//Insert the 'res.json' file in database
-	//insertData(db, __dirname+"/data/res.json");
-
-	//Delete the 'OM' detergent
-	//deleteDet(db,'OM');
-
-	//Insert a new detergent
-	//var newdet = { "_id" : "TUTU", "volume" : 391.1, "color" : [0,1,0], "category" : "maltoside"};
-	//insertDet(db, newdet);
-
-	//Modify the volume of the 'OM' detergent
-	//modifyDet(db, 'OM', {"_id" : "OM", "category":"maltosides","volume" : 20,"color" : [0.0, 255.0, 0.0],"complete_name" : "n-Octyl-β-D-Maltopyranoside","Molecular formula" : "C20H38O11","MM" : 454.4,"CMC (mM)" : 19.5,"Aggregation number" : 47,"Ref" : "Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University)","PDB file" : "OM.pdb","detergent image" : null,"SMILES" : "CCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O"});
-
-	//Delete a caracteristic for all detergent
-	//deleteCaract(db, 'color');
-
-	//Rename the 'volume' caracteristic in 'volume'
-	//modifyCaract(db, 'volume', 'volume');
-
-	//Give all detgernts class
-	//detCategory(db);
-
-
-	/*mr = db.command({
-		"mapreduce" : "my_collection",
-		"map" : function() {
-		for (var key in this) { emit(key, null); }
-		},
-		"reduce" : function(key, stuff) { return null; }, 
-		"out": "my_collection" + "_keys"
-	})
-
-	db[mr.result].distinct("_id")*/
-
-//var obj = [{ "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"}, { "_id" : "NM", "volume" : 408.9, "color" : [0,255,0], "category" : "maltoside", "composite":"toto"}];
-
-
-	//deleteData(db);
-
-/*function getDeepKeys() {
-	obj = FindinDet();
-    var keys = [];
-    for(var i in obj) {
-    	for(j=0; j<Object.keys(obj[i]).length; j++){
-    		if(keys.includes(Object.keys(obj[i])[j]) == false){
-    			keys.push(Object.keys(obj[i])[j]);
-    		}
-    	}
-    }
-    console.log(keys);
-}
-
-getDeepKeys(obj);*/
-
-
-
-});
-
 
 
 
