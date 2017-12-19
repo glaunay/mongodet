@@ -45,24 +45,13 @@ function attFields() {
 
 
 
-// Contruct columns definition into a list of json for DataTable
+// Define data for each column in DataTable
 function columnDef(){
 
 	let colname = [];
 	for (i = 0; i < NAME_LIST.length; i++) {
 
-		// Define 'ref' and 'image' manually for now
-		if (NAME_LIST[i]==="ref"){
-
-			colname[colname.length] = { "data": NAME_LIST[i] };
-			// colname[colname.length] = { 
-			// 	"data": null, 
-			// 	"defaultContent": 	"<a class='w3-button ref'>See ref.</a>"
-			// };
-		} else if (NAME_LIST[i]==="image"){
-
-			colname[colname.length] = { "data": '_id' };
-		} else if (NAME_LIST[i]==="PDB_file"){
+		if (NAME_LIST[i]==="PDB_file"){
 
 			colname[colname.length] = { 
 				"data": null, 
@@ -291,11 +280,13 @@ function buildDataTable(){
 		{
 			"aTargets": [NAME_LIST.indexOf("image")],
 			"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-				$(nTd).html(
-					'<a class="image">'+
-						'<img src="/img/'+sData+'.png" style="max-height:70px;min-width:0px">'+
-					'</a>');
+				console.log(sData)
+				if (sData !== null){
+					$(nTd).html(
+						'<a class="image">'+
+							'<img src="/img/'+sData+'" style="max-height:70px;min-width:0px">'+
+						'</a>');
+				};
 			}
 		},
 		{
@@ -568,6 +559,29 @@ $(document).ready(function() {
 	$("footer p").addClass("w3-col w3-padding w3-tiny l2 m6");
 	$("footer img").addClass("w3-hover-opacity");
 
+	window.onscroll = function() {scrollFunction()};
+
+	function scrollFunction() {
+		if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+			document.getElementById("GTT").style.display = "block";
+		} else {
+			document.getElementById("GTT").style.display = "none";
+		}
+	}
+
+	// When the user clicks on the button, scroll to the top of the document
+	$("#GTT")
+	.css("position","fixed")
+	.css("bottom","20px")
+	.css("right","30px")
+	.css("z-index","99")
+	.css('box-shadow', '0px 2px 8px grey')
+	.addClass("w3-button w3-right w3-red w3-round-large")
+	.click(function() {
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTop = 0;
+	});
+
 
 ////////////////// ACTIONS ON PAGE //////////////////
 
@@ -778,7 +792,7 @@ $(document).ready(function() {
 									$("#modifupd1").show();
 									$("#modifupd2").hide();
 									$("[autocomplete]").val("");
-									alert(modifiedName + " has been up to date!");
+									alert(modifiedName + " has been updated!");
 								});
 							} else {
 
