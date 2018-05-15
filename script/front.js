@@ -676,8 +676,7 @@ $(document).ready(function() {
 						if ($("#new_col").val() == undefined || $("#new_col").val() == "" || $("#new_col_value").val() == ""){
 
 							$.post("/newDet", JSON_send, function(data){
-
-								if (data["status"] == "OK_insert"){
+								if (data["status"] === "OK_insert"){
 
 									$('#detable').DataTable().ajax.reload();
 									$("[autocomplete]").val("");

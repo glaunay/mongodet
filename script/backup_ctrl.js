@@ -1,16 +1,14 @@
-var jsonfile = require('jsonfile');
-var spawn = require('child_process').spawnSync;
+var mongo = require('../mongo');
+var tingo = require('../tingo');
 var cronJob = require('cron').CronJob
 var fs = require('fs');
+var jsonfile = require('jsonfile');
 
-
-var b_backup = false;
-
-//Function to create a new repertory
-var newDir = function(){
+/*var newDir = function(){
     let currentDate = new Date(); // Current date
     let newBackupDir = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
     path = './backup/' + newBackupDir;
+    console.log(path)
     if (!fs.existsSync(path)) {
         fs.mkdirSync(path);  //to create a repertory named with date
     }
@@ -18,16 +16,18 @@ var newDir = function(){
     let newBackupFile = './backup' + '/' + newBackupDir + '/' + newBackupDir ;
     return newBackupFile
 }
+*/
 
 
-//function to extract the database
-var extractdb = function () {
-    let newBackupFile = newDir() + '_database.json';
-    spawn('mongoexport',['--db','det','--collection', 'det', '--out', newBackupFile, '--jsonArray']);
+var extractdb = function(db){
+	console.log("inside dbSave")
+	//let newFile =  newDir() + '_database.json';
+	tingo.FindinDet(db).then(function(items) {
+		console.log(items)
+		//jsonfile.writeFileSync(newFile,items)
+	})
 }
-
-
-//Function to convert the database in 'mongo' format and save document
+/*
 var Json_database_mongo = function(path) {
     let dict = jsonfile.readFileSync(path,'utf8');
     let write = {"data":dict};
@@ -39,14 +39,17 @@ var Json_database_mongo = function(path) {
         }
     });
 }
-
-
-
-//Function to convert the 'mongo' format in 'detbelt' format 
-/* Input : data contains
-* - 'path' if it is a file
-* - 'items' if it is a variable
 */
+
+async function startUp(b_delete,db){
+	if(b_delete) {
+		await tingo.deleteData(db)
+	}
+	await tingo.insertData(db)
+	return('inserted')
+}
+
+/*
 var Json_mongo_detBelt_format = function(data) { 
     if(data.hasOwnProperty('items')) {
         var dict = {"data": data.items};
@@ -90,9 +93,6 @@ var Json_mongo_detBelt_format = function(data) {
     return dict;
 }
 
-
-
-//Function to save 'detBelt' format in a file
 var Json_mongo_detBelt = function(path) {
     dict = Json_mongo_detBelt_format({'path' : path});
     var newFile = newDir() + '_detBelt.json';
@@ -103,17 +103,13 @@ var Json_mongo_detBelt = function(path) {
     });
 }
 
-
-
-
-//Function to execute a function automatically at a certain time
-var backup = function(time){
+var backup = function(time,db){
     backup_time = time.minutes + ' ' + time.hours + ' * * *';
     new cronJob(backup_time, function() { //Every day at 19h00
         if(b_backup){ 
             let dir_database = newDir() + '_database.json';
             let dir_mongo = newDir() + '_mongo.json';
-            extractdb();
+            extractdb(db);
             Json_database_mongo(dir_database);
             Json_mongo_detBelt(dir_mongo);
             console.log('The extraction of the database is finished !')
@@ -121,7 +117,7 @@ var backup = function(time){
         }
     }, null, true, 'Europe/Paris');        
 }
-
+*/
 
 var control_backup = function(value){
     if(typeof(value) == 'boolean'){
@@ -133,9 +129,9 @@ var control_backup = function(value){
 }
 
 
-    
 module.exports = {
-    Json_mongo_detBelt_format: Json_mongo_detBelt_format,
-    backup: backup,
-    control_backup: control_backup
+    control_backup: control_backup,
+    //backup : backup,
+    //startUp : startUp,
+    extractdb : extractdb
 }

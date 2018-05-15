@@ -1,0 +1,165 @@
+{"k":"0000000081","o":"0000000406","v":"001"}
+{"_id":"OM","_uid":1,"_dt":1526372006491,"_s":"e0452929d1b959703a9d4dc20209160b"}
+{"volume":391.1,"color":[0,255,0],"complete_name":"n-Octyl-β-D-Maltopyranoside","molecular_formula":"C20H38O11","molecular_mass":454.4,"CMC":19.5,"aggregation_number":47,"ref":"Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University)","PDB_file":"OM.pdb","image":null,"SMILES":"CCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"OM"}
+{"k":"0000000081","o":"0000000413","v":"001"}
+{"_id":"NM","_uid":1,"_dt":1526372006493,"_s":"bcb3af8a91fdc8765166fc3fdf0a13e3"}
+{"volume":408.9,"color":[0,255,0],"complete_name":"n-Nonyl-β-D-Maltopyranoside","molecular_formula":"C21H40O11","molecular_mass":468.5,"CMC":6,"aggregation_number":55,"ref":"Anatrace/Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University)","PDB_file":"NM.pdb","image":null,"SMILES":"CCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"NM"}
+{"k":"0000000081","o":"0000000513","v":"001"}
+{"_id":"DM","_uid":1,"_dt":1526372006493,"_s":"e3a2a1887d53007d38efe5ab20ddd894"}
+{"volume":424.1,"color":[0,255,0],"complete_name":"n-Decyl-β-D-Maltopyranoside","molecular_formula":"C22H42O11","molecular_mass":482.6,"CMC":1.8,"aggregation_number":69,"ref":"Alpes, H., Apell, H.-J., Knoll, G., Plattner, H. and Riek, R. (1988) Biochim. Biophys. Acta 946, 379-388./Anatrace measurement in collaboration with Professor R. M. Garavito (Michigan State University)","PDB_file":"DM.pdb","image":null,"SMILES":"CCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"DM"}
+{"k":"0000000082","o":"0000000452","v":"001"}
+{"_id":"UDM","_uid":1,"_dt":1526372006493,"_s":"db31055239856922f163e56778ec7851"}
+{"volume":437,"color":[0,255,0],"complete_name":"n-Undecyl-β-D-Maltopyranoside","molecular_formula":"C23H44O11","molecular_mass":496.6,"CMC":0.59,"aggregation_number":71,"ref":"Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"UDM.pdb","image":null,"SMILES":"CCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"UDM"}
+{"k":"0000000082","o":"0000000433","v":"001"}
+{"_id":"DDM","_uid":1,"_dt":1526372006494,"_s":"81aa6d964c00a8c20d0dc317d5664dd9"}
+{"volume":453,"color":[0,255,0],"complete_name":"n-Dodecyl-β-D-Maltopyranoside","molecular_formula":"C24H46O11","molecular_mass":510.6,"CMC":0.17,"aggregation_number":null,"ref":"Anatrace/VanAken, T., Foxall-VanAken, S., Castleman, S. and Ferguson-Miller, S (1986) Methods Enzymol. 125, 27-35.","PDB_file":"DDM.pdb","image":null,"SMILES":"CCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"DDM"}
+{"k":"0000000084","o":"0000000462","v":"001"}
+{"_id":"TriDM","_uid":1,"_dt":1526372006494,"_s":"215df23ccfd17052fe2d39dde34e6178"}
+{"volume":465.9,"color":[0,255,0],"complete_name":"n-Tridecyl-β-D-Maltopyranoside","molecular_formula":"C25H48O11","molecular_mass":524.6,"CMC":0.033,"aggregation_number":186,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"TriDM.pdb","image":null,"SMILES":"CCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"TriDM"}
+{"k":"0000000081","o":"0000000319","v":"001"}
+{"_id":"HM","_uid":1,"_dt":1526372006494,"_s":"a06bd7133d6bc391a10f1ce45859ecbb"}
+{"volume":362.5,"color":[0,255,0],"complete_name":"n-Hexyl-β-D-Maltopyranoside","molecular_formula":"C18H34O11","molecular_mass":426.4,"CMC":210,"aggregation_number":null,"ref":"Anatrace","PDB_file":"HDM.pdb","image":null,"SMILES":"CCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"HM"}
+{"k":"0000000086","o":"0000000339","v":"001"}
+{"_id":"TetraDM","_uid":1,"_dt":1526372006494,"_s":"8ec5f8939066f56aea067c75b577115c"}
+{"volume":483.6,"color":[0,255,0],"complete_name":"n-Tetradecyl-β-D-Maltopyranoside","molecular_formula":"C26H50O11","molecular_mass":538.6,"CMC":0.01,"aggregation_number":null,"ref":"Anatrace ","PDB_file":"TDM.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCOC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"maltosides","_id":"TetraDM"}
+{"k":"0000000083","o":"0000000351","v":"001"}
+{"_id":"DGNG","_uid":1,"_dt":1526372006495,"_s":"70b3f6ca2fb6496f81c5739291f53127"}
+{"volume":568.7,"color":[255,153,153],"complete_name":"Decyl Glucose Neopentyl Glycol ","molecular_formula":"C35H68O12","molecular_mass":624.41,"CMC":null,"aggregation_number":null,"ref":"Anatrace","PDB_file":"DGNG.pdb","image":null,"SMILES":"CCCCCCCCC(CCCCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O","category":"neopentyl-glycol","_id":"DGNG"}
+{"k":"0000000083","o":"0000000491","v":"001"}
+{"_id":"LMNG","_uid":1,"_dt":1526372006495,"_s":"b1966ed8b0f81afdab20526e7087aed4"}
+{"volume":885.7,"color":[255,153,153],"complete_name":"Lauryl Maltose Neopentyl Glycol ","molecular_formula":"C47H88O22","molecular_mass":1005.19,"CMC":0.01,"aggregation_number":null,"ref":"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008","PDB_file":"?","image":null,"SMILES":"CCCCCCCCCCC(CCCCCCCCCC)(COC1OC(CO)C(OC2OC(CO)C(O)C(O)C2O)C(O)C1O)COC3OC(CO)C(OC4OC(CO)C(O)C(O)C4O)C(O)C3O","category":"neopentyl-glycol","_id":"LMNG"}
+{"k":"0000000083","o":"0000000449","v":"001"}
+{"_id":"OGNG","_uid":1,"_dt":1526372006495,"_s":"6c3a16e58a4a0a03b8c6fe44e228c755"}
+{"volume":504.9,"color":[255,153,153],"complete_name":"Octyl Glucose Neopentyl Glycol","molecular_formula":"C27H52O12","molecular_mass":568.69,"CMC":1.02,"aggregation_number":null,"ref":"Chae, Pil Seok; Ramussen, Soren; Kobilka, Brian; Gellman, Sam et al. (2010) Nature  Methods. 7 (12), 1003-1008","PDB_file":"OGNG.pdb","image":null,"SMILES":"CCCCCCC(CCCCCC)(COC1OC(CO)C(O)C(O)C1O)COC2OC(CO)C(O)C(O)C2O","category":"neopentyl-glycol","_id":"OGNG"}
+{"k":"0000000081","o":"0000000381","v":"001"}
+{"_id":"OG","_uid":1,"_dt":1526372006495,"_s":"3418d2db653eeb2d130ca21f83ccae6c"}
+{"volume":267.5,"color":[255,255,0],"complete_name":"n-Octyl-β-D-Glucopyranoside","molecular_formula":"C14H28O6","molecular_mass":292.4,"CMC":null,"aggregation_number":null,"ref":"Lorber, B., Bishop, J. B. and DeLucas, L. J. (1990) Biochim. Biophys. Acta 1023, 254-265","PDB_file":"OG.pdb","image":null,"SMILES":"CCCCCCCCOC1C(C(C(C(O1)CO)O)O)O","category":"glucosides","_id":"OG"}
+{"k":"0000000081","o":"0000000299","v":"001"}
+{"_id":"NG","_uid":1,"_dt":1526372006496,"_s":"a6b3c1bc5eb4cc22485afb7915a49270"}
+{"volume":284.5,"color":[255,255,0],"complete_name":"n-Nonyl-β-D-Glucopyranoside","molecular_formula":"C15H30O6","molecular_mass":306.4,"CMC":6.5,"aggregation_number":133,"ref":"Anatrace ","PDB_file":"NG.pdb","image":null,"SMILES":"CCCCCCCCCOC1OC(CO)C(O)C(O)C1O","category":"glucosides","_id":"NG"}
+{"k":"0000000081","o":"0000000386","v":"001"}
+{"_id":"DG","_uid":1,"_dt":1526372006496,"_s":"eaf87e248f2e4eea01718e114c66d965"}
+{"volume":297.7,"color":[255,255,0],"complete_name":"n-Decyl-β-D-Glucopyranoside","molecular_formula":"C16H32O6","molecular_mass":320.4,"CMC":2.2,"aggregation_number":null,"ref":"Helenius, A., McCaslin, D. R., Fries, E. And Tanford, C. (1979) Methods Enzymol. 56, 734-749","PDB_file":"DG.pdb","image":null,"SMILES":"CCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O","category":"glucosides","_id":"DG"}
+{"k":"0000000086","o":"0000000304","v":"001"}
+{"_id":"Hexyl-G","_uid":1,"_dt":1526372006497,"_s":"d1f07b8a1e985dcaa52e97e6e8f03f00"}
+{"volume":235.7,"color":[255,255,0],"complete_name":"n-Hexyl-β-D-Glucopyranoside","molecular_formula":"C12H24O6","molecular_mass":264.4,"CMC":250,"aggregation_number":null,"ref":"Anatrace ","PDB_file":"HG.pdb","image":null,"SMILES":"CCCCCCOC1C(C(C(C(O1)CO)O)O)O","category":"glucosides","_id":"Hexyl-G"}
+{"k":"0000000087","o":"0000000331","v":"001"}
+{"_id":"Heptyl-G","_uid":1,"_dt":1526372006497,"_s":"52639fa8d596eb1b76ca5761f45b938e"}
+{"volume":251.5,"color":[255,255,0],"complete_name":"n-Heptyl-β-D-Glucopyranoside","molecular_formula":"C13H26O6","molecular_mass":278.4,"CMC":70,"aggregation_number":null,"ref":"Anatrace ","PDB_file":"Heptyl-β-D-Glucopyranoside.pdb","image":null,"SMILES":"CCCCCCCOC1C(C(C(C(O1)CO)O)O)O","category":"glucosides","_id":"Heptyl-G"}
+{"k":"0000000082","o":"0000000419","v":"001"}
+{"_id":"DDG","_uid":1,"_dt":1526372006498,"_s":"488378f6996607d8a3ddf20c28076c4f"}
+{"volume":328.4,"color":[255,255,0],"complete_name":"n-Dodecyl-β-D-Glucopyranoside","molecular_formula":"C18H36O6","molecular_mass":348.5,"CMC":0.19,"aggregation_number":null,"ref":" Helenius, A., McCaslin, D. R., Fries, E. and Tanford, C. (1979) Methods Enzymol. 56, 734-749","PDB_file":"Dodecyl-β-D-Glucopyranoside.pdb","image":null,"SMILES":"CCCCCCCCCCCCOC1C(C(C(C(O1)CO)O)O)O","category":"glucosides","_id":"DDG"}
+{"k":"0000000084","o":"0000000583","v":"001"}
+{"_id":"CHAPS","_uid":1,"_dt":1526372006498,"_s":"2957bd92d96eff1ab2f582f3f1680d11"}
+{"volume":548.1,"color":[255,0,255],"complete_name":"3-[(3-Cholamidopropyl)-Dimethylammonio]-1-Propane Sulfonate]","molecular_formula":"C32H58N2O7S","molecular_mass":614.9,"CMC":8,"aggregation_number":10,"ref":"Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82/Womack, M. D., Kendall, D. A. and MacDonald, R. C. (1983) Biochim. Biophys. Acta 733, 210-215","PDB_file":"CHAPS.pdb","image":"CHAPS.png","SMILES":"CC(CCC(=O)NCCC[N+](C)(C)CCCS(=O)(=O)[O-])C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C","category":"cholesterol derivatives","_id":"CHAPS"}
+{"k":"0000000085","o":"0000000494","v":"001"}
+{"_id":"CHAPSO","_uid":1,"_dt":1526372006498,"_s":"3d88c76f70a6826fcc1715ecbc38263e"}
+{"volume":554.1,"color":[255,0,255],"complete_name":"3-[(3-Cholamidopropyl)dimethylammonio]-2-Hydroxy-1-Propanesulfonate","molecular_formula":"C32H58N2O8S","molecular_mass":630.9,"CMC":8,"aggregation_number":11,"ref":"Hjelmeland, L. M., Nebert, D. W. and Osborne, Jr., J. C. (1983) Anal. Biochem. 130, 72-82","PDB_file":"CHAPSO.pdb","image":null,"SMILES":"CC(CCC(=O)NCCC[N+](C)(C)CC(CS(=O)(=O)[O-])O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C","category":"cholesterol derivatives","_id":"CHAPSO"}
+{"k":"0000000086","o":"0000000571","v":"001"}
+{"_id":"Cholate","_uid":1,"_dt":1526372006499,"_s":"928ab17867e2224ebefc340d90b741d6"}
+{"volume":367.5,"color":[255,0,255],"complete_name":"cholate","molecular_formula":"C24H39O5Na","molecular_mass":430.6,"CMC":null,"aggregation_number":null,"ref":"Brito, R. M. M and Vaz, W. L. C. (1986) Anal. Biochem 152, 250-255/Vendittis, E., Paumbo, G., Parlata, G. and Borchini, U. (1981) Anal. Biochem. 115, 278-286/ LeMaire, M., Champeil, P. and Moller, J. V. (2000) Biochimica et Biophysica Acta 1508, 86-111","PDB_file":"Cholate.pdb","image":null,"SMILES":"CC(CCC(=O)O)C1CCC2C1(C(CC3C2C(CC4C3(CCC(C4)O)C)O)O)C","category":"cholesterol derivatives","_id":"Cholate"}
+{"k":"0000000108","o":"0000000474","v":"001"}
+{"_id":"Deoxycholic Acid, Sodium Salt","_uid":1,"_dt":1526372006499,"_s":"81fc3bbfc13bcb0b9e05ab47066a9e84"}
+{"volume":361.3,"color":[255,0,255],"complete_name":"3α,12α-Dihydroxy-5β-Cholan-24-oic Acid, Monosodium Salt","molecular_formula":"C24H39O4Na","molecular_mass":414.562,"CMC":6,"aggregation_number":22,"ref":"Anatrace/Black, Shaun D.: http://psyche.uthct.edu/shaun/SBlack/detergnt.html","PDB_file":"deoCholate.pdb","image":null,"SMILES":"CC(CCC(=O)[O-])C1CCC2C1(C(CC3C2CCC4C3(CCC(C4)O)C)O)C.[Na+]","category":"cholesterol derivatives","_id":"Deoxycholic Acid, Sodium Salt"}
+{"k":"0000000090","o":"0000000357","v":"001"}
+{"_id":"Cholesterol","_uid":1,"_dt":1526372006499,"_s":"5b10ceaa8f77dae85c7fb319fe5c4944"}
+{"volume":382.2,"color":[255,0,255],"complete_name":"3β-Hydroxy-5-Cholestene","molecular_formula":"C27H46O","molecular_mass":386.6,"CMC":null,"aggregation_number":null,"ref":"Anatrace","PDB_file":"cholesterol.pdb","image":"Cholesterol.png","SMILES":"CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)O)C)C","category":"cholesterol derivatives","_id":"Cholesterol"}
+{"k":"0000000082","o":"0000000369","v":"001"}
+{"_id":"CHS","_uid":1,"_dt":1526372006500,"_s":"1f1a66692affd791fe680057831c02a0"}
+{"volume":574.1,"color":[255,0,255],"complete_name":"Cholesteryl Hemisuccinate Tris Salt","molecular_formula":"C35H61NO7","molecular_mass":607.9,"CMC":null,"aggregation_number":null,"ref":"Anatrace","PDB_file":"CHS.pdb","image":null,"SMILES":"CC(C)CCCC(C)C1CCC2C1(CCC3C2CC=C4C3(CCC(C4)OC(=O)CCC(=O)O)C)C.C(C(CO)(CO)N)O","category":"cholesterol derivatives","_id":"CHS"}
+{"k":"0000000082","o":"0000000300","v":"001"}
+{"_id":"FC8","_uid":1,"_dt":1526372006500,"_s":"db695924d31057d0ce6d33c4fc9c07e6"}
+{"volume":280.4,"color":[229.5,255,153],"complete_name":"Fos-Choline-8","molecular_formula":"C13H30NO4P","molecular_mass":295.4,"CMC":114,"aggregation_number":null,"ref":"Anatrace","PDB_file":"FC8.pdb","image":null,"SMILES":"CCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC8"}
+{"k":"0000000082","o":"0000000426","v":"001"}
+{"_id":"FC9","_uid":1,"_dt":1526372006500,"_s":"7fbe0bfd2c22fac1553e4086b39351eb"}
+{"volume":293.7,"color":[229.5,255,153],"complete_name":"Fos-Choline-9","molecular_formula":"C14H32NO4P","molecular_mass":309.4,"CMC":39.5,"aggregation_number":5,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC9.pdb","image":null,"SMILES":"CCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC9"}
+{"k":"0000000083","o":"0000000429","v":"001"}
+{"_id":"FC10","_uid":1,"_dt":1526372006500,"_s":"2c153d8119ed088f4d7dcd974cd3f1da"}
+{"volume":308.9,"color":[229.5,255,153],"complete_name":"Fos-Choline-10","molecular_formula":"C15H34NO4P","molecular_mass":323.4,"CMC":11,"aggregation_number":24,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC10.pdb","image":null,"SMILES":"CCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC10"}
+{"k":"0000000083","o":"0000000432","v":"001"}
+{"_id":"FC11","_uid":1,"_dt":1526372006501,"_s":"aafd2a531c08a422504b1549aa339513"}
+{"volume":323.9,"color":[229.5,255,153],"complete_name":"Fos-Choline-11","molecular_formula":"C16H36NO4P","molecular_mass":337.4,"CMC":1.85,"aggregation_number":18,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC11.pdb","image":null,"SMILES":"CCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC11"}
+{"k":"0000000083","o":"0000000432","v":"001"}
+{"_id":"FC12","_uid":1,"_dt":1526372006501,"_s":"c2b5f43edd14e8e68ad24a3d1c0611d9"}
+{"volume":338.8,"color":[229.5,255,153],"complete_name":"Fos-Choline-12","molecular_formula":"C17H38NO4P","molecular_mass":351.5,"CMC":1.5,"aggregation_number":54,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC12.pdb","image":null,"SMILES":"CCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC12"}
+{"k":"0000000083","o":"0000000435","v":"001"}
+{"_id":"FC13","_uid":1,"_dt":1526372006501,"_s":"0deec72831cd5b579c9a52580dafe53b"}
+{"volume":354.9,"color":[229.5,255,153],"complete_name":"Fos-Choline-13","molecular_formula":"C18H40NO4P","molecular_mass":365.5,"CMC":0.75,"aggregation_number":87,"ref":"Anatrace/ Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC13.pdb","image":null,"SMILES":"CCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC13"}
+{"k":"0000000083","o":"0000000436","v":"001"}
+{"_id":"FC14","_uid":1,"_dt":1526372006502,"_s":"fc890fc3e419e0f5cebae1a07c8d6b42"}
+{"volume":369.4,"color":[229.5,255,153],"complete_name":"Fos-Choline-14","molecular_formula":"C19H42NO4P","molecular_mass":379.5,"CMC":0.12,"aggregation_number":108,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC14.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC14"}
+{"k":"0000000083","o":"0000000437","v":"001"}
+{"_id":"FC15","_uid":1,"_dt":1526372006502,"_s":"7448ab0495d877d6f1f3bb57ccc405d0"}
+{"volume":385.4,"color":[229.5,255,153],"complete_name":"Fos-Choline-15","molecular_formula":"C20H44NO4P","molecular_mass":393.5,"CMC":0.07,"aggregation_number":131,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC15.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC15"}
+{"k":"0000000083","o":"0000000439","v":"001"}
+{"_id":"FC16","_uid":1,"_dt":1526372006502,"_s":"c8798c5415f7a952346907aa7da9c408"}
+{"volume":400.5,"color":[229.5,255,153],"complete_name":"Fos-Choline-16","molecular_formula":"C21H46NO4P","molecular_mass":407.5,"CMC":0.013,"aggregation_number":178,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"FC16.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCCCO[P]([O-])(=O)OCC[N+](C)(C)C","category":"fos-choline","_id":"FC16"}
+{"k":"0000000083","o":"0000000440","v":"001"}
+{"_id":"LDAO","_uid":1,"_dt":1526372006503,"_s":"c8b699dc6b83b346763aac6baa744b4b"}
+{"volume":245.6,"color":[0,0,255],"complete_name":"n-Dodecyl-N,N-Dimethylamine-N-Oxide/Lauryldimethylamine-N-Oxide","molecular_formula":"C14H31NO","molecular_mass":229.4,"CMC":null,"aggregation_number":76,"ref":"Anatrace/ Herrmann, K. W. (1962) J. Phys. Chem. 66, 292/ Herrmann, K. W. (1966) J. Colloid Interface Sci. 22, 352.","PDB_file":"LDAO.pdb","image":null,"SMILES":"CCCCCCCCCCCC[N+](C)(C)[O-]","category":"amine oxide ","_id":"LDAO"}
+{"k":"0000000083","o":"0000000328","v":"001"}
+{"_id":"DDAO","_uid":1,"_dt":1526372006503,"_s":"11ad1cb41addb455f2488eba9795c50e"}
+{"volume":215.1,"color":[0,0,255],"complete_name":"n-Decyl-N,N-Dimethylamine-N-Oxide/Decylmethylamine-N-Oxide","molecular_formula":"C12H27NO","molecular_mass":201.4,"CMC":10.48,"aggregation_number":7,"ref":"Anatrace ","PDB_file":"DDAO.pdb","image":null,"SMILES":"CCCCCCCCCC[N+](C)(C)[O-]","category":"amine oxide ","_id":"DDAO"}
+{"k":"0000000084","o":"0000000424","v":"001"}
+{"_id":"LAPAO","_uid":1,"_dt":1526372006504,"_s":"ac1e3ab6a5ddbf3dbaadab49255402d8"}
+{"volume":306.8,"color":[0,0,255],"complete_name":"3-Laurylamido-N,N'-Dimethylpropyl Amine Oxide","molecular_formula":"C17H36N2O2","molecular_mass":300.6,"CMC":1.56,"aggregation_number":126,"ref":"Anatrace/Dahout-Gonzalez, C., Brandolin, G., and Pebay-Peyroula. E. (2003) Acta. Cryst. D59, 2353-2355.","PDB_file":"LAPAO.pdb","image":null,"SMILES":"CCCCCCCCCCCC(=O)NCCC[N+](C)(C)[O-]","category":"amine oxide ","_id":"LAPAO"}
+{"k":"0000000083","o":"0000000305","v":"001"}
+{"_id":"UDAO","_uid":1,"_dt":1526372006504,"_s":"1f709f14609b8c213e3ed08418499bcf"}
+{"volume":230.1,"color":[0,0,255],"complete_name":"n-Undecyl-N,N-Dimethylamine-Oxide","molecular_formula":"C13H29NO","molecular_mass":215.4,"CMC":3.21,"aggregation_number":null,"ref":"Anatrace","PDB_file":"UDAO.pdb","image":null,"SMILES":"CCCCCCCCCCC[N+](C)(C)[O-]","category":"amine oxide ","_id":"UDAO"}
+{"k":"0000000083","o":"0000000313","v":"001"}
+{"_id":"TDAO","_uid":1,"_dt":1526372006504,"_s":"a0d23970cd7731f945735c278ec869eb"}
+{"volume":275.8,"color":[0,0,255],"complete_name":"n-Tetradecyl-N,N-Dimethylamine-N-Oxide","molecular_formula":"C16H35NO","molecular_mass":257.5,"CMC":0.29,"aggregation_number":null,"ref":"Anatrace","PDB_file":"TDAO.pdb","image":null,"SMILES":"CCCCCCCCCCCCCC[N+](C)(C)[O-]","category":"amine oxide ","_id":"TDAO"}
+{"k":"0000000083","o":"0000000350","v":"001"}
+{"_id":"DMPC","_uid":1,"_dt":1526372006505,"_s":"1f4fd0deb700406e4fb2dfbc32fcd2b5"}
+{"volume":661.8,"color":[102,0,0],"complete_name":"1,2-Dimyristoyl-sn-Glycero-3-Phosphocholine ","molecular_formula":"C36H72NO8P","molecular_mass":677.9,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"DMPC.pdb","image":null,"SMILES":"CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCC","category":"lipids","_id":"DMPC"}
+{"k":"0000000083","o":"0000000355","v":"001"}
+{"_id":"DPPC","_uid":1,"_dt":1526372006505,"_s":"1951cf028e33c844caa84533f3f2d708"}
+{"volume":722.9,"color":[102,0,0],"complete_name":"1,2-Dihexadecanoyl-sn-Glycero-3-Phosphocholine","molecular_formula":"C40H80NO8P","molecular_mass":734.039,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"DPPC.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCC[N+](C)(C)C)OC(=O)CCCCCCCCCCCCCCC","category":"lipids","_id":"DPPC"}
+{"k":"0000000083","o":"0000000358","v":"001"}
+{"_id":"DOPC","_uid":1,"_dt":1526372006505,"_s":"d9f979da6bcacd08654bd8e7f8794633"}
+{"volume":779.8,"color":[102,0,0],"complete_name":"1,2-Dioleoyl-sn-Glycero-3-Phosphocholine","molecular_formula":"C44H84NO8P","molecular_mass":786.113,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"DOPC.pdb","image":null,"SMILES":"CCCCCCCCC=CCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC","category":"lipids","_id":"DOPC"}
+{"k":"0000000083","o":"0000000355","v":"001"}
+{"_id":"POPE","_uid":1,"_dt":1526372006506,"_s":"87f5819d4125def7c87d09771d260603"}
+{"volume":706.3,"color":[102,0,0],"complete_name":"1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphoethanolamine","molecular_formula":"C39H76NO8P","molecular_mass":717.996,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"POPE.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)(O)OCCN)OC(=O)CCCCCCCC=CCCCCCCCC","category":"lipids","_id":"POPE"}
+{"k":"0000000083","o":"0000000363","v":"001"}
+{"_id":"DMPG","_uid":1,"_dt":1526372006506,"_s":"60b8b57f6c13570fdefdc28cb8c274f6"}
+{"volume":641.6,"color":[102,0,0],"complete_name":"1,2-Dimyristoyl-sn-Glycero-3-[Phospho-rac-(1-Glycerol)]","molecular_formula":"C34H66NaO10P","molecular_mass":688.9,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"DMPG.pdb","image":null,"SMILES":"CCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC(CO)O)OC(=O)CCCCCCCCCCCCC.[Na+]","category":"lipids","_id":"DMPG"}
+{"k":"0000000083","o":"0000000363","v":"001"}
+{"_id":"POPC","_uid":1,"_dt":1526372006506,"_s":"d60ea867067bc6cb6f22a345de8f9fe3"}
+{"volume":750.4,"color":[102,0,0],"complete_name":"1-Palmitoyl-2-Oleoyl-sn-Glycero-3-Phosphocholine","molecular_formula":"C42H82NO8P","molecular_mass":760.076,"CMC":null,"aggregation_number":null,"ref":null,"PDB_file":"POPC.pdb","image":null,"SMILES":"CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)OC(=O)CCCCCCCC=CCCCCCCCC","category":"lipids","_id":"POPC"}
+{"k":"0000000082","o":"0000000362","v":"001"}
+{"_id":"LTM","_uid":1,"_dt":1526372006507,"_s":"c897f78090ea529dcb0c63902e1fd180"}
+{"volume":467.2,"color":[255,127.5,127.5],"complete_name":"n-Dodecyl-β-D-Thiomaltopyranoside","molecular_formula":"C24H46O10S","molecular_mass":526.6,"CMC":0.05,"aggregation_number":126,"ref":"Anatrace ","PDB_file":"LTM.pdb","image":null,"SMILES":"CCCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"thio glucosides et maltosides ","_id":"LTM"}
+{"k":"0000000082","o":"0000000488","v":"001"}
+{"_id":"UTM","_uid":1,"_dt":1526372006507,"_s":"f2c805897d87ebd2cca66b3bc8ae3752"}
+{"volume":450.8,"color":[255,127.5,127.5],"complete_name":"n-Undecyl-β-D-Thiomaltopyranoside","molecular_formula":"C23H44O10S","molecular_mass":512.7,"CMC":0.21,"aggregation_number":106,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract.","PDB_file":"UTM.pdb","image":null,"SMILES":"CCCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"thio glucosides et maltosides ","_id":"UTM"}
+{"k":"0000000082","o":"0000000335","v":"001"}
+{"_id":"DTG","_uid":1,"_dt":1526372006507,"_s":"b156448524fb5b19a8adc25628a01492"}
+{"volume":311.7,"color":[255,127.5,127.5],"complete_name":"n-Decyl-β-D-Thioglucopyranoside","molecular_formula":"C16H32O5S","molecular_mass":336.4,"CMC":0.9,"aggregation_number":null,"ref":"Anatrace","PDB_file":"DTG.pdb","image":null,"SMILES":"CCCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O","category":"thio glucosides et maltosides ","_id":"DTG"}
+{"k":"0000000082","o":"0000000482","v":"001"}
+{"_id":"DTM","_uid":1,"_dt":1526372006508,"_s":"8a44760d54b269c1523eefccd9982356"}
+{"volume":430.1,"color":[255,127.5,127.5],"complete_name":"n-Decyl-β-D-Thiomaltopyranoside","molecular_formula":"C22H42O10S","molecular_mass":498.6,"CMC":0.9,"aggregation_number":75,"ref":"Anatrace/Measurement obtained in collaboration with Professor Mark Foster (University of Akron) under an experimental services contract","PDB_file":"DTM.pdb","image":null,"SMILES":"CCCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"thio glucosides et maltosides ","_id":"DTM"}
+{"k":"0000000082","o":"0000000331","v":"001"}
+{"_id":"HTG","_uid":1,"_dt":1526372006508,"_s":"d97eeaa0015184e47a84f77314cf0f77"}
+{"volume":264.9,"color":[255,127.5,127.5],"complete_name":"n-Heptyl-β-D-Thioglucopyranoside","molecular_formula":"C13H26O5S","molecular_mass":294.4,"CMC":29,"aggregation_number":27,"ref":"Anatrace ","PDB_file":"HTG.pdb","image":null,"SMILES":"CCCCCCCSC1C(C(C(C(O1)CO)O)O)O","category":"thio glucosides et maltosides ","_id":"HTG"}
+{"k":"0000000082","o":"0000000334","v":"001"}
+{"_id":"NTG","_uid":1,"_dt":1526372006508,"_s":"c670267ab782d968cd570c4c06b0acba"}
+{"volume":294.8,"color":[255,127.5,127.5],"complete_name":"n-Nonyl-β-D-Thioglucopyranoside","molecular_formula":"C15H30O5S","molecular_mass":322.4,"CMC":2.9,"aggregation_number":null,"ref":"Anatrace","PDB_file":"NTG.pdb","image":null,"SMILES":"CCCCCCCCCSC1C(C(C(C(O1)CO)O)O)O","category":"thio glucosides et maltosides ","_id":"NTG"}
+{"k":"0000000082","o":"0000000357","v":"001"}
+{"_id":"NTM","_uid":1,"_dt":1526372006509,"_s":"bf2e34abb36990a1be1195b40f48d580"}
+{"volume":421.4,"color":[255,127.5,127.5],"complete_name":"n-Nonyl-β-D-Thiomaltopyranoside","molecular_formula":"C21H40O10S","molecular_mass":484.6,"CMC":3.2,"aggregation_number":null,"ref":"Anatrace ","PDB_file":"NTM.pdb","image":null,"SMILES":"CCCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"thio glucosides et maltosides ","_id":"NTM"}
+{"k":"0000000082","o":"0000000381","v":"001"}
+{"_id":"OTG","_uid":1,"_dt":1526372006509,"_s":"13209c2cf9e444e20adcb283307bfc97"}
+{"volume":280.6,"color":[255,127.5,127.5],"complete_name":"n-Octyl-β-D-Thioglucopyranoside","molecular_formula":"C14H28O5S","molecular_mass":308.4,"CMC":9,"aggregation_number":null,"ref":"Saito, S. and Tsuchiya, T. (1984) Biochem. J. 222, 829-832","PDB_file":"OTG.pdb","image":null,"SMILES":"CCCCCCCCSC1C(C(C(C(O1)CO)O)O)O","category":"thio glucosides et maltosides ","_id":"OTG"}
+{"k":"0000000082","o":"0000000356","v":"001"}
+{"_id":"OTM","_uid":1,"_dt":1526372006509,"_s":"6782b2809c5f3147c0b721ab4d6395ac"}
+{"volume":403.7,"color":[255,127.5,127.5],"complete_name":"n-Octyl-β-D-Thiomaltopyranoside","molecular_formula":"C20H38O10S","molecular_mass":470.6,"CMC":8.5,"aggregation_number":null,"ref":"Anatrace ","PDB_file":"OTM.pdb","image":null,"SMILES":"CCCCCCCCSC1C(C(C(C(O1)CO)OC2C(C(C(C(O2)CO)O)O)O)O)O","category":"thio glucosides et maltosides ","_id":"OTM"}
+{"k":"0000000081","o":"0000000203","v":"001"}
+{"_id":"az","_uid":1,"_dt":1526372036505,"_s":"55162b19d1cc04b8d5687b081fc4a2e6"}
+{"_id":"az","volume":12,"color":[128,128,128],"complete_name":"","molecular_formula":"","molecular_mass":"","CMC":"","aggregation_number":"","ref":"","PDB_file":"","image":"","SMILES":"","category":"az"}
+{"k":"0000000081","o":"0000000204","v":"001"}
+{"_id":"az","_uid":1,"_dt":1526372052891,"_s":"11707342f9dd3c297216967f6b9848fe"}
+{"_id":"az","volume":123,"color":[128,128,128],"complete_name":"","molecular_formula":"","molecular_mass":"","CMC":"","aggregation_number":"","ref":"","PDB_file":"","image":"","SMILES":"","category":"az"}
+{"k":"0000000052","o":"0000000000","v":"001"}
+{"_id":"az","_uid":1,"_dt":1526372065807,"_a":"del"}
+

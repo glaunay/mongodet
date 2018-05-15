@@ -129,4 +129,6 @@ Here is a list of the features that still needs to be done:
 * Other features still need to be implemented, for example it's currently not possible to download files or images on the application. 
 * Another feature that's need to be added is a correction of the fact that the reinit command doesn't work if the database is empty. 
 * Modification history will be available in a specific HTML page
-* During an update, pdb_file and image fields will contain an inidication if there is a file or not in the database.
+* During an update, pdb_file and image fields will contain an indication if there is a file or not in the database.
+* Add documentation about new options (--mongo, --tingo)
+* rewrite backup so it can work with both mongoDB and tingoDB (not working for now)

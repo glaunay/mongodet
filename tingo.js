@@ -1,39 +1,15 @@
-//HTML part
-
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
-var events = require('events');
-var MongoClient = require('mongodb').MongoClient;
+var EventEmitter = require('events');
 var backupModule = require('./mongodb_backup.js');
+
 
 
 //Function to run the backup
 var runBackup = function(time){
 	backupModule.backup(time);
 }
-
-
-//Function test
-var testmongo = function(){
-	MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-		if (err) {
-			throw err;
-		}
-		Find_all_id().then(function(items) {
-  let test = items;
-    console.log(items);
-});
-
-		console.log("connection done");
-		//insertData(db, __dirname+"/data/res.json");
-	});
-}
-
-
-
-//FUNCTIONS
-
 
 //Function to check conditions for insert detergents 
 /* Caracteristics category, _id, volume, color are needed (not null) :
@@ -42,6 +18,7 @@ var testmongo = function(){
 * volume : number
 * color : object
 */
+
 var checkConditionsInsert = function(detergent){
 	let check = true;
 	if(typeof(detergent.category) !== 'string' || detergent.category === 'null'){
@@ -60,10 +37,8 @@ var checkConditionsInsert = function(detergent){
 		check = 'The detergent color must be a list of 3 values';
 		return check;
 	}
-return check; //Return true if conditions are met
+	return check; //Return true if conditions are met
 }
-
-
 
 //Function to normalize colors between 0 and 255
 var modifyColor = function(detergent){
@@ -74,8 +49,6 @@ var modifyColor = function(detergent){
 		detergent[2] = detergent[2]*255;
 	}
 }
-
-	
 
 //Function to modify 'detBelt' format in 'mongo' format
 /* Input : JSON in 'detBelt' format
@@ -103,26 +76,22 @@ var Json_detBelt_mongo = function(path) {
 		}
 	}
 	dict.data = write; //replace "data" values
+	
 	return dict;
 }
 
-
-
 //Function to insert JSON file in database
-/* path : path of the JSON file (in DetBelt format)
+/* path : path of the JSON file 
 */
+
 var insertData = function(db, path) {
-    MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-    if (err) {
-    	throw err;
-    }
-    else{
+	return new Promise((resolve,reject)=>{
 		let dict = Json_detBelt_mongo(path);
 		for(let i=0; i<dict.data.length; i++){ //for each detergent
 			let detergent = dict.data[i];
 			let check = checkConditionsInsert(detergent);
 			if(check === true){ //if conditions are check
-				db.collection('det').insert(detergent, function(err,result){
+				db.collection("tingoDet.json").insert(detergent, function(err,result){
 					if(err){
 						if (err.code === 11000) { //if _id is not unique
 							let nameDet = err.errmsg.split('"')[1]; //id of the detergent error
@@ -139,81 +108,166 @@ var insertData = function(db, path) {
 			}
 		}
 		console.log('Insertion of detergents is finished !')
+		resolve('finished')
 		backupModule.control_backup(true); //variable backup = true, the database has been modified
-	}
+
+	})
+
+	
+}
+
+//Function to return the database
+
+var FindinDet =  function(db) {
+	return new Promise((resolve, reject)=> {
+		let collection = db.collection('tingoDet.json');
+		//console.log(collection)
+  		let res;
+		collection.find({}).toArray(function(error,content){
+			resolve(content);
+
+		});	
+	});
+}
+
+/*
+var _FindinDet =  function(db) {
+	let emitterDb = new EventEmitter(); 
+  	let collection = db.collection('tingoDet.json');
+  	let res;
+	collection.find({}).toArray(function(error,content){
+		res = content
+		emitterDb.emit('displayDb',res)
+	});
+	
+	//console.log(res)
+	return emitterDb;
+}
+*/
+
+var Find_a_Det = function(db,id){
+	return new Promise((resolve,reject)=>{
+		let collection = db.collection('tingoDet.json');
+ 		collection.find({"_id":id}).toArray(function(error,content){
+			let det;	
+			if(content.length === 0){
+				det = {"error":"this detergent is probably not in our database"};	
+			}else{
+				det = content;
+			};
+			resolve(det)
+		});
+	})
+}
+
+
+/*
+var _Find_a_Det =  function(db,id) {
+	let emitterDet = new EventEmitter();
+  	let collection = db.collection('tingoDet.json');
+ 	collection.find({"_id":id}).toArray(function(error,content){
+		let det;	
+		if(content.length === 0){
+			det = {"error":"this detergent is probably not in our database"};	
+		}else{
+			det = content;
+		};
+		emitterDet.emit('DetFound',det)
+	});
+	return emitterDet;
+}
+*/
+var Find_all_id = function(db){
+	return new Promise((resolve,reject)=>{
+		let collection = db.collection('tingoDet.json');
+		collection.find({},{"id":1}).toArray(function(error,content){
+			let l_id = [];
+			content.forEach(function(doc){
+				l_id.push(doc["_id"]);
+			})
+ 			resolve(l_id);
+		});
 	})
 }
 
 
 
-//Function to return the database
-var FindinDet =  function() { 
-	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) { //connexion to the database
-		//console.dir(db)
-  		let collection = db.collection('det');
-		return collection.find().toArray();
-	}).then(function(items) {
- 		return items; //items : the database 
-	});
-}
 
-///////////  added during internship //////
-
-var Find_a_Det =  function(db,id) { 
-	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) { //connexion to the database
-  		let collection = db.collection('det');
-		return collection.find({"_id":id}).toArray();
-	}).then(function(items) {
-		if(items.length === 0){
-			return {"error":"this detergent is probably not in our database"};	
-		}else{
-			return items;
-		} 
-
-	});
-}
-
-var Find_all_id = function(){
-	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) { //connexion to the database
-  	let collection = db.collection('det');
-	return collection.find({},{"id":1}).toArray();
-	}).then(function(items) {
+/*
+var _Find_all_id = function(db){
+	let emitterId = new EventEmitter();
+  	let collection = db.collection('tingoDet.json');
+	collection.find({},{"id":1}).toArray(function(error,content){
 		let l_id = [];
-		items.forEach(function(doc){
+		content.forEach(function(doc){
 			l_id.push(doc["_id"]);
 		})
- 		return l_id;
+ 		emitterId.emit('allIdDone',l_id)
 	});
-
+	return emitterId;
 }
-
-
+*/
 
 /////////////////////////////////////////////////
 //Function to return all keys of the database
-var getallkeys = function(){
-	let allKeys = {};
-	return MongoClient.connect('mongodb://localhost:27017/det').then(function(db) {
-		let collection = db.collection('det');
-		return collection.find().toArray();
-	}).then(function(items) {
-		items.forEach(function(doc){
-			Object.keys(doc).forEach(function(key){allKeys[key] = '1'})
+
+
+var getallkeys = function(db){
+	return new Promise((resolve, reject)=> {
+		let allKeys = {};
+		let collection = db.collection('tingoDet.json');
+		collection.find({}).toArray(function(error,content){
+			content.forEach(function(doc){
+				Object.keys(doc).forEach(function(key){allKeys[key] = '1'})
+			})
+			let l_keys = Object.keys(allKeys)
+			let ordered_l_keys = []
+			let idControl = false;
+			for(let i of l_keys){
+				if(i !== "_id" ){
+					ordered_l_keys.push(i)
+				}
+				else{
+					idControl = true;
+				}
+			}
+			if(idControl){
+				ordered_l_keys.unshift("_id")
+			}
+			resolve(ordered_l_keys);
 		})
-		let l_keys = Object.keys(allKeys)
- 		return l_keys;
-	});
+	})
 }
 
 
+/*
+var _getallkeys = function(db){
+
+	let emitterKey = new EventEmitter();
+	let allKeys = {};
+	let collection = db.collection('tingoDet.json');
+	collection.find({}).toArray(function(error,content){
+		content.forEach(function(doc){
+			Object.keys(doc).forEach(function(key){allKeys[key] = '1'})
+		})
+		let l_keys = Object.keys(allKeys)
+		emitterKey.emit('allKeyDone',l_keys)
+
+
+		//return l_keys;
+	})
+	return emitterKey;	
+		
+}
+*/
 
 //Function to delete the database
 /*
 var _deleteData = function(db){
-	let emitter = new events.EventEmitter();
-	db.collection('det').drop(function(err,result){ //deletion of the database
+	let emitter = new EventEmitter();
+	db.collection("tingoDet.json").drop(function(err,result){ //deletion of the database
 		if(err){
-	    	emitter.emit('errorCode', ['Error', 'Error in the deletion of ' + idDet]);
+	    	emitter.emit('errorCode', ['Error', 'Error in the deletion of ' + idDet]); // can this be working ? (projet S1)
 		}
 		else{
 			let msg = 'The database has been deleted;'
@@ -227,53 +281,52 @@ var _deleteData = function(db){
 */
 var deleteData = function(db){
 	return new Promise((resolve,reject)=>{
-      MongoClient.connect('mongodb://localhost:27017/det', function(err, db) {
-        if (err) {
-          throw err;
-        }
-        else{
-			db.collection('det').drop(function(err,result){ //deletion of the database
-				if(err){
-	    			reject({"status":'Error', "data":'Error in the deletion of ' + idDet});
-				}
-				else{
-					let msg = 'The database has been deleted';
-					//console.log('The database has been deleted');
-					backupModule.control_backup(true);
-					resolve({"msg":msg, "result":result});
-				}
-			});	
-        }
-		})
+		db.collection("tingoDet.json").drop(function(err,result){ //deletion of the database
+		if(err){
+	    	reject({"status":'Error', "data": 'Error in the deletion of ' + idDet});
+		}
+		else{
+			let msg = 'The database has been deleted'
+			//console.log('The database has been deleted');
+			backupModule.control_backup(true);
+			resolve({"msg":msg, "result":result});
+		}
+		});
 	})
 }
-
-
-
 //Function to delete a detergent 
 /*idDet : variable with the _id of the detergent to delete
 */
-
+/*
+var _deleteDet = function(db, idDet){
+	let emitter = new EventEmitter();
+	db.collection('tingoDet.json').remove({'_id' : idDet}, function(err, result) {
+	    if (err){
+	    	emitter.emit('errorCode', ['Error', 'Error in the deletion of ' + idDet]);
+	    }
+	    else{
+	    	let msg = idDet + ': The detergent has been removed';
+	    	console.log(msg);
+	    	backupModule.control_backup(true);
+	    	emitter.emit('deleteOK', ['OK_delete', msg]);
+		}
+    });
+    return emitter;
+}
+*/
 var deleteDet = function(db, idDet){
 	return new Promise((resolve,reject)=>{
-		MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-      	if (err) {
-        	throw err;
-      	}
-      	else{
-			db.collection('det').deleteOne({'_id' : idDet}, function(err, result) {
-	    	if (err){
-	    		reject({"status":'Error', "data":'Error in the deletion of ' + idDet});
-	    	}
-	    	else{
-	    		let msg = idDet + ': The detergent has been removed';
-	    		console.log(msg);
-	    		backupModule.control_backup(true);
-	    		resolve({"status":"OK_delete","data": msg});
-			}
-    		});      		
-      	}
-		})
+		db.collection('tingoDet.json').remove({'_id' : idDet}, function(err, result) {
+	    if (err){
+	    	reject({"status":'Error', "data":'Error in the deletion of ' + idDet});
+	    }
+	    else{
+	    	let msg = idDet + ': The detergent has been removed';
+	    	console.log(msg);
+	    	backupModule.control_backup(true);
+	    	resolve({"status":"OK_delete","data": msg});
+		}
+    });
 	})
 }
 
@@ -281,96 +334,107 @@ var deleteDet = function(db, idDet){
 //Function to add a new detergent 
 /*det : variable like { "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
 */
-
+/*
+var _insertDet = function(db, det){
+	let emitter = new EventEmitter();
+	modifyColor(det);
+	console.log(det);
+	let check = checkConditionsInsert(det); //verification of conditions
+	if(check === true){ //if the conditions are verified
+		db.collection('tingoDet.json').insert(det, function(err,result){
+			if(err){
+				if (err.code == 11000) { //11000 : error code for an already existing identifier
+				console.log('The detergent name must be unique');
+				emitter.emit('nameNotUnique', ['Error', 'The detergent name must be unique']);
+				}
+				else{
+					emitter.emit('errorCode', ['Error', 'Error in the insertion of detergent']); 
+				}
+			}
+			else{
+				console.log('The detergent has been added');
+				backupModule.control_backup(true);
+				emitter.emit('insertOK',['OK_insert', 'The detergent has been added']);
+			}
+		});
+	}
+	return emitter;
+}
+*/
 var insertDet = function(db, det){
 	return new Promise((resolve,reject)=>{
-		MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-    		if (err) {
-      			throw err;
-    		}
-			modifyColor(det);
-			let check = checkConditionsInsert(det); //verification of conditions
-			if(check === true){ //if the conditions are verified
-				db.collection('det').insert(det, function(err,result){
-					if(err){
-						if (err.code == 11000) { //11000 : error code for an already existing identifier
-							console.log('The detergent name must be unique');
-							reject({"status":'Error', "data": "The detergent name must be unique"}); // in mongo, maybe not the same in tingo
-						}
-						else{
-							reject({"status":'Error', "data":"Error in the insertion of detergent"}); 
-						}
+		modifyColor(det);
+		let check = checkConditionsInsert(det); //verification of conditions
+		if(check === true){ //if the conditions are verified
+			db.collection('tingoDet.json').insert(det, function(err,result){
+				if(err){
+					if (err.code == 11000) { //11000 : error code for an already existing identifier
+						console.log('The detergent name must be unique');
+						reject({"status":'Error', "data": "The detergent name must be unique"});
 					}
 					else{
-						console.log('The detergent has been added');
-						backupModule.control_backup(true);
-						resolve({"status":'OK_insert',"data":'The detergent has been added'});
+						reject({"status":'Error', "data":"Error in the insertion of detergent"}); 
 					}
-				});
-			}
-		})
+				}
+				else{
+					console.log('The detergent has been added');
+					backupModule.control_backup(true);
+					resolve({"status":'OK_insert',"data":'The detergent has been added'});
+				}
+			});
+		}
 	})
 }
-
-
 
 //Function to modify a detegent
 /*id : _id of the detergent to modify
 * det : object contain object of the detergent { "_id" : "OM", "volume" : 391.1, "color" : [0,255,0], "category" : "maltoside"})
 */
 
+
 var modifyDet = function(db, id, det){
 	return new Promise((resolve,reject)=>{
-	    MongoClient.connect('mongodb://localhost:27017/det', function(err, db) { //To connect to 'det' database
-    		if (err) {
-      			throw err;
-    		}
-    		else{
-    			modifyColor(det.color);
-				let check = checkConditionsInsert(det);
-				if(check === true){
-					db.collection('det').find({'_id' : id}).toArray((err, result) => {
+		modifyColor(det.color);
+		let check = checkConditionsInsert(det);
+		if(check === true){
+			db.collection('tingoDet.json').find({'_id' : id}).toArray((err, result) => {
+			if(err){
+				reject({"status":'Error',"data":'Error in the modification of ' + id}); 
+			}
+			if(result.length === 1){
+				db.collection('tingoDet.json').update({'_id' : id},{$set: det}, function(err,result){
 					if(err){
 						reject({"status":'Error',"data":'Error in the modification of ' + id}); 
 					}
-					if(result.length === 1){
-						db.collection('det').update({'_id' : id},{$set: det}, function(err,result){
-							if(err){
-								reject({"status":'Error',"data":'Error in the modification of ' + id}); 
-							}
-							else{
-								msg = 'The detergent ' + id + ' has been updated';
-								console.log(msg);
-								backupModule.control_backup(true);
-								resolve({"status":'OK_modif',"data":msg});
-							}
-						});
-					}
 					else{
-						msg = 'The detergent ' + id + ' is present more than one time';
+						msg = 'The detergent ' + id + ' has been updated';
 						console.log(msg);
-						reject({"status":'Error', "data": msg});
+						backupModule.control_backup(true);
+						resolve({"status":'OK_modif',"data":msg});
 					}
-				})
-				}
-				else{
-					console.log(check);
-					reject({"status":'Error', "data":check});
-				}
+				});
 			}
-    	})
+			else{
+				msg = 'The detergent ' + id + ' is present more than one time';
+				console.log(msg);
+				reject({"status":'Error', "data": msg});
+			}
+		})
+		}
+		else{
+			console.log(check);
+			reject({"status":'Error', "data":check});
+		}
 	})
 }
-		
 
 
 //Function to delete a caracteristic of detergents
 /*caract : caracteristic to delete
 the characteristic will be removed from all detergents containing it
-TO DO: convert it with Promises
 */
 var deleteCaract = function(db, caract){
-	let emitter = new events.EventEmitter();
+	let emitter = new EventEmitter();
 	let todelete = {};
 	todelete[caract] = 1;
 	db.collection('det').update({}, {$unset: todelete} , {multi: true}, function(err,result){
@@ -442,8 +506,6 @@ var db_for_detbelt = function(){
 }
 
 
-
-
 //EXPORT
 
 module.exports = {
@@ -460,8 +522,7 @@ module.exports = {
   	detCategory: detCategory,
   	db_for_detbelt: db_for_detbelt,
   	runBackup : runBackup,
-  	testmongo : testmongo,
+  	//testmongo : testmongo,
   	Find_a_Det : Find_a_Det,
   	Find_all_id : Find_all_id
 };
-
