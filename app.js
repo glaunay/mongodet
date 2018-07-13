@@ -387,8 +387,8 @@ app.post('/modifCol',function(req,res){
 */
 if(b_mongo_t === false){   //this line ensure the fact that the webpage is not launched when running mongo_test
 
-app.listen(3000, function () {
-  console.log('mongodet server listening on port 3000!')
+app.listen(3709, function () {
+  console.log('deterDB server listening on port 3709!')
 })
 
 }
